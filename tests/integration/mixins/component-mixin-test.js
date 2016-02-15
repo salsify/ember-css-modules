@@ -4,7 +4,7 @@ import getOwner from 'ember-getowner-polyfill';
 import ComponentMixin from 'ember-css-modules/mixins/component-mixin';
 import { moduleFor, test } from 'ember-qunit';
 
-moduleFor('Unit | Mixin | component mixin', {
+moduleFor('Integration | Mixin | component mixin', {
   integration: true,
 
   beforeEach() {

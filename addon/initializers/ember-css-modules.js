@@ -2,7 +2,9 @@
 import 'ember-css-modules/extensions';
 
 export function initialize(application) {
-  application.registerOptionsForType('styles', { instantiate: false });
+  // For 1.13.x compat
+  let registerOptions = application.registerOptionsForType || application.optionsForType;
+  registerOptions.call(application, 'styles', { instantiate: false });
 }
 
 export default {
