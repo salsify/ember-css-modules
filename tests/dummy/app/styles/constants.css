@@ -1,0 +1,5 @@
+@value superbold 800;
+
+.important-message {
+  background-color: rgb(255, 255, 0);
+}
