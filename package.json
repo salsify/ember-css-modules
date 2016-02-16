@@ -1,22 +1,25 @@
 {
   "name": "ember-css-modules",
-  "version": "0.0.0",
-  "description": "The default blueprint for ember-cli addons.",
-  "directories": {
-    "doc": "doc",
-    "test": "tests"
-  },
+  "version": "0.1.0",
+  "description": "An Ember CLI addon for using CSS Modules",
   "scripts": {
     "build": "ember build",
     "start": "ember server",
     "test": "ember try:testall"
   },
-  "repository": "",
-  "engines": {
-    "node": ">= 0.10.0"
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com/salsify/ember-css-modules.git"
   },
-  "author": "",
+  "engines": {
+    "node": ">= 0.12.0"
+  },
+  "author": "Dan Freeman",
   "license": "MIT",
+    "bugs": {
+    "url": "https://github.com/salsify/ember-css-modules/issues"
+  },
+  "homepage": "https://github.com/salsify/ember-css-modules#readme",
   "devDependencies": {
     "broccoli-asset-rev": "^2.2.0",
     "ember-ajax": "0.7.1",
@@ -44,7 +47,7 @@
   ],
   "dependencies": {
     "broccoli-concat": "^2.1.0",
-    "broccoli-css-modules": "*",
+    "broccoli-css-modules": "^0.1.1",
     "broccoli-funnel": "^1.0.1",
     "broccoli-merge-trees": "^1.1.1",
     "broccoli-plugin": "^1.2.1",
