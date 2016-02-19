@@ -162,6 +162,23 @@ new EmberApp(defaults, {
 });
 ```
 
+By default, any plugins you specify will be applied after the module transformation. To apply a set of plugins beforehand instead, you can pass a hash with `before` and `after` keys. For instance, if you wanted to use [postcss-nested](https://github.com/postcss/postcss-nested) so that you could define a set of global classes as a single block:
+
+```js
+new EmberApp(defaults, {
+  cssModules: {
+    plugins: {
+      before: [
+        nested
+      ],
+      after: [
+        autoprefixer('last 2 versions')
+      ]
+    }
+  }
+});
+```
+
 ## Ember Support
 
 This addon is tested against and expected to work with Ember 1.13.x, as well as the current 2.x release, beta, and canary builds.
