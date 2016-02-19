@@ -15,7 +15,7 @@ module('Unit | Initializer | ember css modules', {
 
 test('registers options for the `styles` container entity type', function(assert) {
   // 1.13.x passes the registry rather than the application
-  let app = application.registry || application;
+  let app = application.registerOptionsForType ? application : application.registry;
   let registeredOptionsForType = app.registeredOptionsForType || app.getOptionsForType;
 
   Initializer.initialize(app);
