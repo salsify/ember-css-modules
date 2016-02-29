@@ -1,6 +1,6 @@
 # ember-css-modules [![Build Status](https://travis-ci.org/salsify/ember-css-modules.svg?branch=master)](https://travis-ci.org/salsify/ember-css-modules)
 
-Ember-flavored support for [CSS Modules](https://github.com/css-modules/css-modules). For a deeper overview of the details of the CSS Modules concept, see [this blog post](http://glenmaddern.com/articles/css-modules).
+Ember-flavored support for [CSS Modules](https://github.com/css-modules/css-modules). For an overview of some of the motivations for the CSS Modules concept, see [this blog post](blog.salsify.com/engineering/good-fences-with-css-modules).
 
 ## Installation
 
