@@ -1,7 +1,7 @@
 {
   "name": "ember-css-modules",
   "version": "0.2.0",
-  "description": "An Ember CLI addon for using CSS Modules",
+  "description": "CSS Modules for ambitious applications",
   "scripts": {
     "build": "ember build",
     "start": "ember server",
@@ -43,7 +43,8 @@
     "loader.js": "^4.0.0"
   },
   "keywords": [
-    "ember-addon"
+    "ember-addon",
+    "css-modules"
   ],
   "dependencies": {
     "broccoli-concat": "^2.1.0",
