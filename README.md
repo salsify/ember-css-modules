@@ -120,6 +120,8 @@ export default Ember.Component.extend({
 });
 ```
 
+If you're writing a [routable engine](https://github.com/dgeb/ember-engines#ember-engines-) and have route controller styles, you'll have to import the styles module and set it on your controller the same way you would with a component in the example above.
+
 ## Configuration
 
 For applications, configuration for ember-css-modules may be specified in `ember-cli-build.js`:
