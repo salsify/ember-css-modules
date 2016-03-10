@@ -10,7 +10,9 @@ var componentRoutes = [
   'classic-template-only-component',
   'pod-component',
   'pod-template-only-component',
-  'addon-component'
+  'addon-component',
+  'pod-route/nested-pod-component',
+  'pod-route/nested-pod-template-only-component'
 ].map(name => [name, `/render-component/${name}`]);
 
 var controllerRoutes = [
@@ -30,7 +32,7 @@ var controllerRoutes = [
       assert.ok(testElement);
 
       let styles = window.getComputedStyle(testElement);
-      assert.equal(styles.fontFamily, name);
+      assert.equal(styles.fontFamily.replace(/['"]/g, ''), name);
     });
   });
 });
