@@ -111,11 +111,11 @@ You can also use ember-css-modules in addons that expose components to their con
 ```js
 // addon/components/my-addon-component.js
 import Ember from 'ember';
-import template from '../templates/components/my-addon-component';
-import styles from '../styles/components/my-addon-component';
+import layout from '../templates/components/my-addon-component'; // or './template' in pod format
+import styles from '../styles/components/my-addon-component';    // or './styles' in pod format
 
 export default Ember.Component.extend({
-  template,
+  layout,
   styles
 });
 ```
