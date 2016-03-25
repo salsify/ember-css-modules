@@ -71,6 +71,28 @@ Some libraries provide explicit class names as part of their public interface in
 }
 ```
 
+### Applying CSS to Component Root
+
+In a case where you need to apply a rule to the top-level root element of the component, leverage `classNameBindings` to do so. Then just reference the class in your `styles.css` normally:
+
+```js
+/* app/components/my-component/component.js */
+export default Ember.Component.extend({
+  classNameBindings: ['styles.my-component'],
+  
+  ...
+});
+```
+
+```css
+/* app/components/my-component/styles.css */
+.my-component {
+  margin-left: 5px;
+}
+```
+
+
+
 For more details on `:local` and `:global` exceptions, see [the CSS Modules documentation](https://github.com/css-modules/css-modules#exceptions).
 
 ### Values
