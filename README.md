@@ -61,16 +61,6 @@ In the template for `my-component`, the value of `styles.component-title` will l
 
 Note that you may also use relative paths to specify the source modules for composition.
 
-### Global Classes
-
-Some libraries provide explicit class names as part of their public interface in order to allow customization of their look and feel. If, for example, you're wrapping such a library in a component, you need to be able to reference those unscoped class names in the context of your component styles. The `:global` pseudoselector allows for this:
-
-```css
-.my-component :global(.some-library-class) {
-  color: orange;
-}
-```
-
 ### Applying CSS to Component Root
 
 In a case where you need to apply a rule to the top-level root element of the component, leverage `classNameBindings` to do so. Then just reference the class in your `styles.css` normally:
@@ -91,7 +81,15 @@ export default Ember.Component.extend({
 }
 ```
 
+### Global Classes
 
+Some libraries provide explicit class names as part of their public interface in order to allow customization of their look and feel. If, for example, you're wrapping such a library in a component, you need to be able to reference those unscoped class names in the context of your component styles. The `:global` pseudoselector allows for this:
+
+```css
+.my-component :global(.some-library-class) {
+  color: orange;
+}
+```
 
 For more details on `:local` and `:global` exceptions, see [the CSS Modules documentation](https://github.com/css-modules/css-modules#exceptions).
 
