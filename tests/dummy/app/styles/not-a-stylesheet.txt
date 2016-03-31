@@ -1,0 +1,2 @@
+This file is just to ensure that things other than CSS don't break the build process.
+See https://github.com/salsify/ember-css-modules/issues/13.
