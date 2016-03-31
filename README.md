@@ -69,7 +69,7 @@ In a case where you need to apply a rule to the top-level root element of the co
 /* app/components/my-component/component.js */
 export default Ember.Component.extend({
   classNameBindings: ['styles.my-component'],
-  
+
   ...
 });
 ```
@@ -196,6 +196,20 @@ new EmberApp(defaults, {
       after: [
         autoprefixer('last 2 versions')
       ]
+    }
+  }
+});
+```
+
+### Scoped Name Generation
+
+By default, ember-css-modules produces a unique scoped name for each class in a module by combining the original class name with a hash of the path of the containing module. You can override this behavior by passing a `generateScopedName` function in the configuration.
+
+```js
+new EmberApp(defaults, {
+  cssModules: {
+    generateScopedName: function(className, modulePath) {
+      // Your logic here
     }
   }
 });

@@ -32,6 +32,10 @@ module.exports = {
     registry.add('css', this.outputStylesPreprocessor);
   },
 
+  getScopedNameGenerator: function() {
+    return this.options.generateScopedName || require('./lib/generate-scoped-name');
+  },
+
   getModulesTree: function() {
     return this.modulesPreprocessor.getModulesTree();
   },
