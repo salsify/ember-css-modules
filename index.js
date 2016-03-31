@@ -40,6 +40,10 @@ module.exports = {
     return this.modulesPreprocessor.getModulesTree();
   },
 
+  getModuleDependencies: function() {
+    return this.modulesPreprocessor.getDependencies();
+  },
+
   getPlugins: function() {
     return this.options.plugins || [];
   },

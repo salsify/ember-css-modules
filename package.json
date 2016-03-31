@@ -50,11 +50,12 @@
     "broccoli-css-modules": "^0.3.1",
     "broccoli-funnel": "^1.0.1",
     "broccoli-merge-trees": "^1.1.1",
-    "broccoli-plugin": "^1.2.1",
     "debug": "^2.2.0",
     "ember-cli-babel": "^5.1.5",
     "ember-getowner-polyfill": "^1.0.0",
-    "hash-string": "^1.0.0"
+    "hash-string": "^1.0.0",
+    "postcss": "^5.0.19",
+    "toposort": "^0.2.12"
   },
   "ember-addon": {
     "configPath": "tests/dummy/config",

@@ -1,0 +1,4 @@
+@after-module './r';
+@after-module './p';
+
+.q {}
