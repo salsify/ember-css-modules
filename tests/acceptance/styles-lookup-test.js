@@ -12,7 +12,8 @@ var componentRoutes = [
   'pod-template-only-component',
   'addon-component',
   'pod-route/nested-pod-component',
-  'pod-route/nested-pod-template-only-component'
+  'pod-route/nested-pod-template-only-component',
+  'component-with-container-class'
 ].map(name => [name, `/render-component/${name}`]);
 
 var controllerRoutes = [

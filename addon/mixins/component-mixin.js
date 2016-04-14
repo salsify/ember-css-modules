@@ -6,6 +6,6 @@ export default Ember.Mixin.create({
     let key = this._debugContainerKey;
     if (!key) { return; }
 
-    return getOwner(this).lookup(`styles:components/${key.split(':')[1]}`);
+    return getOwner(this)._lookupFactory(`styles:components/${key.split(':')[1]}`);
   })
 });
