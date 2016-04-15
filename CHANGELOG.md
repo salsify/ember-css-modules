@@ -1,3 +1,7 @@
+## 0.3.1 Contain Your Excitement (April 14, 2016)
+### Fixed
+- Classes named `container` can be used once again (#15)
+
 ## 0.3.0 Location, Location, Location (Mar 31, 2016)
 
 ### Changed
