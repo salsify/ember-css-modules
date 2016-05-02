@@ -1,9 +1,15 @@
+## 0.3.2 Hidden Gems (May 1, 2016)
+### Fixed
+- Hidden files (e.g. `.DS_Store`) no longer break the build process (#21)
+
+### Changed
+- Final linking of `@value`s now occurs _before_ other PostCSS plugins execute (#23)
+
 ## 0.3.1 Contain Your Excitement (April 14, 2016)
 ### Fixed
 - Classes named `container` can be used once again (#15)
 
 ## 0.3.0 Location, Location, Location (Mar 31, 2016)
-
 ### Changed
 - Modules are now more intelligently ordered in the final output by default, according to composition and value dependencies. See the README for further details.
 
