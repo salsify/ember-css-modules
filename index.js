@@ -13,11 +13,6 @@ module.exports = {
     return addon.name !== 'dummy-addon';
   },
 
-  init: function() {
-    this.modulesPreprocessor = new ModulesPreprocessor({ owner: this });
-    this.outputStylesPreprocessor = new OutputStylesPreprocessor({ owner: this });
-  },
-
   included: function(parent) {
     debug('included in %s', parent.name);
     this.options = parent.options && parent.options.cssModules || {};
@@ -27,6 +22,22 @@ module.exports = {
   setupPreprocessorRegistry: function(type, registry) {
     // Skip if we're setting up this addon's own registry
     if (type !== 'parent') { return; }
+
+    var options = registry.app.options && registry.app.options.cssModules || {};
+
+    if (!options.includeFiles) {
+      options.includeFiles = ['**/*.css'];
+    }
+
+    this.modulesPreprocessor = new ModulesPreprocessor({
+      owner: this,
+      options: options
+    });
+
+    this.outputStylesPreprocessor = new OutputStylesPreprocessor({
+      owner: this,
+      options: options
+    });
 
     registry.add('js', this.modulesPreprocessor);
     registry.add('css', this.outputStylesPreprocessor);
