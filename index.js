@@ -45,6 +45,10 @@ module.exports = {
     return this.modulesPreprocessor.getDependencies();
   },
 
+  getIntermediateOutputPath: function() {
+    return this.options.intermediateOutputPath;
+  },
+
   getPlugins: function() {
     return this.options.plugins || [];
   },
