@@ -2,11 +2,17 @@
 'use strict';
 
 var debug = require('debug')('ember-css-modules:addon');
+
+var HtmlbarsPlugin = require('./lib/htmlbars-plugin');
 var ModulesPreprocessor = require('./lib/modules-preprocessor');
 var OutputStylesPreprocessor = require('./lib/output-styles-preprocessor');
 
 module.exports = {
   name: 'ember-css-modules',
+
+  isDevelopingAddon: function() {
+    return true;
+  },
 
   shouldIncludeChildAddon: function(addon) {
     // Don't infinitely recurse – it's the dummy test app that depends on dummy-addon, not this addon itself
@@ -30,6 +36,10 @@ module.exports = {
 
     registry.add('js', this.modulesPreprocessor);
     registry.add('css', this.outputStylesPreprocessor);
+    registry.add('htmlbars-ast-plugin', {
+      name: 'ember-css-modules',
+      plugin: HtmlbarsPlugin
+    });
   },
 
   getScopedNameGenerator: function() {
