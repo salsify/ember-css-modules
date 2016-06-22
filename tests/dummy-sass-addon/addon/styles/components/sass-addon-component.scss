@@ -1,0 +1,9 @@
+@value --addon-family from '../constants';
+
+@mixin sass-addon-component {
+  font-family: --addon-family;
+}
+
+.component-class {
+  @include sass-addon-component;
+}

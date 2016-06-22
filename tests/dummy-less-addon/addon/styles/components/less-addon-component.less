@@ -1,0 +1,13 @@
+@value --addon-family from '../constants';
+
+/*
+TODO use mixin when postcss-modules-local-by-default#60 is available
+.local-less-mixin() {
+  font-family: --addon-family;
+}
+*/
+
+.component-class {
+  font-family: --addon-family;
+  // .local-less-mixin;
+}

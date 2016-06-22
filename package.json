@@ -5,7 +5,8 @@
   "scripts": {
     "build": "ember build",
     "start": "ember server",
-    "test": "ember try:each"
+    "test": "npm run install-all && ember try:each",
+    "install-all": "for dummy in tests/dummy-*-addon; do cd $dummy && npm install && cd ../..; done"
   },
   "repository": {
     "type": "git",
@@ -59,14 +60,15 @@
     "before": [
       "ember-cli-babel",
       "ember-cli-less",
-      "ember-cli-sass",
-      "ember-cli-stylus"
+      "ember-cli-sass"
     ],
     "versionCompatibility": {
       "ember": ">=1.13.0 <3.0.0"
     },
     "paths": [
-      "tests/dummy-addon"
+      "tests/dummy-addon",
+      "tests/dummy-sass-addon",
+      "tests/dummy-less-addon"
     ]
   }
 }
