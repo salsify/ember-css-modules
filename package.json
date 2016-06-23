@@ -5,7 +5,9 @@
   "scripts": {
     "build": "ember build",
     "start": "ember server",
-    "test": "ember try:each"
+    "test": "npm run test-lib && npm run test-ember",
+    "test-ember": "ember try:each",
+    "test-lib": "tape tests-node/**/*-test.js"
   },
   "repository": {
     "type": "git",
@@ -37,7 +39,9 @@
     "ember-load-initializers": "^0.5.1",
     "ember-resolver": "^2.0.3",
     "ember-try": "^0.2.2",
-    "loader.js": "^4.0.1"
+    "htmlbars": "^0.14.23",
+    "loader.js": "^4.0.1",
+    "tape": "^4.6.0"
   },
   "keywords": [
     "ember-addon",
