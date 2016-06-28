@@ -10,10 +10,6 @@ var OutputStylesPreprocessor = require('./lib/output-styles-preprocessor');
 module.exports = {
   name: 'ember-css-modules',
 
-  isDevelopingAddon: function() {
-    return true;
-  },
-
   shouldIncludeChildAddon: function(addon) {
     // Don't infinitely recurse – it's the dummy test app that depends on dummy-addon, not this addon itself
     return addon.name !== 'dummy-addon';

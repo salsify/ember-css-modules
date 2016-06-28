@@ -7,7 +7,7 @@
     "start": "ember server",
     "test": "npm run test-lib && npm run test-ember",
     "test-ember": "ember try:each",
-    "test-lib": "tape tests-node/**/*-test.js"
+    "test-lib": "./node_modules/tape/bin/tape tests-node/**/*-test.js"
   },
   "repository": {
     "type": "git",

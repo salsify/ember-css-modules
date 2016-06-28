@@ -14,6 +14,12 @@ testTransformation('appending to a class attribute', {
   elementOutput: 'class="x {{styles.foo}}"'
 });
 
+testTransformation('appending to a class attribute #2', {
+  input: 'class=x local-class="foo"',
+  statementOutput: 'class=(concat x " " styles.foo)',
+  elementOutput: 'class="x {{styles.foo}}"'
+});
+
 // ...
 
 function testTransformation(title, options) {
