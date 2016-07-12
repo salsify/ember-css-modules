@@ -38,7 +38,6 @@
     "ember-export-application-global": "^1.0.5",
     "ember-load-initializers": "^0.5.1",
     "ember-resolver": "^2.0.3",
-    "ember-try": "^0.2.2",
     "htmlbars": "^0.14.23",
     "loader.js": "^4.0.10",
     "tape": "^4.6.0"
