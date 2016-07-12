@@ -65,7 +65,8 @@
     "before": [
       "ember-cli-babel",
       "ember-cli-less",
-      "ember-cli-sass"
+      "ember-cli-sass",
+      "ember-cli-stylus"
     ],
     "versionCompatibility": {
       "ember": ">=1.13.0 <3.0.0"
