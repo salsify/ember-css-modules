@@ -1,3 +1,12 @@
+## 0.4.0 Think Locally (July 12, 2016)
+### Added
+- Local class names can be specified via the `local-class` attribute (#31)
+- PostCSS options such as custom syntax are passed through via `postcssOptions` config (#34)
+- The default extension for modules can be specified via `extension` config (#34)
+
+### Fixed
+- An `intermediateOutputPath` may be specified in order to have ember-css-modules emit to a location other than `<app-name>.css`, leaving other files in the styles tree untouched for further processing (#28). See the README for further details on how this in combination with the changes in #34 allow for working alongside other CSS preprocessors.
+
 ## 0.3.3 If At First (July 6, 2016) 
 ### Fixed
 - `_super` is now properly called in the addon `init()` to avoid a deprecation notice
