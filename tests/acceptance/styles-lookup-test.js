@@ -15,7 +15,9 @@ var componentRoutes = [
   'pod-route/nested-pod-template-only-component',
   'component-with-explicit-styles-reference',
   'component-with-global-class-composition',
-  'component-with-container-class'
+  'component-with-container-class',
+  'sass-addon-component',
+  'less-addon-component'
 ].map(name => [name, `/render-component/${name}`]);
 
 var controllerRoutes = [

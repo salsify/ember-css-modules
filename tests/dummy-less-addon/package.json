@@ -1,0 +1,18 @@
+{
+  "name": "dummy-less-addon",
+  "private": true,
+  "keywords": [
+    "ember-addon"
+  ],
+  "ember-addon": {
+    "paths": [
+      "../..",
+      "../../node_modules/ember-cli-babel",
+      "../../node_modules/ember-cli-htmlbars"
+    ]
+  },
+  "dependencies": {
+    "ember-cli-less": "^1.5.3",
+    "postcss-less": "^0.12.0"
+  }
+}

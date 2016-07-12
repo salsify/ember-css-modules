@@ -344,6 +344,51 @@ new EmberApp(defaults, {
 });
 ```
 
+### Other Preprocessors
+
+There are two approaches to integrating CSS modules with other style preprocessors like Sass, Less or Stylus.
+
+#### Modules and preprocessor syntax in isolation
+
+The first approach is to use PostCSS to perform any processing on the modules themselves, and then emit a single vanilla CSS file with those modules that you can then import into your preprocessor of choice. This keeps your modules and other styles in isolation from one another, but provides a nice migration path from another preprocessor to PostCSS + modules.
+
+For example, with Sass you could install ember-cli-sass and then configure ember-css-modules to emit a `_modules` partial:
+
+```js
+cssModules: {
+  intermediateOutputPath: 'app/styles/_modules.scss'
+}
+```
+
+And then in your `app.scss`, simply import it:
+
+```scss
+// other Sass code and imports
+@import 'modules';
+```
+
+#### Custom syntax directly in modules
+
+The second approach is viable for preprocessors for which there is a PostCSS syntax extension, such as [Sass](https://github.com/postcss/postcss-scss) and (at least partially) [Less](https://github.com/gilt/postcss-less). It allows for using custom preprocessor syntax directly in CSS modules, handing off the concatenated final output directly to the preprocessor.
+
+Again using Sass as an example, you would specify `app.scss` as your intermediate output file so that ember-cli-sass would pick it up directly, and then tell ember-css-modules to look for `.scss` files and pass through custom PostCSS syntax configuration.
+
+```js
+cssModules: {
+  // Emit a combined SCSS file for ember-cli-sass to compile
+  intermediateOutputPath: 'app/styles/app.scss',
+
+  // Use .scss as the extension for CSS modules instead of the default .css
+  extension: 'scss',
+
+  // Pass a custom parser/stringifyer through to PostCSS for processing modules
+  postcssOptions: {
+    syntax: require('postcss-scss')
+  }
+}
+```
+
+
 ## Ember Support
 
 This addon is tested against and expected to work with Ember 1.13.x, as well as the current 2.x release, beta, and canary builds.

@@ -5,7 +5,8 @@
   "scripts": {
     "build": "ember build",
     "start": "ember server",
-    "test": "npm run test-lib && npm run test-ember",
+    "install-all": "for dummy in tests/dummy-*-addon; do cd $dummy && npm install && cd ../..; done",
+    "test": "npm run install-all && npm run test-lib && npm run test-ember",
     "test-ember": "ember try:each",
     "test-lib": "tape tests-node/**/*-test.js"
   },
@@ -23,6 +24,7 @@
   },
   "homepage": "https://github.com/salsify/ember-css-modules#readme",
   "devDependencies": {
+    "broccoli-css-modules": "^0.3.4",
     "ember-ajax": "^2.4.1",
     "ember-cli": "^2.6.2",
     "ember-cli-app-version": "^1.0.0",
@@ -48,7 +50,7 @@
   ],
   "dependencies": {
     "broccoli-concat": "^2.1.0",
-    "broccoli-css-modules": "^0.3.2",
+    "broccoli-css-modules": "^0.3.3",
     "broccoli-funnel": "^1.0.1",
     "broccoli-merge-trees": "^1.1.1",
     "debug": "^2.2.0",
@@ -60,12 +62,19 @@
   },
   "ember-addon": {
     "configPath": "tests/dummy/config",
-    "before": "ember-cli-babel",
+    "before": [
+      "ember-cli-babel",
+      "ember-cli-less",
+      "ember-cli-sass",
+      "ember-cli-stylus"
+    ],
     "versionCompatibility": {
       "ember": ">=1.13.0 <3.0.0"
     },
     "paths": [
-      "tests/dummy-addon"
+      "tests/dummy-addon",
+      "tests/dummy-sass-addon",
+      "tests/dummy-less-addon"
     ]
   }
 }

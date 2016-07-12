@@ -12,7 +12,7 @@ module.exports = {
 
   shouldIncludeChildAddon: function(addon) {
     // Don't infinitely recurse – it's the dummy test app that depends on dummy-addon, not this addon itself
-    return addon.name !== 'dummy-addon';
+    return addon.name.indexOf('dummy') === -1;
   },
 
   init: function() {
@@ -51,8 +51,20 @@ module.exports = {
     return this.modulesPreprocessor.getDependencies();
   },
 
+  getIntermediateOutputPath: function() {
+    return this.options.intermediateOutputPath;
+  },
+
   getPlugins: function() {
     return this.options.plugins || [];
+  },
+
+  getFileExtension: function() {
+    return this.options && this.options.extension || 'css';
+  },
+
+  getPostcssOptions: function() {
+    return this.options.postcssOptions;
   },
 
   belongsToAddon: function() {
