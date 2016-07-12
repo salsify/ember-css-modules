@@ -4,23 +4,39 @@ var ClassTransformPlugin = require('../lib/htmlbars-plugin');
 
 testTransformation('creating a class attribute', {
   input: 'local-class="foo"',
-  statementOutput: 'class=(concat styles.foo)', // FIXME superfluous concat
-  elementOutput: 'class="{{styles.foo}}"'
+  statementOutput: 'class=(concat (unbound styles.foo))', // FIXME superfluous concat
+  elementOutput: 'class="{{unbound styles.foo}}"'
+});
+
+testTransformation('creating a class attribute with multiple classes', {
+  input: 'local-class="foo bar"',
+  statementOutput: 'class=(concat (unbound styles.foo) " " (unbound styles.bar))',
+  elementOutput: 'class="{{unbound styles.foo}} {{unbound styles.bar}}"'
 });
 
 testTransformation('appending to a class attribute', {
   input: 'class="x" local-class="foo"',
-  statementOutput: 'class=(concat "x" " " styles.foo)',
-  elementOutput: 'class="x {{styles.foo}}"'
+  statementOutput: 'class=(concat "x" " " (unbound styles.foo))',
+  elementOutput: 'class="x {{unbound styles.foo}}"'
 });
 
-testTransformation('appending to a class attribute #2', {
+testTransformation('appending to a class attribute with multiple classes', {
+  input: 'class="x" local-class="foo bar"',
+  statementOutput: 'class=(concat "x" " " (unbound styles.foo) " " (unbound styles.bar))',
+  elementOutput: 'class="x {{unbound styles.foo}} {{unbound styles.bar}}"'
+});
+
+testTransformation('appending to an unquoted class attribute', {
   input: 'class=x local-class="foo"',
-  statementOutput: 'class=(concat x " " styles.foo)',
-  elementOutput: 'class="x {{styles.foo}}"'
+  statementOutput: 'class=(concat x " " (unbound styles.foo))',
+  elementOutput: 'class="x {{unbound styles.foo}}"'
 });
 
-// ...
+testTransformation('appending to an unquoted class attribute with multiple classes', {
+  input: 'class=x local-class="foo bar"',
+  statementOutput: 'class=(concat x " " (unbound styles.foo) " " (unbound styles.bar))',
+  elementOutput: 'class="x {{unbound styles.foo}} {{unbound styles.bar}}"'
+});
 
 function testTransformation(title, options) {
   test('ClassTransformPlugin: ' + title, function(assert) {
@@ -35,5 +51,6 @@ function assertTransforms(template, type, input, output, assert) {
   var input = template.replace('[ATTRS]', input);
   var output = template.replace('[ATTRS]', output);
   var actual = htmlbars.print(htmlbars.parse(input, { plugins: { ast: [ClassTransformPlugin] } }));
-  assert.equal(actual, output, 'works for ' + type);
+  var expected = htmlbars.print(htmlbars.parse(output));
+  assert.equal(actual, expected, 'works for ' + type);
 }
