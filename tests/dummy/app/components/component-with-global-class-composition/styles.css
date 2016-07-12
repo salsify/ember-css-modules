@@ -1,0 +1,7 @@
+:global(.global-component-class) {
+  font-family: 'component-with-global-class-composition';
+}
+
+.component-class {
+  composes: global-component-class from global;
+}

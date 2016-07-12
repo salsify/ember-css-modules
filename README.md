@@ -67,6 +67,22 @@ In the template for `my-component`, an element with `local-class="component-titl
 
 Note that you may also use relative paths to specify the source modules for composition.
 
+Finally, you can compose local classes from global un-namespaced ones that are provided e.g. by a CSS framework by specifying `global` as the source of the class:
+
+```css
+/* vendor/some-lib.css */
+.super-important {
+  color: orange;
+}
+```
+
+```css
+/* app/components/my-component/styles.css */
+.special-button {
+  composes: super-important from global;
+}
+```
+
 ### Programmatic Styles Access
 
 Currently the `local-class` attribute is honored on HTML elements and component invocations with static values, e.g. `<div local-class="foo bar">` and `{{input local-class="baz"}}`. It is not (yet) supported with dynamic class values or subexpressions like the `(component)` helper.
