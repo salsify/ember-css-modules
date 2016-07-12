@@ -1,12 +1,14 @@
 {
   "name": "ember-css-modules",
-  "version": "0.3.2",
+  "version": "0.3.3",
   "description": "CSS Modules for ambitious applications",
   "scripts": {
     "build": "ember build",
     "start": "ember server",
-    "test": "npm run install-all && ember try:each",
-    "install-all": "for dummy in tests/dummy-*-addon; do cd $dummy && npm install && cd ../..; done"
+    "install-all": "for dummy in tests/dummy-*-addon; do cd $dummy && npm install && cd ../..; done",
+    "test": "npm run install-all && npm run test-lib && npm run test-ember",
+    "test-ember": "ember try:each",
+    "test-lib": "tape tests-node/**/*-test.js"
   },
   "repository": {
     "type": "git",
@@ -22,6 +24,7 @@
   },
   "homepage": "https://github.com/salsify/ember-css-modules#readme",
   "devDependencies": {
+    "broccoli-css-modules": "^0.3.4",
     "ember-ajax": "^2.4.1",
     "ember-cli": "^2.6.2",
     "ember-cli-app-version": "^1.0.0",
@@ -37,7 +40,9 @@
     "ember-export-application-global": "^1.0.5",
     "ember-load-initializers": "^0.5.1",
     "ember-resolver": "^2.0.3",
-    "loader.js": "^4.0.10"
+    "htmlbars": "^0.14.23",
+    "loader.js": "^4.0.10",
+    "tape": "^4.6.0"
   },
   "keywords": [
     "ember-addon",

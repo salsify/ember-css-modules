@@ -1,4 +1,4 @@
-# ember-css-modules [![Build Status](https://travis-ci.org/salsify/ember-css-modules.svg?branch=master)](https://travis-ci.org/salsify/ember-css-modules)
+# ember-css-modules [![Build Status](https://travis-ci.org/salsify/ember-css-modules.svg?branch=master)](https://travis-ci.org/salsify/ember-css-modules) [![Ember Observer Score](https://emberobserver.com/badges/ember-css-modules.svg)](https://emberobserver.com/addons/ember-css-modules)
 
 Ember-flavored support for [CSS Modules](https://github.com/css-modules/css-modules). For an overview of some of the motivations for the CSS Modules concept, see [this blog post](http://blog.salsify.com/engineering/good-fences-with-css-modules).
 
@@ -18,11 +18,11 @@ When you build a component, you drop a `.js` file and a `.hbs` file in your app 
 
 ### Simple Example
 
-With ember-css-modules, you define styles on a per-component (or -controller) basis. The classes you define are then available from a `styles` object in the template. You define these styles using the same file layout you use for templates; for example, in pod structure you'd put `styles.css` alongside `template.hbs` in the component's pod:
+With ember-css-modules, you define styles on a per-component (or -controller) basis. You define these styles using the same file layout you use for templates; for example, in pod structure you'd put `styles.css` alongside `template.hbs` in the component's pod. The classes in that stylesheet are then automatically namespaced to the corresponding  component or controller. In order to reference them, you use the `local-class` attribute rather than the standard `class`.
 
 ```hbs
 {{! app/components/my-component/template.hbs }}
-<div class="{{styles.hello-class}}">Hello, world!</div>
+<div local-class="hello-class">Hello, world!</div>
 ```
 
 ```css
@@ -63,9 +63,44 @@ For cases where class reuse is desired, there's [the `composes` property](https:
 }
 ```
 
-In the template for `my-component`, the value of `styles.component-title` will look something like `_component-title_1dr4n4 _secondary-header_1658xu _header_1658xu`, incorporating styles from all of the composing classes.
+In the template for `my-component`, an element with `local-class="component-title"` will end up with an actual class string like `_component-title_1dr4n4 _secondary-header_1658xu _header_1658xu`, incorporating styles from all of the composing classes.
 
 Note that you may also use relative paths to specify the source modules for composition.
+
+Finally, you can compose local classes from global un-namespaced ones that are provided e.g. by a CSS framework by specifying `global` as the source of the class:
+
+```css
+/* vendor/some-lib.css */
+.super-important {
+  color: orange;
+}
+```
+
+```css
+/* app/components/my-component/styles.css */
+.special-button {
+  composes: super-important from global;
+}
+```
+
+### Programmatic Styles Access
+
+Currently the `local-class` attribute is honored on HTML elements and component invocations with static values, e.g. `<div local-class="foo bar">` and `{{input local-class="baz"}}`. It is not (yet) supported with dynamic class values or subexpressions like the `(component)` helper.
+
+For these situations, or any other scenario where you need to access a namespaced class outside of a `local-class` attribute, components and controllers with a corresponding styles module expose a mapping from the original class name to the namespaced version in a `styles` property. For instance, the simple "hello-class" example above is actually equivalent to:
+
+```hbs
+{{! app/components/my-component/template.hbs }}
+<div class="{{unbound styles.hello-class}}">Hello, world!</div>
+```
+
+The object exposed as the `styles` property in the template can also be imported directly into JS from whatever path the corresponding CSS module occupies, e.g.
+
+```js
+import styles from 'my-app-name/components/my-component/styles';
+console.log(styles['hello-class']);
+// => "_hello-class_1dr4n4"
+```
 
 ### Applying CSS to Component Root
 
@@ -191,6 +226,8 @@ export default Ember.Component.extend({
   styles
 });
 ```
+
+Note also that **your addon must have an `addon/styles` directory** in order to trigger CSS processing in Ember CLI. It can be empty or contain a version control placeholder like `.gitkeep`; it just needs to exist.
 
 If you're writing a [routable engine](https://github.com/dgeb/ember-engines#ember-engines-) and have route controller styles, you'll have to import the styles module and set it on your controller the same way you would with a component in the example above.
 

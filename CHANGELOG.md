@@ -1,3 +1,7 @@
+## 0.3.3 If At First (July 6, 2016) 
+### Fixed
+- `_super` is now properly called in the addon `init()` to avoid a deprecation notice
+
 ## 0.3.2 Hidden Gems (May 1, 2016)
 ### Fixed
 - Hidden files (e.g. `.DS_Store`) no longer break the build process (#21)
