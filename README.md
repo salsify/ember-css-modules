@@ -32,9 +32,27 @@ With ember-css-modules, you define styles on a per-component (or -controller) ba
 }
 ```
 
-In "classic" structure, these files would instead be `app/templates/components/my-component.hbs` and `app/styles/components/my-component.css`, respectively.
+Similarly, if you were styling e.g. your application controller, you would place your styles alongside `controller.js` in `<podModulePrefix>/application/styles.css`.
 
-Styles belonging to a route controller rather than a component mirror their corresponding templates similarly.
+### "Classic" Structure Applications
+
+In classic structure, all your modules are grouped by type rather than related functionality. Just like all your templates live in `app/templates` and all your routes live in `app/routes`, all your styles will live in `app/styles`. When determining where to put your CSS for a given controller or component, you should mirror the location of the corresponding template.
+
+For example, the component given above in pod structure would look like this in classic structure:
+
+```hbs
+{{! app/templates/components/my-component.hbs }}
+<div local-class="hello-class">Hello, world!</div>
+```
+
+```css
+/* app/styles/components/my-component.css */
+.hello-class {
+  font-weight: bold;
+}
+```
+
+Similarly, if you were styling e.g. your application controller, you would mirror the template at `app/templates/application.hbs` and put your CSS at `app/styles/application.css`.
 
 ### Styling Reuse
 
