@@ -4,11 +4,11 @@ export default Ember.Mixin.create({
   componentFor(name, owner, options) {
     let component = this._super(name, owner, options);
 
-    // Changes made to support local lookup render this mixin unnecessary (and actually, broken) in Ember >= 2.5
-    if (options) { return component; }
+    // If we're doing a local lookup, don't interfere; wait for the global fallback if necessary
+    if (options && options.source) { return component; }
 
     // Ensure components are always managed my the container and thus have a connection to their styles
-    if (!component) {
+    if (!component && hasRegistration(owner, `template:components/${name}`)) {
       findRegistry(owner).register(`component:${name}`, Ember.Component);
       component = this._super(name, owner, options);
     }
@@ -21,4 +21,9 @@ export default Ember.Mixin.create({
 // all varying levels of public-ish. This threads that needle without triggering deprecation warnings.
 function findRegistry(owner) {
   return owner._registry || (owner.register ? owner : owner.registry);
+}
+
+function hasRegistration(owner, name) {
+  let registry = findRegistry(owner);
+  return registry.hasRegistration ? registry.hasRegistration(name) : registry.has(name);
 }
