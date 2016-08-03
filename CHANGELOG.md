@@ -1,3 +1,7 @@
+## 0.4.1 Glimmer in the Eye (August 2, 2016)
+### Added
+- Preliminary support for Glimmer 2 with the Ember alpha series.
+
 ## 0.4.0 Think Locally (July 12, 2016)
 ### Added
 - Local class names can be specified via the `local-class` attribute (#31)
