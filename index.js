@@ -35,7 +35,10 @@ module.exports = {
     registry.add('css', this.outputStylesPreprocessor);
     registry.add('htmlbars-ast-plugin', {
       name: 'ember-css-modules',
-      plugin: HtmlbarsPlugin
+      plugin: HtmlbarsPlugin,
+      baseDir: function() {
+        return __dirname;
+      }
     });
   },
 
