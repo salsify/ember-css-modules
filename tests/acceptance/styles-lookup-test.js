@@ -16,6 +16,8 @@ var componentRoutes = [
   'component-with-explicit-styles-reference',
   'component-with-global-class-composition',
   'component-with-container-class',
+  'component-with-addon-value',
+  'component-with-addon-composition',
   'sass-addon-component',
   'less-addon-component'
 ].map(name => [name, `/render-component/${name}`]);

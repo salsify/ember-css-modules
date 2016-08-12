@@ -23,6 +23,7 @@ module.exports = {
 
   included: function(parent) {
     debug('included in %s', parent.name);
+    this.ownerName = parent.name;
     this.options = parent.options && parent.options.cssModules || {};
     this._super.included.apply(this, arguments);
   },
@@ -40,6 +41,14 @@ module.exports = {
         return __dirname;
       }
     });
+  },
+
+  getOwnerName: function() {
+    return this.ownerName;
+  },
+
+  getProject: function() {
+    return this.project;
   },
 
   getScopedNameGenerator: function() {
