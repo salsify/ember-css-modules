@@ -11,7 +11,7 @@ cache:
 
 before_install:
   - "npm config set spin false"
-  - "npm install -g npm@^2 phantomjs-prebuilt"
+  - "npm install -g phantomjs-prebuilt"
 
 install:
   - npm install -g bower
