@@ -1,3 +1,10 @@
+## 0.4.2 A Certain Cachet (August 12, 2016)
+### Added
+- The beginnings of support for `@value` and `composes:` from addons, with some caveats. Real documentation forthcoming once the feature has a little time to bake.
+
+### Fixed
+- Provide caching information for `ember-cli-htmlbars` so it can correctly invalidate when the plugin changes.
+
 ## 0.4.1 Glimmer in the Eye (August 2, 2016)
 ### Added
 - Preliminary support for Glimmer 2 with the Ember alpha series.
