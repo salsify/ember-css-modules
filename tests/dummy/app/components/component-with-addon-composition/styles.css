@@ -1,3 +1,0 @@
-.component-class {
-  composes: addon-class from 'dummy-addon/styles/constants';
-}

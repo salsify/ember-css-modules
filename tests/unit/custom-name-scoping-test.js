@@ -1,7 +1,7 @@
 import { module, test } from 'qunit';
 
-import sassAddonComponentStyles from 'dummy-sass-addon/styles/components/sass-addon-component';
-import lessAddonComponentStyles from 'dummy-less-addon/styles/components/less-addon-component';
+import sassAddonComponentStyles from 'dummy-sass-addon/styles/components/testing/sass-addon-component';
+import lessAddonComponentStyles from 'dummy-less-addon/styles/components/testing/less-addon-component';
 
 module('Unit | Custom Name Scoping');
 
