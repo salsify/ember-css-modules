@@ -13,6 +13,8 @@ var componentRoutes = [
   'addon-component',
   'pod-route/nested-pod-component',
   'pod-route/nested-pod-template-only-component',
+  'component-with-dynamic-local-class',
+  'component-with-global-class-and-dynamic-local-class',
   'component-with-explicit-styles-reference',
   'component-with-global-class-composition',
   'component-with-container-class',

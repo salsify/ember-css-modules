@@ -38,47 +38,40 @@ testTransformation('appending to an unquoted class attribute with multiple class
   elementOutput: 'class="x {{unbound styles.foo}} {{unbound styles.bar}}"'
 });
 
-testTransformationElement('creating a class attribute with dynamic value on element', {
-  input: 'local-class={{if true foo}}',
+testTransformation('creating a class attribute with dynamic local-class value', {
+  statementInput: 'local-class=(if true foo)',
+  statementOutput: 'class=(concat (lookup-module-styles (unbound styles) (if true foo)))',
+  elementInput: 'local-class={{if true foo}}',
   elementOutput: 'class="{{lookup-module-styles (unbound styles) (if true foo)}}"'
 });
 
-testTransformationStatement('creating a class attribute with dynamic value on statement', {
-  input: 'local-class=(if true foo)',
-  statementOutput: 'class=(concat (lookup-module-styles (unbound styles) (if true foo)))',
+testTransformation('creating a class attribute with mixed local-class value', {
+  statementInput: 'local-class=(concat "foo " (if true bar))',
+  statementOutput: 'class=(concat (lookup-module-styles (unbound styles) (concat "foo " (if true bar))))',
+  elementInput: 'local-class="foo {{if true bar}}"',
+  elementOutput: 'class="{{lookup-module-styles (unbound styles) (concat "foo " (if true bar))}}"'
 });
 
-testTransformationElement('appending a class attribute with dynamic value on element', {
-  input: 'class="x" local-class={{if true foo}}',
+testTransformation('appending a class attribute with dynamic local-class value', {
+  statementInput: 'class="x" local-class=(if true foo)',
+  statementOutput: 'class=(concat "x" " " (lookup-module-styles (unbound styles) (if true foo)))',
+  elementInput: 'class="x" local-class={{if true foo}}',
   elementOutput: 'class="x {{lookup-module-styles (unbound styles) (if true foo)}}"'
 });
 
-testTransformationStatement('appending a class attribute with dynamic value on statement', {
-  input: 'class="x" local-class=(if true foo)',
-  statementOutput: 'class=(concat "x" " " (lookup-module-styles (unbound styles) (if true foo)))'
+testTransformation('appending a class attribute with mixed local-class value', {
+  statementInput: 'class="qux" local-class=(concat "foo " (if true bar))',
+  statementOutput: 'class=(concat "qux" " " (lookup-module-styles (unbound styles) (concat "foo " (if true bar))))',
+  elementInput: 'class="qux" local-class="foo {{if true bar}}"',
+  elementOutput: 'class="qux {{lookup-module-styles (unbound styles) (concat "foo " (if true bar))}}"'
 });
 
 function testTransformation(title, options) {
   test('ClassTransformPlugin: ' + title, function(assert) {
     assert.plan(3);
-    assertTransforms('<div [ATTRS]></div>', 'ElementNode', options.input, options.elementOutput, assert);
-    assertTransforms('{{x-div [ATTRS]}}', 'MustacheStatement', options.input, options.statementOutput, assert);
-    assertTransforms('{{#x-div [ATTRS]}}content{{/x-div}}', 'BlockStatement', options.input, options.statementOutput, assert);
-  });
-}
-
-function testTransformationElement(title, options) {
-  test('ClassTransformPlugin: ' + title, function(assert) {
-    assert.plan(1);
-    assertTransforms('<div [ATTRS]></div>', 'ElementNode', options.input, options.elementOutput, assert);
-  });
-}
-
-function testTransformationStatement(title, options) {
-  test('ClassTransformPlugin: ' + title, function(assert) {
-    assert.plan(2);
-    assertTransforms('{{x-div [ATTRS]}}', 'MustacheStatement', options.input, options.statementOutput, assert);
-    assertTransforms('{{#x-div [ATTRS]}}content{{/x-div}}', 'BlockStatement', options.input, options.statementOutput, assert);
+    assertTransforms('<div [ATTRS]></div>', 'ElementNode', options.elementInput || options.input, options.elementOutput, assert);
+    assertTransforms('{{x-div [ATTRS]}}', 'MustacheStatement', options.statementInput || options.input, options.statementOutput, assert);
+    assertTransforms('{{#x-div [ATTRS]}}content{{/x-div}}', 'BlockStatement', options.statementInput || options.input, options.statementOutput, assert);
   });
 }
 
