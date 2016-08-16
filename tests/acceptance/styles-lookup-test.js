@@ -20,14 +20,14 @@ var componentRoutes = [
   'component-with-addon-composition',
   'sass-addon-component',
   'less-addon-component'
-].map(name => [name, `/render-component/${name}`]);
+].map(name => [name, `/testing/render-component/${name}`]);
 
 var controllerRoutes = [
   'classic-route',
   'classic-template-only-route',
   'pod-route',
   'pod-template-only-route'
-].map(name => [name, `/${name}`]);
+].map(name => [name, `/testing/${name}`]);
 
 
 [...componentRoutes, ...controllerRoutes].forEach(([name, route]) => {

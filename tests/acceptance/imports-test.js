@@ -8,7 +8,7 @@ var componentRoutes = [
   'component-with-absolute-imports',
   'addon-component-with-relative-imports',
   'addon-component-with-absolute-imports'
-].map(name => [name, `/render-component/${name}`]);
+].map(name => [name, `/testing/render-component/${name}`]);
 
 componentRoutes.forEach(([name, route]) => {
   test(name, function(assert) {

@@ -7,12 +7,14 @@ const Router = Ember.Router.extend({
 });
 
 Router.map(function() {
-  this.route('classic-route');
-  this.route('classic-template-only-route');
-  this.route('pod-route');
-  this.route('pod-template-only-route');
+  this.route('testing', function() {
+    this.route('classic-route');
+    this.route('classic-template-only-route');
+    this.route('pod-route');
+    this.route('pod-template-only-route');
 
-  this.route('render-component', { path: 'render-component/*component' });
+    this.route('render-component', { path: 'render-component/*component' });
+  });
 });
 
 export default Router;

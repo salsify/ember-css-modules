@@ -1,14 +1,14 @@
 import { module, test } from 'qunit';
 
-import aStyles from 'dummy/styles/ordering/a';
-import bStyles from 'dummy/styles/ordering/b';
-import cStyles from 'dummy/styles/ordering/c';
-import pStyles from 'dummy/styles/ordering/p';
-import qStyles from 'dummy/styles/ordering/q';
-import rStyles from 'dummy/styles/ordering/r';
-import xStyles from 'dummy/styles/ordering/x';
-import yStyles from 'dummy/styles/ordering/y';
-import zStyles from 'dummy/styles/ordering/z';
+import aStyles from 'dummy/styles/testing/ordering/a';
+import bStyles from 'dummy/styles/testing/ordering/b';
+import cStyles from 'dummy/styles/testing/ordering/c';
+import pStyles from 'dummy/styles/testing/ordering/p';
+import qStyles from 'dummy/styles/testing/ordering/q';
+import rStyles from 'dummy/styles/testing/ordering/r';
+import xStyles from 'dummy/styles/testing/ordering/x';
+import yStyles from 'dummy/styles/testing/ordering/y';
+import zStyles from 'dummy/styles/testing/ordering/z';
 
 module('Unit | Module Ordering');
 

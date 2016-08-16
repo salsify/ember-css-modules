@@ -1,0 +1,6 @@
+@value superbold from 'dummy-addon/styles/testing/constants';
+
+.component-class {
+  composes: important-message from 'dummy-addon/styles/testing/constants';
+  font-weight: superbold;
+}
