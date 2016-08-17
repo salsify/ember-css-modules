@@ -1,0 +1,3 @@
+.class-one.class-two:global(.some-global-class) {
+  font-family: 'component-with-global-class-and-dynamic-local-class';
+}
