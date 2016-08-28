@@ -1,0 +1,3 @@
+.component-class:global(.some-global-class) {
+  font-family: 'component-with-global-class-and-local-class';
+}

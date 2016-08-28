@@ -5,7 +5,7 @@ moduleForComponent('changing-dynamic-class', 'Integration | Changing local class
   integration: true
 });
 
-test('helpers work correctly', function(assert) {
+test('changing a dynamic class value works', function(assert) {
   this.set('extraClass', 'bar');
   this.set('styles', {
     foo: '--foo',

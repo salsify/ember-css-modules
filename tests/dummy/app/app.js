@@ -3,6 +3,8 @@ import Resolver from './resolver';
 import loadInitializers from 'ember-load-initializers';
 import config from './config/environment';
 
+import 'npm:../../lib/htmlbars-plugin';
+
 let App;
 
 Ember.MODEL_FACTORY_INJECTIONS = true;
