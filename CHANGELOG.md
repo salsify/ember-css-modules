@@ -1,3 +1,11 @@
+## 0.4.3 Change is the Only Constant (August 28, 2016)
+### Added
+- The `local-class` attribute now accepts dynamic values (#40)
+- Components may specify `localClassNames` and `localClassNameBindings`, similar to `classNames` and `classNameBindings` respectively, to bind local classes to their root elements (#26)
+
+### Fixed
+- Values with commmas and quotes can now be exposed in modules (#22)
+
 ## 0.4.2 A Certain Cachet (August 12, 2016)
 ### Added
 - The beginnings of support for `@value` and `composes:` from addons, with some caveats. Real documentation forthcoming once the feature has a little time to bake.
