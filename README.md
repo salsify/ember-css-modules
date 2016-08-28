@@ -120,25 +120,34 @@ console.log(styles['hello-class']);
 // => "_hello-class_1dr4n4"
 ```
 
-### Applying CSS to Component Root
+### Applying Classes to a Component's Root Element
 
-In a case where you need to apply a rule to the top-level root element of the component, leverage `classNameBindings` to do so. Then just reference the class in your `styles.css` normally:
+Just like using [`classNames`](http://emberjs.com/api/classes/Ember.ClassNamesSupport.html#property_classNames) and [`classNameBindings`](http://emberjs.com/api/classes/Ember.ClassNamesSupport.html#property_classNameBindings) to set global classes on a component's root element, the `localClassNames` and `localClassNameBindings` properties allow you to set local classes on the root element.
+
+For instance, to statically set a local `my-component` class on your component:
 
 ```js
-/* app/components/my-component/component.js */
 export default Ember.Component.extend({
-  classNameBindings: ['styles.my-component'],
-
-  ...
+  localClassNames: 'my-component'
 });
 ```
 
-```css
-/* app/components/my-component/styles.css */
-.my-component {
-  margin-left: 5px;
-}
+To dynamically set one or more classes on your component based on the boolean value of a given property:
+
+```js
+export default Ember.Component.extend({
+  localClassNameBindings: ['propA', 'propB:special', 'propC:yes:no'],
+  propA: true,
+  propB: true,
+  propC: true
+});
 ```
+
+- If `propA` is truthy, a local `prop-a` class will be applied. If it's falsey, no additional classes will be applied.
+- If `propB` is truthy, a local `special` class will be applied. If it's falsey, no additional classes will be applied.
+- If `propC` is truthy, a local `yes` class will be applied. If it's falsey, a local `no` class will be applied.
+
+Note that `localClassNameBindings` treats all bound values as boolean flags, unlike `classNameBindings` which will apply a string value directly as a class name.
 
 ### Global Classes
 
