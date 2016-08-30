@@ -71,6 +71,10 @@ module.exports = {
     return this.options.plugins || [];
   },
 
+  getFilePath () {
+    return this.options && this.options.path || ('**/*.' + this.getFileExtension());
+  },
+
   getFileExtension: function() {
     return this.options && this.options.extension || 'css';
   },
