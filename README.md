@@ -254,7 +254,7 @@ export default Ember.Component.extend({
 });
 ```
 
-Note also that **your addon must have an `addon/styles` directory** in order to trigger CSS processing in Ember CLI. In order for the directory to be preserved when you publish your addon, you can create an empty `.placeholder` file.
+Note also that **your addon must have an `addon/styles` directory** in order to trigger CSS processing in Ember CLI. In order for the directory to be preserved when you publish your addon, you can create an empty `.placeholder` file (`.gitkeep` won't work; by default, the `.npmignore` for your addon will prevent files with that name from being published).
 
 If you're writing a [routable engine](https://github.com/dgeb/ember-engines#ember-engines-) and have route controller styles, you'll have to import the styles module and set it on your controller the same way you would with a component in the example above.
 
