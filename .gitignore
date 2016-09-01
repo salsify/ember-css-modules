@@ -15,3 +15,5 @@
 /libpeerconnection.log
 npm-debug.log
 testem.log
+tests/dummy-less-addon/node_modules/
+tests/dummy-sass-addon/node_modules/
