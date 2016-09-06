@@ -6,7 +6,7 @@ module.exports = {
 
   options: {
     cssModules: {
-      extension: 'scss',
+      extension: 'module.scss',
       intermediateOutputPath: 'addon.scss',
       postcssOptions: {
         syntax: require('postcss-scss')
