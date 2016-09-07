@@ -6,8 +6,10 @@ moduleForAcceptance('Acceptance | style imports');
 var componentRoutes = [
   'component-with-relative-imports',
   'component-with-absolute-imports',
+  'component-with-virtual-imports',
   'addon-component-with-relative-imports',
-  'addon-component-with-absolute-imports'
+  'addon-component-with-absolute-imports',
+  'addon-component-with-virtual-imports'
 ].map(name => [name, `/testing/render-component/${name}`]);
 
 componentRoutes.forEach(([name, route]) => {

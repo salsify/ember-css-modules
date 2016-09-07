@@ -71,6 +71,10 @@ module.exports = {
     return this.options.plugins || [];
   },
 
+  getVirtualModules: function() {
+    return this.options.virtualModules;
+  },
+
   getFileExtension: function() {
     return this.options && this.options.extension || 'css';
   },

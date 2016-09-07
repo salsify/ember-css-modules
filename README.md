@@ -304,6 +304,47 @@ new EmberApp(defaults, {
 });
 ```
 
+#### Virtual Modules
+
+Predefined modules that export constants may be configured by passing a `virtualModules` hash to ember-css-modules.
+
+For example, given this configuration:
+
+```js
+cssModules: {
+  virtualModules: {
+    'color-palette': {
+      'grass-green': '#4dbd33'
+    }
+  }
+}
+```
+
+The following import would retrieve the value `#fdbd33`:
+
+```css
+@value grass-green from 'color-palette';
+```
+
+Virtual modules may be particularly useful for addon authors, as they provide a way to make your addon styling configurable by consumers of your addon at build time. For instance, in your `index.js` you might have something like:
+
+```js
+included: function() {
+  // ...
+  this.options = Object.assign({}, this.options, {
+    cssModules: {
+      virtualModules: {
+        'my-addon-config': {
+          'header-color': config.headerColor || 'green',
+          'header-background': config.headerBackground || 'gray'
+        }
+      }
+    }
+  });
+  // ...
+}
+```
+
 #### Before/After Plugins
 
 By default, any plugins you specify will be applied after the module transformation. To apply a set of plugins beforehand instead, you can pass a hash with `before` and `after` keys. For instance, if you wanted to use [postcss-nested](https://github.com/postcss/postcss-nested) so that you could define a set of global classes as a single block:

@@ -4,7 +4,14 @@ var EmberAddon = require('ember-cli/lib/broccoli/ember-addon');
 
 module.exports = function(defaults) {
   var app = new EmberAddon(defaults, {
-    // Add options here
+    cssModules: {
+      virtualModules: {
+        'virtual-constants': {
+          'superbold': 800,
+          'important-background': 'rgb(255, 255, 0)'
+        }
+      }
+    }
   });
 
   if (app.env === 'test') {
