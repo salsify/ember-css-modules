@@ -1,3 +1,10 @@
+## 0.4.4 Virtually Indistinguishable (September 7, 2016)
+### Added
+- Virtual modules that export constants can be configured at build time.
+
+### Fixed
+- The configured modules extension can now contain a `.` (see #41 for history)
+
 ## 0.4.3 Change is the Only Constant (August 28, 2016)
 ### Added
 - The `local-class` attribute now accepts dynamic values (#40)
