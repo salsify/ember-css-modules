@@ -1,4 +1,5 @@
 import { test } from 'qunit';
+import $ from 'jquery';
 import moduleForAcceptance from '../../tests/helpers/module-for-acceptance';
 
 moduleForAcceptance('Acceptance | style imports');
@@ -16,8 +17,8 @@ componentRoutes.forEach(([name, route]) => {
   test(name, function(assert) {
     visit(route);
 
-    andThen(function() {
-      let testElement = this.$('[data-test-element]').get(0);
+    andThen(() => {
+      let testElement = $('[data-test-element]').get(0);
       assert.ok(testElement);
 
       let styles = window.getComputedStyle(testElement);
