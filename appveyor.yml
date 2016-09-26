@@ -1,0 +1,18 @@
+environment:
+  matrix:
+    - nodejs_version: "0.12"
+    - nodejs_version: "6"
+
+install:
+  - ps: Install-Product node $env:nodejs_version
+  - npm install -g npm@2 phantomjs-prebuilt bower
+  - npm install
+  - bower install
+
+cache:
+  - '%APPDATA%\npm-cache'
+
+test_script:
+  - cmd: ember test
+
+build: off
