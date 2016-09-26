@@ -13,6 +13,6 @@ cache:
   - '%APPDATA%\npm-cache'
 
 test_script:
-  - cmd: ember test
+  - cmd: npm run test-win
 
 build: off
