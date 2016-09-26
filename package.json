@@ -52,6 +52,7 @@
     "debug": "^2.2.0",
     "ember-cli-babel": "^5.1.5",
     "ember-getowner-polyfill": "^1.0.0",
+    "ensure-posix-path": "^1.0.2",
     "hash-string": "^1.0.0",
     "postcss": "^5.2.2",
     "toposort": "^1.0.0"
