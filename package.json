@@ -6,7 +6,8 @@
     "build": "ember build",
     "start": "ember server",
     "install-all": "for dummy in tests/dummy-*-addon; do (cd $dummy && npm install); done",
-    "test": "npm run install-all && ember try:each"
+    "test": "npm run install-all && ember try:each",
+    "test-win": "npm run install-all && ember test"
   },
   "repository": {
     "type": "git",
