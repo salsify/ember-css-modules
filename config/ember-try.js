@@ -8,7 +8,7 @@ module.exports = {
       allowedToFail: true,
       bower: {
         dependencies: {
-          'ember': 'alpha',
+          'ember': 'alpha'
         }
       }
     }
