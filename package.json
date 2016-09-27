@@ -5,8 +5,9 @@
   "scripts": {
     "build": "ember build",
     "start": "ember server",
-    "install-all": "for dummy in tests/dummy-*-addon; do (cd $dummy && npm install); done",
-    "test": "npm run install-all && ember try:each"
+    "install-all": "cd tests/dummy-sass-addon && npm install && cd ../dummy-less-addon && npm install && cd ../..",
+    "test": "npm run install-all && ember try:each",
+    "test-win": "npm run install-all && ember test"
   },
   "repository": {
     "type": "git",
@@ -46,12 +47,13 @@
   ],
   "dependencies": {
     "broccoli-concat": "^2.1.0",
-    "broccoli-css-modules": "^0.4.2",
+    "broccoli-css-modules": "^0.5.0",
     "broccoli-funnel": "^1.0.7",
     "broccoli-merge-trees": "^1.1.1",
     "debug": "^2.2.0",
     "ember-cli-babel": "^5.1.5",
     "ember-getowner-polyfill": "^1.0.0",
+    "ensure-posix-path": "^1.0.2",
     "hash-string": "^1.0.0",
     "postcss": "^5.2.2",
     "toposort": "^1.0.0"
