@@ -1,4 +1,4 @@
-/* jshint node: true */
+/* eslint-env node */
 'use strict';
 
 var debug = require('debug')('ember-css-modules:addon');
@@ -11,7 +11,7 @@ module.exports = {
   name: 'ember-css-modules',
 
   shouldIncludeChildAddon: function(addon) {
-    // Don't infinitely recurse – it's the dummy test app that depends on dummy-addon, not this addon itself
+    // Don't infinitely recurse – it's the dummy test app that depends on dummy-addon, not this addon itself
     return addon.name.indexOf('dummy') === -1;
   },
 

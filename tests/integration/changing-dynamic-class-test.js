@@ -1,4 +1,5 @@
 import { test, moduleForComponent } from 'ember-qunit';
+import Ember from 'ember';
 import hbs from 'htmlbars-inline-precompile';
 
 moduleForComponent('changing-dynamic-class', 'Integration | Changing local classes', {
