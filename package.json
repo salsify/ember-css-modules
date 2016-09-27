@@ -5,7 +5,7 @@
   "scripts": {
     "build": "ember build",
     "start": "ember server",
-    "install-all": "for dummy in tests/dummy-*-addon; do (cd $dummy && npm install); done",
+    "install-all": "cd tests/dummy-sass-addon && npm install && cd ../dummy-less-addon && npm install && cd ../..",
     "test": "npm run install-all && ember try:each",
     "test-win": "npm run install-all && ember test"
   },
