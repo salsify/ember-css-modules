@@ -1,3 +1,10 @@
+## 0.5.0 Window of Opportunity (September 26, 2016)
+### Added
+- Windows is now fully supported (#52).
+
+### Fixed
+- `localClassNameBindings` now works with classes that use `composes` (#48).
+
 ## 0.4.4 Virtually Indistinguishable (September 7, 2016)
 ### Added
 - Virtual modules that export constants can be configured at build time.
@@ -11,7 +18,7 @@
 - Components may specify `localClassNames` and `localClassNameBindings`, similar to `classNames` and `classNameBindings` respectively, to bind local classes to their root elements (#26)
 
 ### Fixed
-- Values with commmas and quotes can now be exposed in modules (#22)
+- Values with commas and quotes can now be exposed in modules (#22)
 
 ## 0.4.2 A Certain Cachet (August 12, 2016)
 ### Added
@@ -33,7 +40,7 @@
 ### Fixed
 - An `intermediateOutputPath` may be specified in order to have ember-css-modules emit to a location other than `<app-name>.css`, leaving other files in the styles tree untouched for further processing (#28). See the README for further details on how this in combination with the changes in #34 allow for working alongside other CSS preprocessors.
 
-## 0.3.3 If At First (July 6, 2016) 
+## 0.3.3 If At First (July 6, 2016)
 ### Fixed
 - `_super` is now properly called in the addon `init()` to avoid a deprecation notice
 
