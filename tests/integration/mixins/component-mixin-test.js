@@ -119,3 +119,76 @@ test('it honors a configured mapped localClassNameBinding with an inverse', func
   assert.notOk($element.is('.bar'));
   assert.ok($element.is('.baz'));
 });
+
+test('it supports localClassNames with composition', function(assert) {
+  let styles = {
+    'some-class': 'foo bar baz'
+  };
+
+  this.owner.register('styles:components/test-component', styles);
+  this.owner.register('component:test-component', Ember.Component.extend(ComponentMixin, {
+    classNames: 'test-component',
+    localClassNames: 'some-class'
+  }));
+
+  this.render(hbs`{{test-component}}`);
+
+  let $element = this.$('.test-component');
+  assert.ok($element.is('.foo'));
+  assert.ok($element.is('.bar'));
+  assert.ok($element.is('.baz'));
+});
+
+test('it supports localClassNameBindings with composition in the positive class', function(assert) {
+  let styles = {
+    'on-class': 'foo bar',
+    'off-class': 'baz'
+  };
+
+  this.set('flag', true);
+
+  this.owner.register('styles:components/test-component', styles);
+  this.owner.register('component:test-component', Ember.Component.extend(ComponentMixin, {
+    classNames: 'test-component',
+    localClassNameBindings: 'dynamicValue:on-class:off-class'
+  }));
+
+  this.render(hbs`{{test-component dynamicValue=flag}}`);
+
+  let $element = this.$('.test-component');
+  assert.ok($element.is('.foo'));
+  assert.ok($element.is('.bar'));
+  assert.notOk($element.is('.baz'));
+
+  Ember.run(() => this.set('flag', false));
+  assert.notOk($element.is('.foo'));
+  assert.notOk($element.is('.bar'));
+  assert.ok($element.is('.baz'));
+});
+
+test('it supports localClassNameBindings with composition in the negative class', function(assert) {
+  let styles = {
+    'on-class': 'foo',
+    'off-class': 'bar baz'
+  };
+
+  this.set('flag', true);
+
+  this.owner.register('styles:components/test-component', styles);
+  this.owner.register('component:test-component', Ember.Component.extend(ComponentMixin, {
+    classNames: 'test-component',
+    localClassNameBindings: 'dynamicValue:on-class:off-class'
+  }));
+
+  this.render(hbs`{{test-component dynamicValue=flag}}`);
+
+  let $element = this.$('.test-component');
+  assert.ok($element.is('.foo'));
+  assert.notOk($element.is('.bar'));
+  assert.notOk($element.is('.baz'));
+
+  Ember.run(() => this.set('flag', false));
+  assert.notOk($element.is('.foo'));
+  assert.ok($element.is('.bar'));
+  assert.ok($element.is('.baz'));
+});
