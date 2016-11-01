@@ -286,27 +286,7 @@ module.exports = {
 };
 ```
 
-### Plugins
-
-Since the CSS module loader is built on [PostCSS](https://github.com/postcss/postcss), your modules have access to the [full range of plugins](http://postcss.parts/) that exist.
-
-#### Simple Usage
-
-For example, to automatically manage vendor prefixes with [Autoprefixer](https://github.com/postcss/autoprefixer):
-
-```js
-var autoprefixer = require('autoprefixer');
-// ...
-new EmberApp(defaults, {
-  cssModules: {
-    plugins: [
-      autoprefixer('last 2 versions')
-    ]
-  }
-});
-```
-
-#### Virtual Modules
+### Virtual Modules
 
 Predefined modules that export constants may be configured by passing a `virtualModules` hash to ember-css-modules.
 
@@ -346,6 +326,27 @@ included: function() {
   this._super.included.apply(this, arguments);
   // ...
 }
+```
+
+
+### Plugins
+
+Since the CSS module loader is built on [PostCSS](https://github.com/postcss/postcss), your modules have access to the [full range of plugins](http://postcss.parts/) that exist.
+
+#### Simple Usage
+
+For example, to automatically manage vendor prefixes with [Autoprefixer](https://github.com/postcss/autoprefixer):
+
+```js
+var autoprefixer = require('autoprefixer');
+// ...
+new EmberApp(defaults, {
+  cssModules: {
+    plugins: [
+      autoprefixer('last 2 versions')
+    ]
+  }
+});
 ```
 
 #### Before/After Plugins
