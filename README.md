@@ -105,16 +105,16 @@ Finally, you can compose local classes from global un-namespaced ones that are p
 
 ### Programmatic Styles Access
 
-Currently the `local-class` attribute is honored on HTML elements and component invocations with static values, e.g. `<div local-class="foo bar">` and `{{input local-class="baz"}}`. It is not (yet) supported with dynamic class values or subexpressions like the `(component)` helper.
+Currently the `local-class` attribute is honored on HTML elements and component invocations, e.g. `<div local-class="foo {{bar}}">` and `{{input local-class="baz"}}`. It is not (currently) supported in subexpressions like the `(component)` helper.
 
-For these situations, or any other scenario where you need to access a namespaced class outside of a `local-class` attribute, components and controllers with a corresponding styles module expose a mapping from the original class name to the namespaced version in a `styles` property. For instance, the simple "hello-class" example above is actually equivalent to:
+If you need to access a local class in a template in other scenarios (such as passing in a class name as a property to a component), there is also a `local-class` helper you can use. For example, the simple "hello-class" example above is equivalent to:
 
 ```hbs
 {{! app/components/my-component/template.hbs }}
-<div class="{{unbound styles.hello-class}}">Hello, world!</div>
+<div class="{{local-class 'hello-class'}}">Hello, world!</div>
 ```
 
-The object exposed as the `styles` property in the template can also be imported directly into JS from whatever path the corresponding CSS module occupies, e.g.
+In a JavaScript context, the class mappings can also be imported directly from whatever path the corresponding CSS module occupies, e.g.
 
 ```js
 import styles from 'my-app-name/components/my-component/styles';
@@ -187,9 +187,11 @@ Note that values are also exposed on the `styles` object for a given module, so 
 
 ```js
 // app/some-route-pod/controller.js
+import styles from 'app/some-route-pod/styles';
+
 export default Ember.Controller.extend({
   logColor() {
-    console.log('primary color is', this.get('styles.primary-color'));
+    console.log('primary color is', styles['primary-color']);
   }
 });
 ```

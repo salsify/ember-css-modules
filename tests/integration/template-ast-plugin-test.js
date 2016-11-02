@@ -11,6 +11,7 @@ moduleForComponent('', 'Integration | Template AST Plugin', {
   beforeEach() {
     const owner = getOwner(this);
     owner.register('template:components/x-div', hbs`{{yield}}`);
+    owner.register('component:x-div', Ember.Component.extend({ attributeBindings: ['data-test-value'] }));
     owner.register('helper:helper', Ember.Helper.helper((params, hash) => {
       const values = Object.keys(hash).map(key => hash[key]);
       return params.concat(values).join(' ');
@@ -18,14 +19,45 @@ moduleForComponent('', 'Integration | Template AST Plugin', {
   }
 });
 
+testTransformation('local-class helper with no source specified', {
+  elementInput: 'data-test-value="{{local-class "foo"}}"',
+  elementOutput: 'data-test-value="{{local-class "foo" from=(unbound __styles__)}}"',
+  statementInput: 'data-test-value=(local-class "foo")',
+  statementOutput: 'data-test-value=(local-class "foo" from=(unbound __styles__))',
+
+  selector: '[data-test-value=bar]',
+  properties: {
+    __styles__: {
+      foo: 'bar'
+    }
+  }
+});
+
+testTransformation('local-class helper with a source specified', {
+  elementInput: 'data-test-value="{{local-class "foo" from=otherStyles}}"',
+  elementOutput: 'data-test-value="{{local-class "foo" from=otherStyles}}"',
+  statementInput: 'data-test-value=(local-class "foo" from=otherStyles)',
+  statementOutput: 'data-test-value=(local-class "foo" from=otherStyles)',
+
+  selector: '[data-test-value=baz]',
+  properties: {
+    otherStyles: {
+      foo: 'baz'
+    },
+    __styles__: {
+      foo: 'bar'
+    }
+  }
+});
+
 testTransformation('creating a class attribute', {
   input: 'local-class="foo"',
-  statementOutput: 'class=(concat (unbound styles.foo))', // FIXME superfluous concat
-  elementOutput: 'class="{{unbound styles.foo}}"',
+  statementOutput: 'class=(concat (unbound __styles__.foo))', // FIXME superfluous concat
+  elementOutput: 'class="{{unbound __styles__.foo}}"',
 
   selector: '.--foo',
   properties: {
-    styles: {
+    __styles__: {
       foo: '--foo'
     }
   }
@@ -33,12 +65,12 @@ testTransformation('creating a class attribute', {
 
 testTransformation('creating a class attribute with multiple classes', {
   input: 'local-class="foo bar"',
-  statementOutput: 'class=(concat (unbound styles.foo) " " (unbound styles.bar))',
-  elementOutput: 'class="{{unbound styles.foo}} {{unbound styles.bar}}"',
+  statementOutput: 'class=(concat (unbound __styles__.foo) " " (unbound __styles__.bar))',
+  elementOutput: 'class="{{unbound __styles__.foo}} {{unbound __styles__.bar}}"',
 
   selector: '.--foo.--bar',
   properties: {
-    styles: {
+    __styles__: {
       foo: '--foo',
       bar: '--bar'
     }
@@ -47,12 +79,12 @@ testTransformation('creating a class attribute with multiple classes', {
 
 testTransformation('appending to a class attribute', {
   input: 'class="x" local-class="foo"',
-  statementOutput: 'class=(concat "x " (unbound styles.foo))',
-  elementOutput: 'class="x {{unbound styles.foo}}"',
+  statementOutput: 'class=(concat "x " (unbound __styles__.foo))',
+  elementOutput: 'class="x {{unbound __styles__.foo}}"',
 
   selector: '.x.--foo',
   properties: {
-    styles: {
+    __styles__: {
       foo: '--foo'
     }
   }
@@ -60,12 +92,12 @@ testTransformation('appending to a class attribute', {
 
 testTransformation('appending to a class attribute with multiple classes', {
   input: 'class="x" local-class="foo bar"',
-  statementOutput: 'class=(concat "x " (unbound styles.foo) " " (unbound styles.bar))',
-  elementOutput: 'class="x {{unbound styles.foo}} {{unbound styles.bar}}"',
+  statementOutput: 'class=(concat "x " (unbound __styles__.foo) " " (unbound __styles__.bar))',
+  elementOutput: 'class="x {{unbound __styles__.foo}} {{unbound __styles__.bar}}"',
 
   selector: '.x.--foo.--bar',
   properties: {
-    styles: {
+    __styles__: {
       foo: '--foo',
       bar: '--bar'
     }
@@ -74,11 +106,11 @@ testTransformation('appending to a class attribute with multiple classes', {
 
 testTransformation('appending to an unquoted string literal class attribute', {
   input: 'class=x local-class="foo"',
-  elementOutput: 'class="x {{unbound styles.foo}}"',
+  elementOutput: 'class="x {{unbound __styles__.foo}}"',
 
   selector: '.x.--foo',
   properties: {
-    styles: {
+    __styles__: {
       foo: '--foo'
     }
   }
@@ -86,11 +118,11 @@ testTransformation('appending to an unquoted string literal class attribute', {
 
 testTransformation('appending to an unquoted string literal class attribute with multiple classes', {
   input: 'class=x local-class="foo bar"',
-  elementOutput: 'class="x {{unbound styles.foo}} {{unbound styles.bar}}"',
+  elementOutput: 'class="x {{unbound __styles__.foo}} {{unbound __styles__.bar}}"',
 
   selector: '.x.--foo.--bar',
   properties: {
-    styles: {
+    __styles__: {
       foo: '--foo',
       bar: '--bar'
     }
@@ -99,12 +131,12 @@ testTransformation('appending to an unquoted string literal class attribute with
 
 testTransformation('appending a ConcatStatement class', {
   input: 'class="x {{y}}" local-class="foo"',
-  elementOutput: 'class="{{concat "x " y}} {{unbound styles.foo}}"',
+  elementOutput: 'class="{{concat "x " y}} {{unbound __styles__.foo}}"',
 
   selector: '.x.--y.--foo',
   properties: {
     y: '--y',
-    styles: {
+    __styles__: {
       foo: '--foo'
     }
   }
@@ -112,13 +144,13 @@ testTransformation('appending a ConcatStatement class', {
 
 testTransformation('appending a static class with a ConcatStatement local-class', {
   input: 'class="x" local-class="foo {{variable}}"',
-  elementOutput: 'class="x {{lookup-module-styles (unbound styles) (concat "foo " variable)}}"',
+  elementOutput: 'class="x {{local-class (concat "foo " variable) from=(unbound __styles__)}}"',
 
   selector: '.x.--foo.--bar',
   properties: {
     x: '--x',
     variable: 'bar',
-    styles: {
+    __styles__: {
       foo: '--foo',
       bar: '--bar'
     }
@@ -127,15 +159,15 @@ testTransformation('appending a static class with a ConcatStatement local-class'
 
 testTransformation('creating a class attribute with dynamic local-class value', {
   statementInput: 'local-class=(helper positional "bar" keyA=named keyB="qux")',
-  statementOutput: 'class=(concat (lookup-module-styles (unbound styles) (helper positional "bar" keyA=named keyB="qux")))',
+  statementOutput: 'class=(concat (local-class (helper positional "bar" keyA=named keyB="qux") from=(unbound __styles__)))',
   elementInput: 'local-class={{helper positional "bar" keyA=named keyB="qux"}}',
-  elementOutput: 'class="{{lookup-module-styles (unbound styles) (helper positional "bar" keyA=named keyB="qux")}}"',
+  elementOutput: 'class="{{local-class (helper positional "bar" keyA=named keyB="qux") from=(unbound __styles__)}}"',
 
   selector: '.--foo.--bar.--baz.--qux',
   properties: {
     positional: 'foo',
     named: 'baz',
-    styles: {
+    __styles__: {
       foo: '--foo',
       bar: '--bar',
       baz: '--baz',
@@ -146,15 +178,15 @@ testTransformation('creating a class attribute with dynamic local-class value', 
 
 testTransformation('creating a class attribute with mixed local-class value', {
   statementInput: 'local-class=(concat "foo " (helper positional "bar" keyA=named keyB="qux"))',
-  statementOutput: 'class=(concat (lookup-module-styles (unbound styles) (concat "foo " (helper positional "bar" keyA=named keyB="qux"))))',
+  statementOutput: 'class=(concat (local-class (concat "foo " (helper positional "bar" keyA=named keyB="qux")) from=(unbound __styles__)))',
   elementInput: 'local-class="foo {{helper positional "bar" keyA=named keyB="qux"}}"',
-  elementOutput: 'class="{{lookup-module-styles (unbound styles) (concat "foo " (helper positional "bar" keyA=named keyB="qux"))}}"',
+  elementOutput: 'class="{{local-class (concat "foo " (helper positional "bar" keyA=named keyB="qux")) from=(unbound __styles__)}}"',
 
   selector: '.--foo.--bar.--baz.--qux',
   properties: {
     positional: 'foo',
     named: 'baz',
-    styles: {
+    __styles__: {
       foo: '--foo',
       bar: '--bar',
       baz: '--baz',
@@ -165,15 +197,15 @@ testTransformation('creating a class attribute with mixed local-class value', {
 
 testTransformation('appending a class attribute with dynamic local-class value', {
   statementInput: 'class="x" local-class=(helper positional "bar" keyA=named keyB="qux")',
-  statementOutput: 'class=(concat "x " (lookup-module-styles (unbound styles) (helper positional "bar" keyA=named keyB="qux")))',
+  statementOutput: 'class=(concat "x " (local-class (helper positional "bar" keyA=named keyB="qux") from=(unbound __styles__)))',
   elementInput: 'class="x" local-class={{helper positional "bar" keyA=named keyB="qux"}}',
-  elementOutput: 'class="x {{lookup-module-styles (unbound styles) (helper positional "bar" keyA=named keyB="qux")}}"',
+  elementOutput: 'class="x {{local-class (helper positional "bar" keyA=named keyB="qux") from=(unbound __styles__)}}"',
 
   selector: '.x.--foo.--bar.--baz.--qux',
   properties: {
     positional: 'foo',
     named: 'baz',
-    styles: {
+    __styles__: {
       foo: '--foo',
       bar: '--bar',
       baz: '--baz',
@@ -184,15 +216,15 @@ testTransformation('appending a class attribute with dynamic local-class value',
 
 testTransformation('appending a class attribute with mixed local-class value', {
   statementInput: 'class="x" local-class=(concat "foo " (helper positional "bar" keyA=named keyB="qux"))',
-  statementOutput: 'class=(concat "x " (lookup-module-styles (unbound styles) (concat "foo " (helper positional "bar" keyA=named keyB="qux"))))',
+  statementOutput: 'class=(concat "x " (local-class (concat "foo " (helper positional "bar" keyA=named keyB="qux")) from=(unbound __styles__)))',
   elementInput: 'class="x" local-class="foo {{helper positional "bar" keyA=named keyB="qux"}}"',
-  elementOutput: 'class="x {{lookup-module-styles (unbound styles) (concat "foo " (helper positional "bar" keyA=named keyB="qux"))}}"',
+  elementOutput: 'class="x {{local-class (concat "foo " (helper positional "bar" keyA=named keyB="qux")) from=(unbound __styles__)}}"',
 
   selector: '.x.--foo.--bar.--baz.--qux',
   properties: {
     positional: 'foo',
     named: 'baz',
-    styles: {
+    __styles__: {
       foo: '--foo',
       bar: '--bar',
       baz: '--baz',
@@ -203,14 +235,14 @@ testTransformation('appending a class attribute with mixed local-class value', {
 
 testTransformation('appending a path class attribute', {
   statementInput: 'class=x local-class="foo"',
-  statementOutput: 'class=(concat x " " (unbound styles.foo))',
+  statementOutput: 'class=(concat x " " (unbound __styles__.foo))',
   elementInput: 'class={{x}} local-class="foo"',
-  elementOutput: 'class="{{x}} {{unbound styles.foo}}"',
+  elementOutput: 'class="{{x}} {{unbound __styles__.foo}}"',
 
   selector: '.--x.--foo',
   properties: {
     x: '--x',
-    styles: {
+    __styles__: {
       foo: '--foo'
     }
   }
@@ -218,13 +250,13 @@ testTransformation('appending a path class attribute', {
 
 testTransformation('appending a helper class attribute', {
   statementInput: 'class=(concat "x") local-class="foo"',
-  statementOutput: 'class=(concat (concat "x") " " (unbound styles.foo))',
+  statementOutput: 'class=(concat (concat "x") " " (unbound __styles__.foo))',
   elementInput: 'class={{concat "x"}} local-class="foo"',
-  elementOutput: 'class="{{concat "x"}} {{unbound styles.foo}}"',
+  elementOutput: 'class="{{concat "x"}} {{unbound __styles__.foo}}"',
 
   selector: '.x.--foo',
   properties: {
-    styles: {
+    __styles__: {
       foo: '--foo'
     }
   }

@@ -18,7 +18,15 @@ export default Ember.Mixin.create({
     ];
   },
 
-  styles: Ember.computed(function() {
+  // TODO deprecate accessing `styles` directly in 0.6.0
+  styles: Ember.computed.readOnly('__styles__'),
+
+  __styles__: Ember.computed(function() {
+    // If styles is an explicitly set hash, defer to it. Otherwise, use the resolver.
+    if (Object.getPrototypeOf(this.styles) === Object.prototype) {
+      return this.styles;
+    }
+
     let key = this._debugContainerKey;
     if (!key) { return; }
 
@@ -27,7 +35,7 @@ export default Ember.Mixin.create({
 });
 
 function localClassNames(component) {
-  return component.localClassNames.map(className => `styles.${className}`);
+  return component.localClassNames.map(className => `__styles__.${className}`);
 }
 
 function localClassNameBindings(component) {
@@ -37,7 +45,7 @@ function localClassNameBindings(component) {
 }
 
 function buildBindings(component, bindingSource) {
-  let styles = component.get('styles');
+  let styles = component.get('__styles__');
   let [property, trueStyle = dasherize(property), falseStyle] = bindingSource.split(':');
 
   let trueClasses = (styles[trueStyle] || '').split(/\s+/);

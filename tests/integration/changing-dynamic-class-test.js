@@ -8,7 +8,7 @@ moduleForComponent('changing-dynamic-class', 'Integration | Changing local class
 
 test('changing a dynamic class value works', function(assert) {
   this.set('extraClass', 'bar');
-  this.set('styles', {
+  this.set('__styles__', {
     foo: '--foo',
     bar: '--bar',
     baz: '--baz'
