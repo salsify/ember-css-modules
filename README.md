@@ -430,6 +430,7 @@ sourcemaps: {
 #### Notes
 - You should specify the `css` extension in your source map configuration even if you're using a different extension for your modules themselves, since the final output file will be a `.css` file.
 - Currently CSS source maps (for _any_ Ember CLI preprocessor) only work for applications, not for addons. Watch [ember-cli/broccoli-concat#58](https://github.com/ember-cli/broccoli-concat/issues/58) for progress on that front.
+- Enabling source maps for CSS can cause Ember CLI to output an invalid comment at the end of your `vendor.css` file. This is harmless in many situations, but can cause issues with tools that postprocess your css, like ember-cli-autoprefixer. [ember-cli/broccoli-concat#58](https://github.com/ember-cli/broccoli-concat/issues/58) is the root cause of this issue as well.
 
 ### Other Preprocessors
 
