@@ -288,27 +288,7 @@ module.exports = {
 };
 ```
 
-### Plugins
-
-Since the CSS module loader is built on [PostCSS](https://github.com/postcss/postcss), your modules have access to the [full range of plugins](http://postcss.parts/) that exist.
-
-#### Simple Usage
-
-For example, to automatically manage vendor prefixes with [Autoprefixer](https://github.com/postcss/autoprefixer):
-
-```js
-var autoprefixer = require('autoprefixer');
-// ...
-new EmberApp(defaults, {
-  cssModules: {
-    plugins: [
-      autoprefixer('last 2 versions')
-    ]
-  }
-});
-```
-
-#### Virtual Modules
+### Virtual Modules
 
 Predefined modules that export constants may be configured by passing a `virtualModules` hash to ember-css-modules.
 
@@ -348,6 +328,27 @@ included: function() {
   this._super.included.apply(this, arguments);
   // ...
 }
+```
+
+
+### Plugins
+
+Since the CSS module loader is built on [PostCSS](https://github.com/postcss/postcss), your modules have access to the [full range of plugins](http://postcss.parts/) that exist.
+
+#### Simple Usage
+
+For example, to automatically manage vendor prefixes with [Autoprefixer](https://github.com/postcss/autoprefixer):
+
+```js
+var autoprefixer = require('autoprefixer');
+// ...
+new EmberApp(defaults, {
+  cssModules: {
+    plugins: [
+      autoprefixer('last 2 versions')
+    ]
+  }
+});
 ```
 
 #### Before/After Plugins
@@ -416,6 +417,22 @@ new EmberApp(defaults, {
   }
 });
 ```
+
+### Source Maps
+
+Ember CLI allows you to [specify source map settings](https://ember-cli.com/user-guide/#source-maps) for your entire build process, and ember-css-modules will honor that configuration. For instance, to enable source maps in all environments for both JS and CSS files, you could put the following in your `ember-cli-build.js`:
+
+```
+sourcemaps: {
+  enabled: true,
+  extensions: ['js', 'css']
+}
+```
+
+#### Notes
+- You should specify the `css` extension in your source map configuration even if you're using a different extension for your modules themselves, since the final output file will be a `.css` file.
+- Currently CSS source maps (for _any_ Ember CLI preprocessor) only work for applications, not for addons. Watch [ember-cli/broccoli-concat#58](https://github.com/ember-cli/broccoli-concat/issues/58) for progress on that front.
+- Enabling source maps for CSS can cause Ember CLI to output an invalid comment at the end of your `vendor.css` file. This is harmless in many situations, but can cause issues with tools that postprocess your css, like ember-cli-autoprefixer. [ember-cli/broccoli-concat#58](https://github.com/ember-cli/broccoli-concat/issues/58) is the root cause of this issue as well.
 
 ### Other Preprocessors
 

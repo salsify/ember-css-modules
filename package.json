@@ -1,6 +1,6 @@
 {
   "name": "ember-css-modules",
-  "version": "0.5.0",
+  "version": "0.5.1",
   "description": "CSS Modules for ambitious applications",
   "scripts": {
     "build": "ember build",
@@ -49,8 +49,8 @@
     "css-modules"
   ],
   "dependencies": {
-    "broccoli-concat": "^2.1.0",
-    "broccoli-css-modules": "^0.5.0",
+    "broccoli-concat": "^3.0.5",
+    "broccoli-css-modules": "^0.5.2",
     "broccoli-funnel": "^1.0.7",
     "broccoli-merge-trees": "^1.1.1",
     "debug": "^2.2.0",

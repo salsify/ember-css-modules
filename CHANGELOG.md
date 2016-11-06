@@ -1,3 +1,11 @@
+## 0.5.1 Cartography Edition (November 6, 2016)
+### Added
+- Source maps can now be generated for applications, with caveats. See the README and [ember-cli/broccoli-concat#58](https://github.com/ember-cli/broccoli-concat/issues/58) for details.
+- A warning is now issued for addons that have no `addon/styles` directory, since Ember CLI won't invoke registered CSS preprocessors in that scenario.
+
+### Fixed
+- Fewer files are `require`d when ember-css-modules loads, lessening the overall impact it should have on Ember CLI's startup time
+
 ## 0.5.0 Window of Opportunity (September 26, 2016)
 ### Added
 - Windows is now fully supported (#52).

@@ -1,6 +1,8 @@
 /* eslint-env node */
 'use strict';
 
+var path = require('path');
+var fs = require('fs');
 var debug = require('debug')('ember-css-modules:addon');
 
 var HtmlbarsPlugin = require('./lib/htmlbars-plugin');
@@ -25,6 +27,11 @@ module.exports = {
     debug('included in %s', parent.name);
     this.ownerName = parent.name;
     this.options = parent.options && parent.options.cssModules || {};
+
+    if (this.belongsToAddon()) {
+      this.verifyStylesDirectory();
+    }
+
     this._super.included.apply(this, arguments);
   },
 
@@ -41,6 +48,16 @@ module.exports = {
         return __dirname;
       }
     });
+  },
+
+  verifyStylesDirectory: function() {
+    if (!fs.existsSync(path.join(this.parent.root, this.parent.treePaths['addon-styles']))) {
+      this.ui.writeWarnLine(
+        'The addon ' + this.getOwnerName() + ' has ember-css-modules installed, but no addon styles directory. ' +
+        'You must have at least a placeholder file in this directory (e.g. `addon/styles/.placeholder`) in ' +
+        'the published addon in order for ember-cli to process its CSS modules.'
+      );
+    }
   },
 
   getOwnerName: function() {
@@ -83,7 +100,24 @@ module.exports = {
     return this.options.postcssOptions;
   },
 
+  enableSourceMaps: function() {
+    if (this._enableSourceMaps === undefined) {
+      var mapOptions = this._findRootApp().options.sourcemaps;
+      this._enableSourceMaps = mapOptions.enabled && mapOptions.extensions.indexOf('css') !== -1;
+    }
+
+    return this._enableSourceMaps;
+  },
+
   belongsToAddon: function() {
     return !!this.parent.parent;
+  },
+
+  _findRootApp: function() {
+    var current = this;
+    while (current.parent.parent) {
+      current = current.parent;
+    }
+    return current.app;
   }
 };
