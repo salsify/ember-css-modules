@@ -416,6 +416,21 @@ new EmberApp(defaults, {
 });
 ```
 
+### Source Maps
+
+Ember CLI allows you to [specify source map settings](https://ember-cli.com/user-guide/#source-maps) for your entire build process, and ember-css-modules will honor that configuration. For instance, to enable source maps in all environments for both JS and CSS files, you could put the following in your `ember-cli-build.js`:
+
+```
+sourcemaps: {
+  enabled: true,
+  extensions: ['js', 'css']
+}
+```
+
+#### Notes
+- You should specify the `css` extension in your source map configuration even if you're using a different extension for your modules themselves, since the final output file will be a `.css` file.
+- Currently CSS source maps (for _any_ Ember CLI preprocessor) only work for applications, not for addons. Watch [ember-cli/broccoli-concat#58](https://github.com/ember-cli/broccoli-concat/issues/58) for progress on that front.
+
 ### Other Preprocessors
 
 There are two approaches to integrating CSS modules with other style preprocessors like Sass, Less or Stylus.

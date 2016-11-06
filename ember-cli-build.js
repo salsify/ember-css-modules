@@ -4,6 +4,11 @@ var EmberAddon = require('ember-cli/lib/broccoli/ember-addon');
 
 module.exports = function(defaults) {
   var app = new EmberAddon(defaults, {
+    sourcemaps: {
+      extensions: ['js', 'css'],
+      enabled: true
+    },
+
     cssModules: {
       virtualModules: {
         'virtual-constants': {

@@ -100,7 +100,24 @@ module.exports = {
     return this.options.postcssOptions;
   },
 
+  enableSourceMaps: function() {
+    if (this._enableSourceMaps === undefined) {
+      var mapOptions = this._findRootApp().options.sourcemaps;
+      this._enableSourceMaps = mapOptions.enabled && mapOptions.extensions.indexOf('css') !== -1;
+    }
+
+    return this._enableSourceMaps;
+  },
+
   belongsToAddon: function() {
     return !!this.parent.parent;
+  },
+
+  _findRootApp: function() {
+    var current = this;
+    while (current.parent.parent) {
+      current = current.parent;
+    }
+    return current.app;
   }
 };
