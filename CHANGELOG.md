@@ -1,3 +1,26 @@
+## 0.6.0 Helping Hand (November 6, 2016)
+### Added
+- Mirroring the `local-class` attribute, there is now a `local-class` helper that can be used in templates to reference local classnames e.g. when passing them to child components as properties.
+
+### Deprecated
+- In the past, attempting to import a nonexistent class or value would silently fail. This behavior is now deprecated and will be a hard error in the future.
+- The `styles` computed property on components and controllers is now deprecated.
+  - In templates, you can replace `{{styles.class-name}}` with `{{local-class 'class-name'}}`.
+  - In JavaScript code, you can import the styles object via a normal ES2016 `import`.
+  - As a migration stepping stone, you can import the styles object and set it on your component/controller's prototype to mimic the old form factor:
+    ```js
+    import styles from './styles';
+
+    export default Ember.Component.extend({
+      styles,
+
+      // ...
+    });
+    ```
+
+### Removed
+- Support for Ember 1.13 has been removed; ember-css-modules now supports Ember 2.0+.
+
 ## 0.5.1 Cartography Edition (November 6, 2016)
 ### Added
 - Source maps can now be generated for applications, with caveats. See the README and [ember-cli/broccoli-concat#58](https://github.com/ember-cli/broccoli-concat/issues/58) for details.
