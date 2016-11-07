@@ -16,7 +16,7 @@ var componentRoutes = [
   'pod-route/nested-pod-template-only-component',
   'component-with-dynamic-local-class',
   'component-with-global-class-and-dynamic-local-class',
-  'component-with-explicit-styles-reference',
+  'component-with-local-class-helper',
   'component-with-global-class-composition',
   'component-with-container-class',
   'component-with-addon-value',

@@ -18,8 +18,19 @@ export default Ember.Mixin.create({
     ];
   },
 
-  // TODO deprecate accessing `styles` directly in 0.6.0
-  styles: Ember.computed.readOnly('__styles__'),
+  styles: Ember.computed('__styles__', function() {
+    Ember.deprecate(
+      'Using the implicit `component.styles` computed is deprecated. In a template, use the {{local-class}} helper, ' +
+      'and in JavaScript, import the styles hash and reference it directly.',
+      false,
+      {
+        id: 'ember-css-modules.styles-computed',
+        until: '0.7.0'
+      }
+    );
+
+    return this.get('__styles__');
+  }).readOnly(),
 
   __styles__: Ember.computed(function() {
     // If styles is an explicitly set hash, defer to it. Otherwise, use the resolver.

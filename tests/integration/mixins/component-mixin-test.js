@@ -1,6 +1,7 @@
 import Ember from 'ember';
 import getOwner from 'ember-getowner-polyfill';
 import hbs from 'htmlbars-inline-precompile';
+import sinon from 'sinon';
 
 import ComponentMixin from 'ember-css-modules/mixins/component-mixin';
 import { moduleForComponent, test } from 'ember-qunit';
@@ -14,7 +15,7 @@ moduleForComponent('', 'Integration | Mixin | component mixin', {
   }
 });
 
-test('it exposes a computed styles property', function(assert) {
+test('it exposes a deprecated styles property', function(assert) {
   let styles = {};
 
   this.owner.register('component:test-component', Ember.Component.extend(ComponentMixin));
@@ -22,7 +23,26 @@ test('it exposes a computed styles property', function(assert) {
 
   let subject = this.owner.lookup('component:test-component');
 
+  sinon.stub(Ember, 'deprecate');
+
   assert.equal(subject.get('styles'), styles);
+  assert.ok(Ember.deprecate.calledWithMatch(/component\.styles/, false, {
+    id: 'ember-css-modules.styles-computed',
+    until: '0.7.0'
+  }));
+
+  Ember.deprecate.restore();
+});
+
+test('it exposes a computed __styles__ property', function(assert) {
+  let styles = {};
+
+  this.owner.register('component:test-component', Ember.Component.extend(ComponentMixin));
+  this.owner.register('styles:components/test-component', styles);
+
+  let subject = this.owner.lookup('component:test-component');
+
+  assert.equal(subject.get('__styles__'), styles);
 });
 
 test('it honors a configured localClassName', function(assert) {
