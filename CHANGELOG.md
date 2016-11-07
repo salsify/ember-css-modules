@@ -4,9 +4,9 @@
 
 ### Deprecated
 - In the past, attempting to import a nonexistent class or value would silently fail. This behavior is now deprecated and will be a hard error in the future.
-- The `styles` computed property on components and controllers is now deprecated.
+- Usage of the `styles` computed property on components and controllers is now deprecated.
   - In templates, you can replace `{{styles.class-name}}` with `{{local-class 'class-name'}}`.
-  - In JavaScript code, you can import the styles object via a normal ES2016 `import`.
+  - In JavaScript code, you can import the styles object via a normal ES2015 `import`.
   - As a migration stepping stone, you can import the styles object and set it on your component/controller's prototype to mimic the old form factor:
     ```js
     import styles from './styles';
