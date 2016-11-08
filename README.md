@@ -145,11 +145,11 @@ export default Ember.Component.extend({
 });
 ```
 
-- If `propA` is truthy, a local `prop-a` class will be applied. If it's falsey, no additional classes will be applied.
-- If `propB` is truthy, a local `special` class will be applied. If it's falsey, no additional classes will be applied.
-- If `propC` is truthy, a local `yes` class will be applied. If it's falsey, a local `no` class will be applied.
+- If `propA` is true, a local `prop-a` class will be applied. If it's false, no additional classes will be applied.
+- If `propB` is true, a local `special` class will be applied. If it's false, no additional classes will be applied.
+- If `propC` is true, a local `yes` class will be applied. If it's false, a local `no` class will be applied.
 
-Note that `localClassNameBindings` treats all bound values as boolean flags, unlike `classNameBindings` which will apply a string value directly as a class name.
+**Note**: `localClassNameBindings` [currently only works with boolean values](https://github.com/salsify/ember-css-modules/issues/56), unlike `classNameBindings` which will apply a string value directly as a class name.
 
 ### Global Classes
 
