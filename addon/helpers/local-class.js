@@ -1,10 +1,11 @@
 import Ember from 'ember';
 
-export function localClass([classString], { from }) {
-  Ember.assert('No source specified to local-class lookup', from);
+export function localClass(params, hash) {
+  Ember.assert('No source specified to local-class lookup', 'from' in hash);
+  if (!hash.from) { return ''; }
 
-  let styles = resolveSource(from);
-  let classes = classString.split(/\s+/);
+  let styles = resolveSource(hash.from);
+  let classes = params[0].split(/\s+/);
 
   return classes.map(style => styles[style]).filter(Boolean).join(' ');
 }

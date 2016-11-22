@@ -44,6 +44,10 @@ test('with no source specified', function(assert) {
   assert.throws(() => localClass(['abc'], {}), /No source specified/);
 });
 
+test('with an empty source specified', function(assert) {
+  assert.equal(localClass(['abc'], { from: null }), '');
+});
+
 export default { foo: '_foo_123', bar: '_bar_789' };
 
 test('with a string source specified', function(assert) {
