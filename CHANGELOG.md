@@ -1,3 +1,7 @@
+## 0.6.1 Hush Now (November 22, 2016)
+### Fixed
+- Removed a spurious warning when specifying a local-class for a component that doesn't yet have styles.
+
 ## 0.6.0 Helping Hand (November 6, 2016)
 ### Added
 - Mirroring the `local-class` attribute, there is now a `local-class` helper that can be used in templates to reference local classnames e.g. when passing them to child components as properties.
