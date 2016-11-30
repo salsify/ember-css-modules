@@ -1,3 +1,7 @@
+## 0.6.2 Nothing Comes from Nothing (November 30, 2016)
+### Fixed
+- Null local class values, e.g. `local-class={{if false 'foo'}}` no longer result in an exception (#57).
+
 ## 0.6.1 Hush Now (November 22, 2016)
 ### Fixed
 - Removed a spurious warning when specifying a local-class for a component that doesn't yet have styles.
