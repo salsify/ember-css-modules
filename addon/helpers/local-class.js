@@ -5,7 +5,7 @@ export function localClass(params, hash) {
   if (!hash.from) { return ''; }
 
   let styles = resolveSource(hash.from);
-  let classes = params[0].split(/\s+/);
+  let classes = (params[0] || '').split(/\s+/);
 
   return classes.map(style => styles[style]).filter(Boolean).join(' ');
 }
