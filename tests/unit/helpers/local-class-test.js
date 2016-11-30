@@ -48,6 +48,10 @@ test('with an empty source specified', function(assert) {
   assert.equal(localClass(['abc'], { from: null }), '');
 });
 
+test('with an undefined local class', function(assert) {
+  assert.equal(localClass([undefined], { from: null }), '');
+});
+
 export default { foo: '_foo_123', bar: '_bar_789' };
 
 test('with a string source specified', function(assert) {
