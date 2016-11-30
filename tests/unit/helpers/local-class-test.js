@@ -49,7 +49,7 @@ test('with an empty source specified', function(assert) {
 });
 
 test('with an undefined local class', function(assert) {
-  assert.equal(localClass([undefined], { from: null }), '');
+  assert.equal(localClass([undefined], { from: {} }), '');
 });
 
 export default { foo: '_foo_123', bar: '_bar_789' };
