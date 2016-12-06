@@ -68,7 +68,8 @@
       "ember-cli-babel",
       "ember-cli-less",
       "ember-cli-sass",
-      "ember-cli-stylus"
+      "ember-cli-stylus",
+      "ember-cli-postcss"
     ],
     "versionCompatibility": {
       "ember": ">=2.0.0 <3.0.0"
