@@ -1,3 +1,10 @@
+## 0.6.3 Fix It In Post (December 12, 2016) 
+### Added
+- This addon will now run before ember-cli-postcss, enabling cooperative preprocessing as with ember-cli-sass and friends (#58).
+
+### Fixed
+- Upgraded ember-getowner-polyfill and eliminated a deprecation warning from its changed usage.
+
 ## 0.6.2 Nothing Comes from Nothing (November 30, 2016)
 ### Fixed
 - Null local class values, e.g. `local-class={{if false 'foo'}}` no longer result in an exception (#57).
