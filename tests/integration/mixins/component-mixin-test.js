@@ -1,4 +1,3 @@
-import 'ember-getowner-polyfill';
 import Ember from 'ember';
 import hbs from 'htmlbars-inline-precompile';
 import sinon from 'sinon';

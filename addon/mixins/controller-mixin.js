@@ -1,4 +1,3 @@
-import 'ember-getowner-polyfill';
 import Ember from 'ember';
 
 const { getOwner } = Ember;

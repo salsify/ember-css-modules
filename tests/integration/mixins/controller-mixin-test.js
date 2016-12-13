@@ -4,8 +4,6 @@ import sinon from 'sinon';
 import ControllerMixin from 'ember-css-modules/mixins/controller-mixin';
 import { moduleFor, test } from 'ember-qunit';
 
-import 'ember-getowner-polyfill';
-
 moduleFor('Integration | Mixin | controller mixin', {
   integration: true,
 

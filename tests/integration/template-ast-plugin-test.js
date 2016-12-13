@@ -5,8 +5,6 @@ import hbs from 'htmlbars-inline-precompile';
 import ClassTransformPlugin from 'npm:../../lib/htmlbars-plugin';
 const { compile } = Ember.__loader.require('ember-template-compiler');
 
-import 'ember-getowner-polyfill';
-
 moduleForComponent('', 'Integration | Template AST Plugin', {
   integration: true,
   beforeEach() {
