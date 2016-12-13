@@ -1,3 +1,7 @@
+## 0.6.4 RTFM (December 12, 2016)
+### Fixed
+- Now actually avoid triggering the ember-getowner-polyfill deprecation notice.
+
 ## 0.6.3 Fix It In Post (December 12, 2016) 
 ### Added
 - This addon will now run before ember-cli-postcss, enabling cooperative preprocessing as with ember-cli-sass and friends (#58).
