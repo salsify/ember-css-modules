@@ -1,15 +1,16 @@
 import Ember from 'ember';
 import { moduleForComponent, test } from 'ember-qunit';
 import hbs from 'htmlbars-inline-precompile';
-import getOwner from 'ember-getowner-polyfill';
 
 import ClassTransformPlugin from 'npm:../../lib/htmlbars-plugin';
 const { compile } = Ember.__loader.require('ember-template-compiler');
 
+import 'ember-getowner-polyfill';
+
 moduleForComponent('', 'Integration | Template AST Plugin', {
   integration: true,
   beforeEach() {
-    const owner = getOwner(this);
+    const owner = Ember.getOwner(this);
     owner.register('template:components/x-div', hbs`{{yield}}`);
     owner.register('component:x-div', Ember.Component.extend({ attributeBindings: ['data-test-value'] }));
     owner.register('helper:helper', Ember.Helper.helper((params, hash) => {

@@ -1,6 +1,7 @@
+import 'ember-getowner-polyfill';
 import Ember from 'ember';
-import getOwner from 'ember-getowner-polyfill';
 
+const { getOwner } = Ember;
 const { dasherize } = Ember.String;
 
 export default Ember.Mixin.create({

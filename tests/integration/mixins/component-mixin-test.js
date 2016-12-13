@@ -1,5 +1,5 @@
+import 'ember-getowner-polyfill';
 import Ember from 'ember';
-import getOwner from 'ember-getowner-polyfill';
 import hbs from 'htmlbars-inline-precompile';
 import sinon from 'sinon';
 
@@ -10,7 +10,7 @@ moduleForComponent('', 'Integration | Mixin | component mixin', {
   integration: true,
 
   beforeEach() {
-    this.owner = getOwner(this);
+    this.owner = Ember.getOwner(this);
     this.owner.registerOptionsForType('styles', { instantiate: false });
   }
 });

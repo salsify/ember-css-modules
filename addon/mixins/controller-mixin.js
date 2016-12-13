@@ -1,5 +1,7 @@
+import 'ember-getowner-polyfill';
 import Ember from 'ember';
-import getOwner from 'ember-getowner-polyfill';
+
+const { getOwner } = Ember;
 
 export default Ember.Mixin.create({
   styles: Ember.computed('__styles__', function() {

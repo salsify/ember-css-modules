@@ -1,15 +1,16 @@
 import Ember from 'ember';
-import getOwner from 'ember-getowner-polyfill';
 import sinon from 'sinon';
 
 import ControllerMixin from 'ember-css-modules/mixins/controller-mixin';
 import { moduleFor, test } from 'ember-qunit';
 
+import 'ember-getowner-polyfill';
+
 moduleFor('Integration | Mixin | controller mixin', {
   integration: true,
 
   beforeEach() {
-    this.owner = getOwner(this);
+    this.owner = Ember.getOwner(this);
     this.owner.registerOptionsForType('styles', { instantiate: false });
   }
 });
