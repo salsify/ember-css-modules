@@ -89,7 +89,7 @@ module.exports = {
   },
 
   getVirtualModules: function() {
-    return this.options.virtualModules;
+    return this.options.virtualModules || {};
   },
 
   getFileExtension: function() {
