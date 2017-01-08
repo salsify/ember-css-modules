@@ -6,9 +6,9 @@
     "build": "ember build",
     "start": "ember server",
     "lint-node": "eslint index.js config lib",
-    "install-all": "cd tests/dummy-sass-addon && npm install && cd ../dummy-less-addon && npm install && cd ../..",
-    "test": "npm run lint-node && npm run install-all && ember try:each",
-    "test-win": "npm run install-all && ember test"
+    "install-all": "cd tests/dummy-sass-addon && yarn && cd ../dummy-less-addon && yarn",
+    "test": "yarn run lint-node && yarn run install-all && ember try:each",
+    "test-win": "yarn run install-all && ember test"
   },
   "repository": {
     "type": "git",
