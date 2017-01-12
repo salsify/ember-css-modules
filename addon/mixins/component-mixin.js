@@ -30,7 +30,7 @@ export default Ember.Mixin.create({
     );
 
     return this.get('__styles__');
-  }).readOnly(),
+  }),
 
   __styles__: Ember.computed(function() {
     // If styles is an explicitly set hash, defer to it. Otherwise, use the resolver.

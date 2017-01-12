@@ -15,7 +15,7 @@ export default Ember.Mixin.create({
     );
 
     return this.get('__styles__');
-  }).readOnly(),
+  }),
 
 
   __styles__: Ember.computed(function() {
