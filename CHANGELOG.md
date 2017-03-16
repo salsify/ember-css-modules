@@ -1,8 +1,13 @@
+## 0.6.5 Time Marches On (March 16, 2017)
+### Fixed
+- The (deprecated) computed `styles` property is no longer read-only, to allow for other component APIs that expect something with that name to be passed in.
+- Avoid repurposing `this.options` in the addon to support Ember CLI 2.12 (#64)
+
 ## 0.6.4 RTFM (December 12, 2016)
 ### Fixed
 - Now actually avoid triggering the ember-getowner-polyfill deprecation notice.
 
-## 0.6.3 Fix It In Post (December 12, 2016) 
+## 0.6.3 Fix It In Post (December 12, 2016)
 ### Added
 - This addon will now run before ember-cli-postcss, enabling cooperative preprocessing as with ember-cli-sass and friends (#58).
 
