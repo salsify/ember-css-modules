@@ -10,6 +10,24 @@ cache:
     - node_modules
     - $HOME/.cache/yarn
 
+env:
+  - EMBER_TRY_SCENARIO=ember-lts-2.4
+  - EMBER_TRY_SCENARIO=ember-lts-2.8
+  - EMBER_TRY_SCENARIO=ember-release
+  - EMBER_TRY_SCENARIO=ember-beta
+  - EMBER_TRY_SCENARIO=ember-canary
+  - EMBER_TRY_SCENARIO=ember-default
+
+matrix:
+  fast_finish: true
+  allow_failures:
+    - env: EMBER_TRY_SCENARIO=ember-canary
+
 before_script:
   - yarn global add bower phantomjs-prebuilt
+  - yarn run install-all
   - bower install
+
+script:
+  - yarn run lint-node
+  - node_modules/.bin/ember try:one $EMBER_TRY_SCENARIO test --skip-cleanup

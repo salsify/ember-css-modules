@@ -1,6 +1,11 @@
-/*jshint node:true*/
-/* global require, module */
-var EmberAddon = require('ember-cli/lib/broccoli/ember-addon');
+/* eslint-env node */
+'use strict';
+
+const EmberAddon = require('ember-cli/lib/broccoli/ember-addon');
+const Funnel = require('broccoli-funnel');
+const path = require('path');
+
+const HAS_EMBER_SOURCE = 'ember-source' in require('./package.json').devDependencies;
 
 module.exports = function(defaults) {
   var app = new EmberAddon(defaults, {
@@ -20,15 +25,18 @@ module.exports = function(defaults) {
   });
 
   if (app.env === 'test') {
-    app.import('bower_components/ember/ember-template-compiler.js');
+    app.import(`${HAS_EMBER_SOURCE ? 'vendor' : 'bower_components'}/ember/ember-template-compiler.js`);
   }
 
-  /*
-    This build file specifies the options for the dummy test app of this
-    addon, located in `/tests/dummy`
-    This build file does *not* influence how the addon or the app using it
-    behave. You most likely want to be modifying `./index.js` or app's build file
-  */
+  let additionalTrees = [];
 
-  return app.toTree();
+  if (HAS_EMBER_SOURCE) {
+    additionalTrees.push(new Funnel(path.dirname(require.resolve('ember-source')), {
+      srcDir: 'dist',
+      destDir: 'vendor/ember',
+      include: ['ember-template-compiler.js']
+    }));
+  }
+
+  return app.toTree(additionalTrees);
 };

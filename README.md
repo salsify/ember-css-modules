@@ -481,4 +481,4 @@ cssModules: {
 
 ## Ember Support
 
-This addon is tested against and expected to work with all releases in the Ember 2.x release line, including beta and canary builds.
+This addon is tested against and expected to work with the Ember's [LTS releases](http://emberjs.com/blog/2016/02/25/announcing-embers-first-lts.html) as well as the current [release, beta, and canary](http://emberjs.com/builds/) builds.
