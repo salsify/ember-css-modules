@@ -4,6 +4,7 @@
 var path = require('path');
 var fs = require('fs');
 var debug = require('debug')('ember-css-modules:addon');
+var VersionChecker = require('ember-cli-version-checker');
 
 var HtmlbarsPlugin = require('./lib/htmlbars-plugin');
 var ModulesPreprocessor = require('./lib/modules-preprocessor');
@@ -21,12 +22,13 @@ module.exports = {
     this._super.init && this._super.init.apply(this, arguments);
     this.modulesPreprocessor = new ModulesPreprocessor({ owner: this });
     this.outputStylesPreprocessor = new OutputStylesPreprocessor({ owner: this });
+    this.checker = new VersionChecker(this);
   },
 
   included: function(parent) {
     debug('included in %s', parent.name);
     this.ownerName = parent.name;
-    this.options = parent.options && parent.options.cssModules || {};
+    this.cssModulesOptions = parent.options && parent.options.cssModules || {};
 
     if (this.belongsToAddon()) {
       this.verifyStylesDirectory();
@@ -69,7 +71,7 @@ module.exports = {
   },
 
   getScopedNameGenerator: function() {
-    return this.options.generateScopedName || require('./lib/generate-scoped-name');
+    return this.cssModulesOptions.generateScopedName || require('./lib/generate-scoped-name');
   },
 
   getModulesTree: function() {
@@ -81,23 +83,32 @@ module.exports = {
   },
 
   getIntermediateOutputPath: function() {
-    return this.options.intermediateOutputPath;
+    return this.cssModulesOptions.intermediateOutputPath;
   },
 
   getPlugins: function() {
-    return this.options.plugins || [];
+    return this.cssModulesOptions.plugins || [];
   },
 
   getVirtualModules: function() {
-    return this.options.virtualModules || {};
+    return this.cssModulesOptions.virtualModules || {};
   },
 
   getFileExtension: function() {
-    return this.options && this.options.extension || 'css';
+    return this.cssModulesOptions && this.cssModulesOptions.extension || 'css';
   },
 
   getPostcssOptions: function() {
-    return this.options.postcssOptions;
+    return this.cssModulesOptions.postcssOptions;
+  },
+
+  getAddonModulesRoot: function() {
+    // CLI 2.12 stopped exposing addon stuff nested under `modules/`
+    if (this.checker.for('ember-cli', 'npm').satisfies('>= 2.12')) {
+      return '';
+    } else {
+      return 'modules/';
+    }
   },
 
   enableSourceMaps: function() {
