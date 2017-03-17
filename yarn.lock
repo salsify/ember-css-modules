@@ -1906,8 +1906,8 @@ ember-source@^2.12.0:
     simple-dom "^0.3.0"
 
 ember-test-helpers@^0.6.0-beta.1:
-  version "0.6.0"
-  resolved "https://registry.yarnpkg.com/ember-test-helpers/-/ember-test-helpers-0.6.0.tgz#1f644fd303437ef4d19430a3e18447d57a97cf36"
+  version "0.6.3"
+  resolved "https://registry.yarnpkg.com/ember-test-helpers/-/ember-test-helpers-0.6.3.tgz#f864cdf6f4e75f3f8768d6537785b5ab6e82d907"
 
 ember-try-config@^2.0.1:
   version "2.1.0"
@@ -1918,7 +1918,7 @@ ember-try-config@^2.0.1:
     rsvp "^3.2.1"
     semver "^5.1.0"
 
-ember-try@^0.2.11, ember-try@^0.2.9:
+ember-try@^0.2.9:
   version "0.2.11"
   resolved "https://registry.yarnpkg.com/ember-try/-/ember-try-0.2.11.tgz#a793fbfe9c327e6dface808f53262a0b5f69e7b8"
   dependencies:
@@ -4189,8 +4189,8 @@ qunit-notifications@^0.1.1:
   resolved "https://registry.yarnpkg.com/qunit-notifications/-/qunit-notifications-0.1.1.tgz#3001afc6a6a77dfbd962ccbcddde12dec5286c09"
 
 qunitjs@^2.0.1:
-  version "2.1.1"
-  resolved "https://registry.yarnpkg.com/qunitjs/-/qunitjs-2.1.1.tgz#c3087c864d9a9443103bdbdecc0ef359c7a82281"
+  version "2.2.0"
+  resolved "https://registry.yarnpkg.com/qunitjs/-/qunitjs-2.2.0.tgz#507db368305b6f45839b079195bca251ba76d50a"
 
 randomatic@^1.1.3:
   version "1.1.6"
