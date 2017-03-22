@@ -566,9 +566,9 @@ broccoli-config-replace@^1.1.2:
     debug "^2.2.0"
     fs-extra "^0.24.0"
 
-broccoli-css-modules@^0.5.3:
-  version "0.5.3"
-  resolved "https://registry.yarnpkg.com/broccoli-css-modules/-/broccoli-css-modules-0.5.3.tgz#8504e891b178ae2fd3ea82b555adcc899a0147e8"
+broccoli-css-modules@^0.5.5:
+  version "0.5.5"
+  resolved "https://registry.yarnpkg.com/broccoli-css-modules/-/broccoli-css-modules-0.5.5.tgz#c355ae4279c1062f9cae1c6954d2f49ac9700859"
   dependencies:
     broccoli-caching-writer "^3.0.3"
     ensure-posix-path "^1.0.2"

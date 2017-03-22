@@ -53,7 +53,7 @@
   ],
   "dependencies": {
     "broccoli-concat": "^3.2.2",
-    "broccoli-css-modules": "^0.5.3",
+    "broccoli-css-modules": "^0.5.5",
     "broccoli-funnel": "^1.0.7",
     "broccoli-merge-trees": "^2.0.0",
     "debug": "^2.6.3",
