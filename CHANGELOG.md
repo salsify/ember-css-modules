@@ -1,4 +1,4 @@
-## Unreleased
+## 0.7.0-beta.1 The Little Engine That Could (April 3, 2017)
 ### Changed
 - There have been some internal changes to how styles are read from the app/addon trees. This should be a non-breaking change (and fixes a number of oddities, including previous incompatibility with lazy engines), but is enough of a shift to warrant a version bump and a note.
 - Attempting to import a nonexistent `@value` or `compose` a nonexistent class is now a hard error at build time.
