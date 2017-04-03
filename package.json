@@ -15,7 +15,7 @@
     "url": "git+ssh://git@github.com/salsify/ember-css-modules.git"
   },
   "engines": {
-    "node": ">= 0.12.0"
+    "node": ">= 4"
   },
   "author": "Dan Freeman",
   "license": "MIT",

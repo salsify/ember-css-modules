@@ -1,6 +1,5 @@
 import Ember from 'ember';
 import hbs from 'htmlbars-inline-precompile';
-import sinon from 'sinon';
 
 import ComponentMixin from 'ember-css-modules/mixins/component-mixin';
 import { moduleForComponent, test } from 'ember-qunit';
@@ -12,25 +11,6 @@ moduleForComponent('', 'Integration | Mixin | component mixin', {
     this.owner = Ember.getOwner(this);
     this.owner.registerOptionsForType('styles', { instantiate: false });
   }
-});
-
-test('it exposes a deprecated styles property', function(assert) {
-  let styles = {};
-
-  this.owner.register('component:test-component', Ember.Component.extend(ComponentMixin));
-  this.owner.register('styles:components/test-component', styles);
-
-  let subject = this.owner.lookup('component:test-component');
-
-  sinon.stub(Ember, 'deprecate');
-
-  assert.equal(subject.get('styles'), styles);
-  assert.ok(Ember.deprecate.calledWithMatch(/component\.styles/, false, {
-    id: 'ember-css-modules.styles-computed',
-    until: '0.7.0'
-  }));
-
-  Ember.deprecate.restore();
 });
 
 test('it exposes a computed __styles__ property', function(assert) {
