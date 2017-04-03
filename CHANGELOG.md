@@ -1,3 +1,7 @@
+## Unreleased
+### Changed
+- There have been some internal changes to how styles are read from the app/addon trees. This should be a non-breaking change (and fixes a number of oddities, including previous incompatibility with lazy engines), but is enough of a shift to warrant a version bump and a note.
+
 ## 0.6.5 Time Marches On (March 16, 2017)
 ### Fixed
 - The (deprecated) computed `styles` property is no longer read-only, to allow for other component APIs that expect something with that name to be passed in.
