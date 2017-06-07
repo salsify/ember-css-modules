@@ -457,6 +457,8 @@ And then in your `app.scss`, simply import it:
 @import 'modules';
 ```
 
+When using the `intermediateOutputPath` option in an addon, the point of reference is different. For example, if I want ember-css-modules to ouput an intermediate file at `my-app/addon/styles/_modules.scss`, I should set the `intermediateOutputPath` to `_modules.scss`.
+
 #### Custom syntax directly in modules
 
 The second approach is viable for preprocessors for which there is a PostCSS syntax extension, such as [Sass](https://github.com/postcss/postcss-scss) and (at least partially) [Less](https://github.com/gilt/postcss-less). It allows for using custom preprocessor syntax directly in CSS modules, handing off the concatenated final output directly to the preprocessor.
