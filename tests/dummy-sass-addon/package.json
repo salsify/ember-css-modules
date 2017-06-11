@@ -12,7 +12,7 @@
     ]
   },
   "dependencies": {
-    "ember-cli-sass": "^5.3.1",
-    "postcss-scss": "^0.1.8"
+    "ember-cli-sass": "^6.2.0",
+    "postcss-scss": "^1.0.0"
   }
 }

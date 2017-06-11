@@ -65,7 +65,7 @@ brace-expansion@^1.0.0:
     balanced-match "^0.4.1"
     concat-map "0.0.1"
 
-broccoli-caching-writer@^2.1.0:
+broccoli-caching-writer@^2.3.1:
   version "2.3.1"
   resolved "https://registry.yarnpkg.com/broccoli-caching-writer/-/broccoli-caching-writer-2.3.1.tgz#b93cf58f9264f003075868db05774f4e7f25bd07"
   dependencies:
@@ -83,11 +83,11 @@ broccoli-kitchen-sink-helpers@^0.2.5:
     glob "^5.0.10"
     mkdirp "^0.5.1"
 
-broccoli-less-single@^0.6.0:
-  version "0.6.3"
-  resolved "https://registry.yarnpkg.com/broccoli-less-single/-/broccoli-less-single-0.6.3.tgz#e25bae9b02769474f6eb66b8b4730016906b8c1f"
+broccoli-less-single@^0.6.4:
+  version "0.6.4"
+  resolved "https://registry.yarnpkg.com/broccoli-less-single/-/broccoli-less-single-0.6.4.tgz#200316f4146b8cf7e6ab97fc661b8085cc89bdb9"
   dependencies:
-    broccoli-caching-writer "^2.1.0"
+    broccoli-caching-writer "^2.3.1"
     include-path-searcher "^0.1.0"
     less "^2.5.0"
     lodash.merge "^3.3.2"
@@ -188,11 +188,11 @@ ecc-jsbn@~0.1.1:
   dependencies:
     jsbn "~0.1.0"
 
-ember-cli-less@^1.5.3:
-  version "1.5.3"
-  resolved "https://registry.yarnpkg.com/ember-cli-less/-/ember-cli-less-1.5.3.tgz#f48d8c967a92b9ea21aafdcf9ece0db4839639d3"
+ember-cli-less@^1.5.4:
+  version "1.5.4"
+  resolved "https://registry.yarnpkg.com/ember-cli-less/-/ember-cli-less-1.5.4.tgz#4cfbc05c6f23712fe9665f93be9bc8f2cccb0f71"
   dependencies:
-    broccoli-less-single "^0.6.0"
+    broccoli-less-single "^0.6.4"
     broccoli-merge-trees "^1.0.0"
     ember-cli-version-checker "^1.1.4"
     lodash.merge "^3.3.2"
@@ -619,20 +619,20 @@ pinkie@^2.0.0:
   version "2.0.4"
   resolved "https://registry.yarnpkg.com/pinkie/-/pinkie-2.0.4.tgz#72556b80cfa0d48a974e80e77248e80ed4f7f870"
 
-postcss-less@^0.12.0:
-  version "0.12.0"
-  resolved "https://registry.yarnpkg.com/postcss-less/-/postcss-less-0.12.0.tgz#709bd93fd0e30e32d09a7c647c8c711725b3c2e2"
+postcss-less@^1.0.1:
+  version "1.0.1"
+  resolved "https://registry.yarnpkg.com/postcss-less/-/postcss-less-1.0.1.tgz#7d201f1db053f1ba424d7c972692c1e5c26cac9e"
   dependencies:
-    postcss "^5.0.19"
+    postcss "^5.2.16"
 
-postcss@^5.0.19:
-  version "5.2.8"
-  resolved "https://registry.yarnpkg.com/postcss/-/postcss-5.2.8.tgz#05720c49df23c79bda51fd01daeb1e9222e94390"
+postcss@^5.2.16:
+  version "5.2.17"
+  resolved "https://registry.yarnpkg.com/postcss/-/postcss-5.2.17.tgz#cf4f597b864d65c8a492b2eabe9d706c879c388b"
   dependencies:
     chalk "^1.1.3"
     js-base64 "^2.1.9"
     source-map "^0.5.6"
-    supports-color "^3.1.2"
+    supports-color "^3.2.3"
 
 promise-map-series@^0.2.1:
   version "0.2.3"
@@ -701,11 +701,7 @@ rimraf@~2.2.6:
   version "2.2.8"
   resolved "https://registry.yarnpkg.com/rimraf/-/rimraf-2.2.8.tgz#e439be2aaee327321952730f99a8929e4fc50582"
 
-rsvp@^3.0.14, rsvp@^3.0.17:
-  version "3.3.3"
-  resolved "https://registry.yarnpkg.com/rsvp/-/rsvp-3.3.3.tgz#34633caaf8bc66ceff4be3c2e1dffd032538a813"
-
-rsvp@~3.2.1:
+rsvp@^3.0.14, rsvp@^3.0.17, rsvp@~3.2.1:
   version "3.2.1"
   resolved "https://registry.yarnpkg.com/rsvp/-/rsvp-3.2.1.tgz#07cb4a5df25add9e826ebc67dcc9fd89db27d84a"
 
@@ -752,9 +748,9 @@ supports-color@^2.0.0:
   version "2.0.0"
   resolved "https://registry.yarnpkg.com/supports-color/-/supports-color-2.0.0.tgz#535d045ce6b6363fa40117084629995e9df324c7"
 
-supports-color@^3.1.2:
-  version "3.1.2"
-  resolved "https://registry.yarnpkg.com/supports-color/-/supports-color-3.1.2.tgz#72a262894d9d408b956ca05ff37b2ed8a6e2a2d5"
+supports-color@^3.2.3:
+  version "3.2.3"
+  resolved "https://registry.yarnpkg.com/supports-color/-/supports-color-3.2.3.tgz#65ac0504b3954171d8a64946b2ae3cbb8a5f54f6"
   dependencies:
     has-flag "^1.0.0"
 
