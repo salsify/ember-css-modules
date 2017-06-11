@@ -11,6 +11,7 @@ cache:
     - $HOME/.cache/yarn
 
 env:
+  - NODE_TESTS=true
   - EMBER_TRY_SCENARIO=ember-lts-2.4
   - EMBER_TRY_SCENARIO=ember-lts-2.8
   - EMBER_TRY_SCENARIO=ember-release
@@ -29,5 +30,9 @@ before_script:
   - bower install
 
 script:
-  - yarn run lint-node
-  - node_modules/.bin/ember try:one $EMBER_TRY_SCENARIO test
+  - if [[ $NODE_TESTS == true ]]; then
+      npm install -g npm;
+      yarn run lint-node && yarn run test-node;
+    else
+      node_modules/.bin/ember try:one $EMBER_TRY_SCENARIO test;
+    fi

@@ -1,44 +1,46 @@
 /* eslint-env node */
 'use strict';
 
-var path = require('path');
-var fs = require('fs');
-var debug = require('debug')('ember-css-modules:addon');
-var VersionChecker = require('ember-cli-version-checker');
+const path = require('path');
+const fs = require('fs');
+const debug = require('debug')('ember-css-modules:addon');
+const VersionChecker = require('ember-cli-version-checker');
 
-var HtmlbarsPlugin = require('./lib/htmlbars-plugin');
-var ModulesPreprocessor = require('./lib/modules-preprocessor');
-var OutputStylesPreprocessor = require('./lib/output-styles-preprocessor');
+const HtmlbarsPlugin = require('./lib/htmlbars-plugin');
+const ModulesPreprocessor = require('./lib/modules-preprocessor');
+const OutputStylesPreprocessor = require('./lib/output-styles-preprocessor');
+const PluginRegistry = require('./lib/plugin/registry');
 
 module.exports = {
   name: 'ember-css-modules',
 
-  shouldIncludeChildAddon: function(addon) {
+  shouldIncludeChildAddon(addon) {
     // Don't infinitely recurse – it's the dummy test app that depends on dummy-addon, not this addon itself
     return addon.name.indexOf('dummy') === -1;
   },
 
-  init: function() {
+  init() {
     this._super.init && this._super.init.apply(this, arguments);
     this.modulesPreprocessor = new ModulesPreprocessor({ owner: this });
     this.outputStylesPreprocessor = new OutputStylesPreprocessor({ owner: this });
     this.checker = new VersionChecker(this);
   },
 
-  included: function(parent) {
-    debug('included in %s', parent.name);
-    this.ownerName = parent.name;
-    this.cssModulesOptions = parent.options && parent.options.cssModules || {};
+  included(includer) {
+    debug('included in %s', includer.name);
+    this.ownerName = includer.name;
+    this.plugins = new PluginRegistry(this.parent);
+    this.cssModulesOptions = this.plugins.computeOptions(includer.options && includer.options.cssModules);
 
     if (this.belongsToAddon()) {
       this.verifyStylesDirectory();
-      this.parentAddon = parent;
+      this.parentAddon = includer;
     }
 
     this._super.included.apply(this, arguments);
   },
 
-  setupPreprocessorRegistry: function(type, registry) {
+  setupPreprocessorRegistry(type, registry) {
     // Skip if we're setting up this addon's own registry
     if (type !== 'parent') { return; }
 
@@ -47,13 +49,13 @@ module.exports = {
     registry.add('htmlbars-ast-plugin', {
       name: 'ember-css-modules',
       plugin: HtmlbarsPlugin,
-      baseDir: function() {
+      baseDir() {
         return __dirname;
       }
     });
   },
 
-  verifyStylesDirectory: function() {
+  verifyStylesDirectory() {
     if (!fs.existsSync(path.join(this.parent.root, this.parent.treePaths['addon-styles']))) {
       this.ui.writeWarnLine(
         'The addon ' + this.getOwnerName() + ' has ember-css-modules installed, but no addon styles directory. ' +
@@ -63,47 +65,51 @@ module.exports = {
     }
   },
 
-  getOwnerName: function() {
+  notifyPlugins(event) {
+    this.plugins.notify(event);
+  },
+
+  getOwnerName() {
     return this.ownerName;
   },
 
-  getProject: function() {
+  getProject() {
     return this.project;
   },
 
-  getScopedNameGenerator: function() {
+  getScopedNameGenerator() {
     return this.cssModulesOptions.generateScopedName || require('./lib/generate-scoped-name');
   },
 
-  getModulesTree: function() {
+  getModulesTree() {
     return this.modulesPreprocessor.getModulesTree();
   },
 
-  getModuleDependencies: function() {
+  getModuleDependencies() {
     return this.modulesPreprocessor.getDependencies();
   },
 
-  getIntermediateOutputPath: function() {
+  getIntermediateOutputPath() {
     return this.cssModulesOptions.intermediateOutputPath;
   },
 
-  getPlugins: function() {
+  getPostcssPlugins() {
     return this.cssModulesOptions.plugins || [];
   },
 
-  getVirtualModules: function() {
+  getVirtualModules() {
     return this.cssModulesOptions.virtualModules || {};
   },
 
-  getFileExtension: function() {
+  getFileExtension() {
     return this.cssModulesOptions && this.cssModulesOptions.extension || 'css';
   },
 
-  getPostcssOptions: function() {
+  getPostcssOptions() {
     return this.cssModulesOptions.postcssOptions;
   },
 
-  getAddonModulesRoot: function() {
+  getAddonModulesRoot() {
     // CLI 2.12 stopped exposing addon stuff nested under `modules/`
     if (this.checker.for('ember-cli', 'npm').satisfies('>= 2.12')) {
       return '';
@@ -112,11 +118,11 @@ module.exports = {
     }
   },
 
-  getParentAddonTree: function() {
+  getParentAddonTree() {
     return path.join(this.parentAddon.root, this.parentAddon.treePaths.addon);
   },
 
-  enableSourceMaps: function() {
+  enableSourceMaps() {
     if (this._enableSourceMaps === undefined) {
       var mapOptions = this._findRootApp().options.sourcemaps;
       this._enableSourceMaps = mapOptions.enabled && mapOptions.extensions.indexOf('css') !== -1;
@@ -125,11 +131,11 @@ module.exports = {
     return this._enableSourceMaps;
   },
 
-  belongsToAddon: function() {
+  belongsToAddon() {
     return !!this.parent.parent;
   },
 
-  _findRootApp: function() {
+  _findRootApp() {
     var current = this;
     while (current.parent.parent) {
       current = current.parent;
