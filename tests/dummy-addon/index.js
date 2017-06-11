@@ -1,6 +1,6 @@
-var generateScopedName = require('../../lib/generate-scoped-name');
+/* eslint-env node */
+'use strict';
 
-/*jshint node:true*/
 module.exports = {
   name: 'dummy-addon',
 
