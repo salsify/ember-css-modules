@@ -1,3 +1,10 @@
+## Unreleased
+### Changed
+- The CSS Modules pipeline has been upgraded and now uses PostCSS 6
+
+### Fixed
+- Attempting to pull styles from an addon that doesn't exist now provides a useful error message (#65).
+
 ## 0.7.0-beta.1 The Little Engine That Could (April 3, 2017)
 ### Changed
 - There have been some internal changes to how styles are read from the app/addon trees. This should be a non-breaking change (and fixes a number of oddities, including previous incompatibility with lazy engines), but is enough of a shift to warrant a version bump and a note.
