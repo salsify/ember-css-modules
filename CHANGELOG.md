@@ -1,4 +1,4 @@
-## Unreleased
+## 0.7.0 Plug It In (June 11, 2017)
 ### Added
 - An initial cut of a plugin system has been implemented, allowing common PostCSS plugin sets, shared configuration, and other bits of reusable code to be packaged up and redistributed. See the README for a few implemented examples.
 
