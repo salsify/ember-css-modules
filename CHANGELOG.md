@@ -1,6 +1,10 @@
 ## Unreleased
+### Added
+- An initial cut of a plugin system has been implemented, allowing common PostCSS plugin sets, shared configuration, and other bits of reusable code to be packaged up and redistributed. See the README for a few implemented examples.
+
 ### Changed
 - The CSS Modules pipeline has been upgraded and now uses PostCSS 6
+- Some of the more advanced topics in the README have been broken out into dedicated mini-guides in an effort to keep the main document from being so overwhelming
 
 ### Fixed
 - Attempting to pull styles from an addon that doesn't exist now provides a useful error message (#65).

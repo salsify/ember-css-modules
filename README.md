@@ -196,52 +196,6 @@ export default Ember.Controller.extend({
 });
 ```
 
-### Module Ordering
-
-All `.css` files in your `app`/`addon` directories are automatically concatenated into a single output file. Since [the ordering of rules in CSS is what breaks specificity ties](https://developer.mozilla.org/en/docs/Web/CSS/Specificity), the details of this concatenation can be important.
-
-#### Implicit Dependencies
-
-Where possible, ember-css-modules takes advantage of information it has about the dependencies between your CSS modules when making decisions about ordering. Any time, for instance, a class in one module `a` composes a class in module `b`, the contents of module `b` will be included earlier in the file output than the contents of `a`. This means you can override properties from composed classes without worrying about specificity hacks:
-
-```css
-/* app/styles/b.css */
-.b {
-  color: green;
-  font-weight: bold;
-}
-```
-
-```css
-/* app/styles/a.css */
-.a {
-  composes: b from './b';
-  color: orange;
-}
-```
-
-#### Explicit Dependencies
-
-You may also have cases where you want certain files to be included early in the concatenated CSS without specifically pulling a class or value from those files. This may be common if, for example, you have a set of global base classes in your application. To meet this goal, ember-css-modules provides the `@after-module` at-rule to explicitly declare that one module should be included after another.
-
-```css
-/* app/styles/app.css */
-@after-module './base/simple-elements';
-@after-module './base/typography';
-```
-
-In the above example, the two files referenced are guaranteed to be included before the actual contents of `app.css`. Where possible, all files that are part of an explicit `@after-module` dependency graph will be included before modules that are connected via implicit dependencies.
-
-#### Final Output
-
-Given the rules above, the final ordering for the modules included in an app or addon build will look something like this:
-
-```
-<modules containing or referenced by @after-module rules>
-<modules connected via composes: or @value imports>
-<all other modules>
-```
-
 ## Usage in Addons
 
 You can also use ember-css-modules in addons that expose components to their consuming application. However, as with component templates, the styles will need to be explicitly bound to the component class, since the resolver won't be able to find them in the addon tree. You will also need to move `ember-css-modules` out of `devDependencies` and into `dependencies` in your addon's `package.json` ([see issue #8](https://github.com/salsify/ember-css-modules/issues/8)).
@@ -262,9 +216,27 @@ Note also that **your addon must have an `addon/styles` directory** in order to 
 
 If you're writing a [routable engine](https://github.com/dgeb/ember-engines#ember-engines-) and have route controller styles, you'll have to import the styles module and set it on your controller the same way you would with a component in the example above.
 
-## Configuration
+## Plugins
 
-For applications, configuration for ember-css-modules may be specified in `ember-cli-build.js`:
+Ember CSS Modules has a plugin ecosystem that allows for people to bundle up common configurations and extensions for easy reuse and distribution.
+ - ember-css-modules-sass
+ - ember-css-modules-stylelint
+ - ember-css-modules-reporter
+
+More details to come as these projects are published and polished.
+
+## Advanced Configuration
+
+Details about specific advanced configuration options are broken out into smaller mini-guides that each focus on a single topic:
+ - [Using CSS Modules with other preprocessors](docs/PREPROCESSORS.md)
+ - [Working with PostCSS plugins](docs/POSTCSS.md)
+ - [Module ordering](docs/ORDERING.md)
+ - [Defining values at build time with virtual modules](docs/VIRTUAL_MODULES.md)
+ - [Authoring ember-css-modules plugins](docs/PLUGINS.md)
+
+### Where to Specify Options
+
+For applications, custom configuration for ember-css-modules may be specified in `ember-cli-build.js`:
 
 ```js
 new EmberApp(defaults, {
@@ -288,122 +260,6 @@ module.exports = {
 };
 ```
 
-### Virtual Modules
-
-Predefined modules that export constants may be configured by passing a `virtualModules` hash to ember-css-modules.
-
-For example, given this configuration:
-
-```js
-cssModules: {
-  virtualModules: {
-    'color-palette': {
-      'grass-green': '#4dbd33'
-    }
-  }
-}
-```
-
-The following import would retrieve the value `#fdbd33`:
-
-```css
-@value grass-green from 'color-palette';
-```
-
-Virtual modules may be particularly useful for addon authors, as they provide a way to make your addon styling configurable by consumers of your addon at build time. For instance, in your `index.js` you might have something like:
-
-```js
-included: function() {
-  // ...
-  this.options = Object.assign({}, this.options, {
-    cssModules: {
-      virtualModules: {
-        'my-addon-config': {
-          'header-color': config.headerColor || 'green',
-          'header-background': config.headerBackground || 'gray'
-        }
-      }
-    }
-  });
-  this._super.included.apply(this, arguments);
-  // ...
-}
-```
-
-
-### Plugins
-
-Since the CSS module loader is built on [PostCSS](https://github.com/postcss/postcss), your modules have access to the [full range of plugins](http://postcss.parts/) that exist.
-
-#### Simple Usage
-
-For example, to automatically manage vendor prefixes with [Autoprefixer](https://github.com/postcss/autoprefixer):
-
-```js
-var autoprefixer = require('autoprefixer');
-// ...
-new EmberApp(defaults, {
-  cssModules: {
-    plugins: [
-      autoprefixer('last 2 versions')
-    ]
-  }
-});
-```
-
-#### Before/After Plugins
-
-By default, any plugins you specify will be applied after the module transformation. To apply a set of plugins beforehand instead, you can pass a hash with `before` and `after` keys. For instance, if you wanted to use [postcss-nested](https://github.com/postcss/postcss-nested) so that you could define a set of global classes as a single block:
-
-```js
-new EmberApp(defaults, {
-  cssModules: {
-    plugins: {
-      before: [
-        nested
-      ],
-      after: [
-        autoprefixer('last 2 versions')
-      ]
-    }
-  }
-});
-```
-
-#### Importing Third Party Files
-
-Out of the box, ember-css-modules doesn't provide a way to to include CSS from outside the app or addon in development. Where possible, including these styles by `app.import`ing them from Bower or using a tool like [ember-cli-node-assets](https://github.com/dfreeman/ember-cli-node-assets) is a good practice, since the build pipeline will have to do less work during development, and your users will benefit from better caching in `vendor.css`.
-
-Some styling tools, however, allow for customization as part of a build process. As a specific example, [Basscss](http://www.basscss.com/) allows you to define specific [CSS variables](https://developer.mozilla.org/en-US/docs/Web/CSS/Using_CSS_variables) to customize its default styling. To accomplish this with ember-css-modules, you can use [postcss-import](https://github.com/postcss/postcss-import) and [postcss-css-variables](https://github.com/MadLittleMods/postcss-css-variables).
-
-```js
-new EmberApp(defaults, {
-  cssModules: {
-    plugins: [
-      require('postcss-import'),
-      require('postcss-css-variables')
-    ]
-  }
-});
-```
-
-```css
-/* app/styles/third-party.css */
-@import 'some-other-library';
-@import 'basscss';
-
-:root {
-  --h1: 4rem;
-}
-```
-
-```css
-/* app/styles/app.css */
-@after-module './third-party';
-```
-
-Note that any plugins that run _after_ postcss-import will be applied to the imported files, which is why setting the `--h1` variable above affects the Basscss output.
-
 ### Scoped Name Generation
 
 By default, ember-css-modules produces a unique scoped name for each class in a module by combining the original class name with a hash of the path of the containing module. You can override this behavior by passing a `generateScopedName` function in the configuration.
@@ -411,7 +267,7 @@ By default, ember-css-modules produces a unique scoped name for each class in a 
 ```js
 new EmberApp(defaults, {
   cssModules: {
-    generateScopedName: function(className, modulePath) {
+    generateScopedName(className, modulePath) {
       // Your logic here
     }
   }
@@ -433,53 +289,6 @@ sourcemaps: {
 - You should specify the `css` extension in your source map configuration even if you're using a different extension for your modules themselves, since the final output file will be a `.css` file.
 - Currently CSS source maps (for _any_ Ember CLI preprocessor) only work for applications, not for addons. Watch [ember-cli/broccoli-concat#58](https://github.com/ember-cli/broccoli-concat/issues/58) for progress on that front.
 - Enabling source maps for CSS can cause Ember CLI to output an invalid comment at the end of your `vendor.css` file. This is harmless in many situations, but can cause issues with tools that postprocess your css, like ember-cli-autoprefixer. [ember-cli/broccoli-concat#58](https://github.com/ember-cli/broccoli-concat/issues/58) is the root cause of this issue as well.
-
-### Other Preprocessors
-
-There are two approaches to integrating CSS modules with other style preprocessors like Sass, Less or Stylus.
-
-#### Modules and preprocessor syntax in isolation
-
-The first approach is to use PostCSS to perform any processing on the modules themselves, and then emit a single vanilla CSS file with those modules that you can then import into your preprocessor of choice. This keeps your modules and other styles in isolation from one another, but provides a nice migration path from another preprocessor to PostCSS + modules.
-
-For example, with Sass you could install ember-cli-sass and then configure ember-css-modules to emit a `_modules` partial:
-
-```js
-cssModules: {
-  intermediateOutputPath: 'app/styles/_modules.scss'
-}
-```
-
-And then in your `app.scss`, simply import it:
-
-```scss
-// other Sass code and imports
-@import 'modules';
-```
-
-When using the `intermediateOutputPath` option in an addon, the point of reference is different. For example, if I want ember-css-modules to ouput an intermediate file at `my-app/addon/styles/_modules.scss`, I should set the `intermediateOutputPath` to `_modules.scss`.
-
-#### Custom syntax directly in modules
-
-The second approach is viable for preprocessors for which there is a PostCSS syntax extension, such as [Sass](https://github.com/postcss/postcss-scss) and (at least partially) [Less](https://github.com/gilt/postcss-less). It allows for using custom preprocessor syntax directly in CSS modules, handing off the concatenated final output directly to the preprocessor.
-
-Again using Sass as an example, you would specify `app.scss` as your intermediate output file so that ember-cli-sass would pick it up directly, and then tell ember-css-modules to look for `.scss` files and pass through custom PostCSS syntax configuration.
-
-```js
-cssModules: {
-  // Emit a combined SCSS file for ember-cli-sass to compile
-  intermediateOutputPath: 'app/styles/app.scss',
-
-  // Use .scss as the extension for CSS modules instead of the default .css
-  extension: 'scss',
-
-  // Pass a custom parser/stringifyer through to PostCSS for processing modules
-  postcssOptions: {
-    syntax: require('postcss-scss')
-  }
-}
-```
-
 
 ## Ember Support
 
