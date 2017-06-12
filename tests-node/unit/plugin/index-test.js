@@ -1,21 +1,19 @@
 'use strict';
 
 const QUnit = require('qunitjs'), test = QUnit.test, testModule = QUnit.module;
-const Addon = require('ember-cli/lib/models/addon');
-const Project = require('ember-cli/lib/models/project');
 const Plugin = require('../../../lib/plugin');
 
 testModule('Unit | Plugin');
 
 test('Addon parent', function(assert) {
-  let parent = Object.create(Addon.prototype);
+  let parent = { parent: {} };
   let plugin = new Plugin(parent);
   assert.ok(plugin.isForAddon());
   assert.notOk(plugin.isForApp());
 });
 
 test('App parent', function(assert) {
-  let parent = Object.create(Project.prototype);
+  let parent = {};
   let plugin = new Plugin(parent);
   assert.ok(plugin.isForApp());
   assert.notOk(plugin.isForAddon());
