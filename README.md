@@ -226,7 +226,7 @@ For details on developing your own, see the [plugins mini-guide](docs/PLUGINS.md
  - [ember-css-modules-stylelint](https://github.com/dfreeman/ember-css-modules-stylelint)
  - [ember-css-modules-reporter](https://github.com/dfreeman/ember-css-modules-reporter)
 
-<!-- To see other available plugins, search for the [`ember-css-modules-plugin` package keyword](https://www.npmjs.com/search?q=keywords:ember-css-modules-plugin), once npm reindexes... -->
+You can find a list of all publicly available plugins by browsing [the npm `ember-css-modules-plugin` keyword](https://www.npmjs.com/browse/keyword/ember-css-modules-plugin).
 
 ## Advanced Configuration
 
