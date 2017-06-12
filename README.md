@@ -218,12 +218,15 @@ If you're writing a [routable engine](https://github.com/dgeb/ember-engines#embe
 
 ## Plugins
 
-Ember CSS Modules has a plugin ecosystem that allows for people to bundle up common configurations and extensions for easy reuse and distribution.
- - ember-css-modules-sass
- - ember-css-modules-stylelint
- - ember-css-modules-reporter
+Ember CSS Modules has a plugin ecosystem that allows for people to bundle up common configurations and extensions for easy reuse and distribution. For example, if your organization has a common set of PostCSS plugins you always use, you could package those as a plugin and then just drop that into any Ember project and have it automatically take effect.
 
-More details to come as these projects are published and polished.
+For details on developing your own, see the [plugins mini-guide](docs/PLUGINS.md). You can also look at the following examples of what plugin implementations can look like:
+
+ - [ember-css-modules-sass](https://github.com/dfreeman/ember-css-modules-sass)
+ - [ember-css-modules-stylelint](https://github.com/dfreeman/ember-css-modules-stylelint)
+ - [ember-css-modules-reporter](https://github.com/dfreeman/ember-css-modules-reporter)
+
+<!-- To see other available plugins, search for the [`ember-css-modules-plugin` package keyword](https://www.npmjs.com/search?q=keywords:ember-css-modules-plugin), once npm reindexes... -->
 
 ## Advanced Configuration
 
