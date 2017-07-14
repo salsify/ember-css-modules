@@ -1,4 +1,7 @@
 ## Unreleased
+### Added
+- Support for Ember 2.15's new form factor for template AST transforms has been added.
+
 ### Fixed
 - Styles resolution for components and controllers no longer assumes only a single `:` in container keys.
 

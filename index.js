@@ -48,7 +48,7 @@ module.exports = {
     registry.add('css', this.outputStylesPreprocessor);
     registry.add('htmlbars-ast-plugin', {
       name: 'ember-css-modules',
-      plugin: HtmlbarsPlugin,
+      plugin: HtmlbarsPlugin.forEmberVersion(this.checker.forEmber().version),
       baseDir() {
         return __dirname;
       }

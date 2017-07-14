@@ -279,7 +279,8 @@ function testTransformation(title, {
       assert.ok(this.$(selector).length, 'Expected output contains verification selector');
       const expected = this.$().html().replace(/id="\w+"/g, '');
 
-      this.render(compile(inputString, { plugins: { ast: [ClassTransformPlugin] } }));
+      const plugin = ClassTransformPlugin.forEmberVersion(Ember.VERSION);
+      this.render(compile(inputString, { plugins: { ast: [plugin] } }));
       assert.ok(this.$(selector).length, 'Actual output contains verification selector');
       const actual = this.$().html().replace(/id="\w+"/g, '');
 
