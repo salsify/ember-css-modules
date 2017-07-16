@@ -1,4 +1,4 @@
-## Unreleased
+## 0.7.1 AST But Not Least (July 16, 2017)
 ### Added
 - Support for Ember 2.15's new form factor for template AST transforms has been added.
 
