@@ -1,3 +1,10 @@
+## Unreleased
+### Added
+- Modules to be included at the top or bottom of the concatenated output can now be set via the `headerModules` and `footerModules` configuration options. See the [module ordering guide](docs/ORDERING.md) for details.
+
+### Changed
+- `@after-module` has been deprecated in favor of the new `headerModules`/`footerModules` configuration
+
 ## 0.7.1 AST But Not Least (July 16, 2017)
 ### Added
 - Support for Ember 2.15's new form factor for template AST transforms has been added.

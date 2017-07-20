@@ -1,0 +1,4 @@
+.g {
+  composes: c from './c';
+  composes: q from './q';
+}

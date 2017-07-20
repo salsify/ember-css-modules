@@ -122,6 +122,11 @@ module.exports = {
     return path.join(this.parentAddon.root, this.parentAddon.treePaths.addon);
   },
 
+  getFixedModules(type) {
+    let modules = this.cssModulesOptions[`${type}Modules`] || [];
+    return modules.map(file => `${file}.${this.getFileExtension()}`);
+  },
+
   enableSourceMaps() {
     if (this._enableSourceMaps === undefined) {
       var mapOptions = this._findRootApp().options.sourcemaps;
