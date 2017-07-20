@@ -1,3 +1,4 @@
 .a {
   composes: c from './c';
+  composes: u from './u';
 }
