@@ -8,7 +8,7 @@ const path = require('path');
 const HAS_EMBER_SOURCE = 'ember-source' in require('./package.json').devDependencies;
 
 module.exports = function(defaults) {
-  var app = new EmberAddon(defaults, {
+  let app = new EmberAddon(defaults, {
     sourcemaps: {
       extensions: ['js', 'css'],
       enabled: true
