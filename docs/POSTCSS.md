@@ -39,14 +39,17 @@ new EmberApp(defaults, {
 
 ## Post-Process Plugins
 
-You can also provide a set of `postprocess` plugins that will run on the file after it has been concatenated.  This is useful for plugins like `postcss-sprites` that behave better when run against a single file.
+You can also provide a set of `postprocess` plugins that will run on the file after it has been concatenated.  This is useful for plugins like `postcss-sprites` that behave better when run against a single file. The `postprocess` array will be passed through to the `plugins` option in [`broccoli-postcss`](https://github.com/jeffjewiss/broccoli-postcss#broccolipostcsstree-options); see that package for details.
 
 ```js
 new EmberApp(defaults, {
   cssModules: {
     plugins: {
       postprocess: [
-        require('postcss-sprites')({ ... })
+        {
+          module: require('postcss-sprites'),
+          options: { /* ... */ }
+        }
       ]
     }
   }
