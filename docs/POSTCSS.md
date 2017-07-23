@@ -37,6 +37,22 @@ new EmberApp(defaults, {
 });
 ```
 
+## Post-Process Plugins
+
+You can also provide a set of `postprocess` plugins that will run on the file after it has been concatenated.  This is useful for plugins like `postcss-sprites` that behave better when run against a single file.
+
+```js
+new EmberApp(defaults, {
+  cssModules: {
+    plugins: {
+      postprocess: [
+        require('postcss-sprites')({ ... })
+      ]
+    }
+  }
+});
+```
+
 ## Importing Third Party Files
 
 Out of the box, ember-css-modules doesn't provide a way to to include CSS from outside the app or addon in development. Where possible, including these styles by `app.import`ing them from Bower or using a tool like [ember-cli-node-assets](https://github.com/dfreeman/ember-cli-node-assets) is a good practice, since the build pipeline will have to do less work during development, and your users will benefit from better caching in `vendor.css`.
