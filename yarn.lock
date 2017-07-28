@@ -1459,14 +1459,14 @@ broccoli-plugin@^1.0.0, broccoli-plugin@^1.2.0, broccoli-plugin@^1.2.1, broccoli
     rimraf "^2.3.4"
     symlink-or-copy "^1.1.8"
 
-broccoli-postcss@^3.4.2:
-  version "3.4.2"
-  resolved "https://registry.yarnpkg.com/broccoli-postcss/-/broccoli-postcss-3.4.2.tgz#c3f10dd73e45a0205ef3e06102028444874a1795"
+broccoli-postcss@^3.5.0:
+  version "3.5.0"
+  resolved "https://registry.yarnpkg.com/broccoli-postcss/-/broccoli-postcss-3.5.0.tgz#206210ad03e07f8c68b44f9c3f8f2ce7209de0f0"
   dependencies:
     broccoli-funnel "1.2.0"
     broccoli-persistent-filter "1.4.2"
     object-assign "4.1.1"
-    postcss "6.0.6"
+    postcss "6.0.8"
 
 broccoli-slow-trees@^3.0.1:
   version "3.0.1"
@@ -5730,15 +5730,7 @@ postcss-modules-values@^1.3.0:
     icss-replace-symbols "^1.1.0"
     postcss "^6.0.1"
 
-postcss@6.0.6:
-  version "6.0.6"
-  resolved "https://registry.yarnpkg.com/postcss/-/postcss-6.0.6.tgz#bba4d58e884fc78c840d1539e10eddaabb8f73bd"
-  dependencies:
-    chalk "^2.0.1"
-    source-map "^0.5.6"
-    supports-color "^4.1.0"
-
-postcss@^6.0.1, postcss@^6.0.8:
+postcss@6.0.8, postcss@^6.0.1, postcss@^6.0.8:
   version "6.0.8"
   resolved "https://registry.yarnpkg.com/postcss/-/postcss-6.0.8.tgz#89067a9ce8b11f8a84cbc5117efc30419a0857b3"
   dependencies:
@@ -6785,7 +6777,7 @@ supports-color@^2.0.0:
   version "2.0.0"
   resolved "https://registry.yarnpkg.com/supports-color/-/supports-color-2.0.0.tgz#535d045ce6b6363fa40117084629995e9df324c7"
 
-supports-color@^4.0.0, supports-color@^4.1.0, supports-color@^4.2.0:
+supports-color@^4.0.0, supports-color@^4.2.0:
   version "4.2.0"
   resolved "https://registry.yarnpkg.com/supports-color/-/supports-color-4.2.0.tgz#ad986dc7eb2315d009b4d77c8169c2231a684037"
   dependencies:
