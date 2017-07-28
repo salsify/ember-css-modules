@@ -49,6 +49,7 @@
     "ember-source": "^2.14.1",
     "eslint": "^4.2.0",
     "loader.js": "^4.5.1",
+    "postcss-color-rebeccapurple": "^3.0.0",
     "qunitjs": "^2.4.0",
     "sinon": "^2.3.8"
   },
