@@ -29,6 +29,11 @@ module.exports = function(defaults) {
           'superbold': 800,
           'important-background': 'rgb(255, 255, 0)'
         }
+      },
+      plugins: {
+        postprocess: [
+          require('postcss-color-rebeccapurple')()
+        ]
       }
     }
   });
