@@ -61,6 +61,7 @@
     "broccoli-css-modules": "^0.6.2",
     "broccoli-funnel": "^1.2.0",
     "broccoli-merge-trees": "^2.0.0",
+    "calculate-cache-key-for-tree": "^1.1.0",
     "debug": "^2.6.8",
     "ember-cli-babel": "^6.6.0",
     "ember-cli-version-checker": "^2.0.0",
