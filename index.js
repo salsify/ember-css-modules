@@ -5,6 +5,7 @@ const path = require('path');
 const fs = require('fs');
 const debug = require('debug')('ember-css-modules:addon');
 const VersionChecker = require('ember-cli-version-checker');
+const MergeTrees = require('broccoli-merge-trees');
 
 const HtmlbarsPlugin = require('./lib/htmlbars-plugin');
 const ModulesPreprocessor = require('./lib/modules-preprocessor');
@@ -38,6 +39,20 @@ module.exports = {
     }
 
     this._super.included.apply(this, arguments);
+  },
+
+  treeForAddon() {
+    let addonTree = this._super.treeForAddon.apply(this, arguments);
+    return new MergeTrees([addonTree, `${__dirname}/vendor`]);
+  },
+
+  cacheKeyForTree(treeType) {
+    // We override treeForAddon, but the result is still stable
+    if (treeType === 'addon') {
+      return require('calculate-cache-key-for-tree')('addon', this);
+    } else {
+      return this._super.cacheKeyForTree.call(this, treeType);
+    }
   },
 
   setupPreprocessorRegistry(type, registry) {

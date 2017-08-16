@@ -43,9 +43,9 @@ function localClassNameBindings(component) {
 
 function buildBindings(component, bindingSource) {
   let styles = component.get('__styles__');
-  if (!styles) return [];
-  let [property, trueStyle = dasherize(property), falseStyle] = bindingSource.split(':');
+  if (!styles) { return []; }
 
+  let [property, trueStyle = dasherize(property), falseStyle] = bindingSource.split(':');
   let trueClasses = (styles[trueStyle] || '').split(/\s+/);
   let falseClasses = (styles[falseStyle] || '').split(/\s+/);
   let bindings = [];
