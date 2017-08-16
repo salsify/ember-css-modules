@@ -1,6 +1,6 @@
-## Unreleased
+## After All (August 16, 2017)
 ### Added
-- PostCSS plugins can now be specified to run against the final concatenated output of all modules using the `postprocess` array.
+- PostCSS plugins can now be specified to run against the final concatenated output of all modules using the `postprocess` array (thanks @alexlafroscia!)
 
 ### Fixed
 - During testing, `import 'ember-css-modules/extensions'` is no longer required to have styles function correctly in integration tests.
