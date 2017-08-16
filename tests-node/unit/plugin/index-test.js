@@ -26,7 +26,8 @@ test('addPostcssPlugin() with no existing config', function(assert) {
   assert.deepEqual(config, {
     plugins: {
       before: ['x'],
-      after: []
+      after: [],
+      postprocess: []
     }
   });
 });
@@ -38,20 +39,22 @@ test('addPostcssPlugin() with existing array config', function(assert) {
   assert.deepEqual(config, {
     plugins: {
       before: ['x'],
-      after: ['a']
+      after: ['a'],
+      postprocess: []
     }
   });
 });
 
 test('addPostcssPlugin() with existing full config', function(assert) {
-  let config = { plugins: { after: ['a'], before: ['b'] } };
+  let config = { plugins: { after: ['a'], before: ['b'], postprocess: ['z'] } };
   let plugin = new Plugin();
 
   plugin.addPostcssPlugin(config, 'before', 'x');
   assert.deepEqual(config, {
     plugins: {
       before: ['x', 'b'],
-      after: ['a']
+      after: ['a'],
+      postprocess: ['z']
     }
   });
 
@@ -59,7 +62,8 @@ test('addPostcssPlugin() with existing full config', function(assert) {
   assert.deepEqual(config, {
     plugins: {
       before: ['x', 'b'],
-      after: ['a', 'y']
+      after: ['a', 'y'],
+      postprocess: ['z'],
     }
   });
 });

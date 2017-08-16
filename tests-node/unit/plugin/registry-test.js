@@ -78,7 +78,8 @@ test('computing merged options', function(assert) {
     safe: 'base',
     plugins: {
       before: [],
-      after: []
+      after: [],
+      postprocess: []
     }
   });
 });
@@ -104,7 +105,8 @@ test('explicitly mutating config', function(assert) {
     safe: 'clobbered',
     plugins: {
       before: [],
-      after: []
+      after: [],
+      postprocess: []
     }
   });
 });

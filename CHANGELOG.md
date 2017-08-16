@@ -1,3 +1,11 @@
+## Unreleased
+### Added
+- PostCSS plugins can now be specified to run against the final concatenated output of all modules using the `postprocess` array.
+
+### Fixed
+- During testing, `import 'ember-css-modules/extensions'` is no longer required to have styles function correctly in integration tests.
+- When no styles for a component can be found, `localClassNameBindings` now silently binds no classes instead of throwing an error.
+
 ## 0.7.2 Everything In Its Place (July 19, 2017)
 ### Added
 - Modules to be included at the top or bottom of the concatenated output can now be set via the `headerModules` and `footerModules` configuration options. See the [module ordering guide](docs/ORDERING.md) for details.
