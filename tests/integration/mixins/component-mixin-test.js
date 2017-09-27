@@ -193,3 +193,32 @@ test('it supports localClassNameBindings with composition in the negative class'
   assert.ok($element.is('.bar'));
   assert.ok($element.is('.baz'));
 });
+
+test('it honors a configured mapped localClassNameBinding string', function(assert) {
+  let styles = {
+    'dynamic-class-name': 'foo',
+    'other-dynamic-class-name': 'bar',
+  };
+
+  this.set('cls', 'dynamic-class-name');
+
+  this.owner.register('styles:components/test-component', styles);
+  this.owner.register('component:test-component', Ember.Component.extend(ComponentMixin, {
+    classNames: 'test-component',
+    localClassNameBindings: 'cls'
+  }));
+
+  this.render(hbs`{{test-component cls=cls}}`);
+
+  let $element = this.$('.test-component');
+  assert.ok($element.is('.foo'));
+  assert.notOk($element.is('.bar'));
+
+  Ember.run(() => this.set('cls', 'other-dynamic-class-name'));
+  assert.notOk($element.is('.foo'));
+  assert.ok($element.is('.bar'));
+
+  Ember.run(() => this.set('cls', false));
+  assert.notOk($element.is('.foo'));
+  assert.notOk($element.is('.bar'));
+});

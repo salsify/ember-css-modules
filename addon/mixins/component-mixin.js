@@ -3,6 +3,8 @@ import Mixin from '@ember/object/mixin';
 import { dasherize } from '@ember/string';
 import { getOwner } from '@ember/application';
 
+const LOCALCLASSNAMESCP = '__local_class_names_cp';
+
 export default Mixin.create({
   localClassNames: null,
   localClassNameBindings: null,
@@ -17,8 +19,11 @@ export default Mixin.create({
     this.classNameBindings = [
       ...this.classNameBindings,
       ...localClassNames(this),
-      ...localClassNameBindings(this)
+      // ...localClassNameBindings(this)
+      LOCALCLASSNAMESCP,
     ];
+
+    this.set(LOCALCLASSNAMESCP, buildLocalClassNameBindingsCp(this.localClassNameBindings, this.get('__styles__')));
   },
 
   __styles__: computed(function() {
@@ -38,32 +43,24 @@ function localClassNames(component) {
   return component.localClassNames.map(className => `__styles__.${className}`);
 }
 
-function localClassNameBindings(component) {
-  return component.localClassNameBindings.reduce((bindings, bindingSource) => {
-    return bindings.concat(buildBindings(component, bindingSource));
-  }, []);
-}
+function buildLocalClassNameBindingsCp(localClassNameBindings, styles) {
+  const bindings = localClassNameBindings
+    .map(c => c.split(':'))
+    .map(([property, trueStyle, falseStyle]) => {
+      const trueClasses = (styles[trueStyle || dasherize(property)] || '').split(/\s+/);
+      const falseClasses = (styles[falseStyle] || '').split(/\s+/);
+      const isBoolean = !!trueStyle;
+      return {property,trueClasses,falseClasses,isBoolean};
+    });
 
-function buildBindings(component, bindingSource) {
-  let styles = component.get('__styles__');
-  if (!styles) { return []; }
+  return computed(...bindings.map(b => b.property), function() {
+    return bindings.map(binding => {
+      const value = this.get(binding.property);
+      if(!binding.isBoolean && (typeof value === 'string')) {
+        return value.split(' ').map(c => styles[c]);
+      }
 
-  let [property, trueStyle = dasherize(property), falseStyle] = bindingSource.split(':');
-  let trueClasses = (styles[trueStyle] || '').split(/\s+/);
-  let falseClasses = (styles[falseStyle] || '').split(/\s+/);
-  let bindings = [];
-
-  for (let i = 0, len = Math.max(trueClasses.length, falseClasses.length); i < len; i++) {
-    bindings.push(bindingString(property, trueClasses[i], falseClasses[i]));
-  }
-
-  return bindings;
-}
-
-function bindingString(property, trueClass = '', falseClass = '') {
-  let binding = `${property}:${trueClass || ''}`;
-  if (falseClass) {
-    binding += `:${falseClass}`;
-  }
-  return binding;
+      return value ? binding.trueClasses : binding.falseClasses;
+    }).reduce((a, b) => [...a, ...b], []).join(' ');
+  });
 }
