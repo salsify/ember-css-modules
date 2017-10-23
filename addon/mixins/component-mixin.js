@@ -11,6 +11,9 @@ export default Ember.Mixin.create({
 
   init() {
     this._super();
+
+    if (this.tagName === '') return;
+
     this.classNameBindings = [
       ...this.classNameBindings,
       ...localClassNames(this),
