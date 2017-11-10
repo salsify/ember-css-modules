@@ -114,6 +114,8 @@ If you need to access a local class in a template in other scenarios (such as pa
 <div class="{{local-class 'secondary-header' from='my-app-name/styles/headers'}}">Hello, world!</div>
 ```
 
+Note that the `from` parameter is optional; by default classes will come from the current module, as with the `local-class` attribute.
+
 In a JavaScript context, the class mappings can also be imported directly from whatever path the corresponding CSS module occupies, e.g.
 
 ```js
