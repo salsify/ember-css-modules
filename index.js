@@ -139,7 +139,8 @@ module.exports = {
 
   getFixedModules(type) {
     let modules = this.cssModulesOptions[`${type}Modules`] || [];
-    return modules.map(file => `${file}.${this.getFileExtension()}`);
+    let extension = this.getFileExtension();
+    return modules.map(file => file.endsWith(`.${extension}`) ? file : `${file}.${extension}`);
   },
 
   enableSourceMaps() {
