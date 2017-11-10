@@ -107,12 +107,14 @@ Finally, you can compose local classes from global un-namespaced ones that are p
 
 Currently the `local-class` attribute is honored on HTML elements and component invocations, e.g. `<div local-class="foo {{bar}}">` and `{{input local-class="baz"}}`. It is not (currently) supported in subexpressions like the `(component)` helper.
 
-If you need to access a local class in a template in other scenarios (such as passing in a class name as a property to a component), there is also a `local-class` helper you can use. For example, the simple "hello-class" example above is equivalent to:
+If you need to access a local class in a template in other scenarios (such as passing in a class name as a property or reusing a class from another module), there is also a `local-class` helper you can use. For example, the "secondary-header" example above can be written as:
 
 ```hbs
 {{! app/components/my-component/template.hbs }}
-<div class="{{local-class 'hello-class'}}">Hello, world!</div>
+<div class="{{local-class 'secondary-header' from='my-app-name/styles/headers'}}">Hello, world!</div>
 ```
+
+Note that the `from` parameter is optional; by default classes will come from the current module, as with the `local-class` attribute.
 
 In a JavaScript context, the class mappings can also be imported directly from whatever path the corresponding CSS module occupies, e.g.
 
