@@ -1,7 +1,7 @@
-import Ember from 'ember';
+import { helper } from '@ember/component/helper';
 
 export function testHelper(params) {
   return params.join(', ');
 }
 
-export default Ember.Helper.helper(testHelper);
+export default helper(testHelper);

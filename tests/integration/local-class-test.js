@@ -1,5 +1,6 @@
+import { helper } from '@ember/component/helper';
+import { getOwner } from '@ember/application';
 import { moduleForComponent, test } from 'ember-qunit';
-import Ember from 'ember';
 import hbs from 'htmlbars-inline-precompile';
 
 moduleForComponent('helper:local-class', 'Integration | Helper | local-class', {
@@ -13,7 +14,7 @@ test('it works as a mustache', function(assert) {
 });
 
 test('it works as a positional', function(assert) {
-  const owner = Ember.getOwner(this);
+  const owner = getOwner(this);
   owner.register('template:components/test-component', hbs`{{yield (local-class 'foo')}}`);
   owner.register('styles:components/test-component', { foo: '--foo-value' });
 
@@ -27,8 +28,8 @@ test('it works as a positional', function(assert) {
 });
 
 test('it works as a named parameter', function(assert) {
-  const owner = Ember.getOwner(this);
-  owner.register('helper:hash', Ember.Helper.helper((params, hash) => hash));
+  const owner = getOwner(this);
+  owner.register('helper:hash', helper((params, hash) => hash));
   owner.register('template:components/test-component', hbs`{{yield (hash value=(local-class 'foo'))}}`);
   owner.register('styles:components/test-component', { foo: '--foo-value' });
 

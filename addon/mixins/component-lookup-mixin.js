@@ -1,6 +1,7 @@
-import Ember from 'ember';
+import Component from '@ember/component';
+import Mixin from '@ember/object/mixin';
 
-export default Ember.Mixin.create({
+export default Mixin.create({
   componentFor(name, owner, options) {
     let component = this._super(name, owner, options);
 
@@ -9,7 +10,7 @@ export default Ember.Mixin.create({
 
     // Ensure components are always managed my the container and thus have a connection to their styles
     if (!component && hasRegistration(owner, `template:components/${name}`)) {
-      findRegistry(owner).register(`component:${name}`, Ember.Component);
+      findRegistry(owner).register(`component:${name}`, Component);
       component = this._super(name, owner, options);
     }
 

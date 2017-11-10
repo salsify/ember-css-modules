@@ -1,9 +1,9 @@
-import Ember from 'ember';
+import { computed } from '@ember/object';
+import Mixin from '@ember/object/mixin';
+import { getOwner } from '@ember/application';
 
-const { getOwner } = Ember;
-
-export default Ember.Mixin.create({
-  __styles__: Ember.computed(function() {
+export default Mixin.create({
+  __styles__: computed(function() {
     // If styles is an explicitly set hash, defer to it. Otherwise, use the resolver.
     if (this.styles && Object.getPrototypeOf(this.styles) === Object.prototype) {
       return this.styles;

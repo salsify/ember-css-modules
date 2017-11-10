@@ -4,6 +4,10 @@ node_js:
   - "4"
 
 sudo: false
+dist: trusty
+
+addons:
+  chrome: stable
 
 cache:
   directories:
@@ -11,13 +15,16 @@ cache:
     - $HOME/.cache/yarn
 
 env:
-  - NODE_TESTS=true
-  - EMBER_TRY_SCENARIO=ember-lts-2.4
-  - EMBER_TRY_SCENARIO=ember-lts-2.8
-  - EMBER_TRY_SCENARIO=ember-release
-  - EMBER_TRY_SCENARIO=ember-beta
-  - EMBER_TRY_SCENARIO=ember-canary
-  - EMBER_TRY_SCENARIO=ember-default
+  global:
+    - JOBS=1
+  matrix:
+    - NODE_TESTS=true
+    - EMBER_TRY_SCENARIO=ember-lts-2.8
+    - EMBER_TRY_SCENARIO=ember-lts-2.12
+    - EMBER_TRY_SCENARIO=ember-release
+    - EMBER_TRY_SCENARIO=ember-beta
+    - EMBER_TRY_SCENARIO=ember-canary
+    - EMBER_TRY_SCENARIO=ember-default
 
 matrix:
   fast_finish: true
@@ -25,9 +32,8 @@ matrix:
     - env: EMBER_TRY_SCENARIO=ember-canary
 
 before_script:
-  - yarn global add bower phantomjs-prebuilt
+  - yarn global add bower
   - yarn run install-all
-  - bower install
 
 script:
   - if [[ $NODE_TESTS == true ]]; then

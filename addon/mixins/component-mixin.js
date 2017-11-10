@@ -1,9 +1,9 @@
-import Ember from 'ember';
+import { computed } from '@ember/object';
+import Mixin from '@ember/object/mixin';
+import { dasherize } from '@ember/string';
+import { getOwner } from '@ember/application';
 
-const { getOwner } = Ember;
-const { dasherize } = Ember.String;
-
-export default Ember.Mixin.create({
+export default Mixin.create({
   localClassNames: null,
   localClassNameBindings: null,
 
@@ -21,7 +21,7 @@ export default Ember.Mixin.create({
     ];
   },
 
-  __styles__: Ember.computed(function() {
+  __styles__: computed(function() {
     // If styles is an explicitly set hash, defer to it. Otherwise, use the resolver.
     if (this.styles && Object.getPrototypeOf(this.styles) === Object.prototype) {
       return this.styles;

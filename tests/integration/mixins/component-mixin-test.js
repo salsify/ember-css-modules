@@ -1,4 +1,6 @@
-import Ember from 'ember';
+import { run } from '@ember/runloop';
+import Component from '@ember/component';
+import { getOwner } from '@ember/application';
 import hbs from 'htmlbars-inline-precompile';
 
 import ComponentMixin from 'ember-css-modules/mixins/component-mixin';
@@ -8,7 +10,7 @@ moduleForComponent('', 'Integration | Mixin | component mixin', {
   integration: true,
 
   beforeEach() {
-    this.owner = Ember.getOwner(this);
+    this.owner = getOwner(this);
     this.owner.registerOptionsForType('styles', { instantiate: false });
   }
 });
@@ -16,7 +18,7 @@ moduleForComponent('', 'Integration | Mixin | component mixin', {
 test('it exposes a computed __styles__ property', function(assert) {
   let styles = {};
 
-  this.owner.register('component:test-component', Ember.Component.extend(ComponentMixin));
+  this.owner.register('component:test-component', Component.extend(ComponentMixin));
   this.owner.register('styles:components/test-component', styles);
 
   let subject = this.owner.lookup('component:test-component');
@@ -30,7 +32,7 @@ test('it honors a configured localClassName', function(assert) {
   };
 
   this.owner.register('styles:components/test-component', styles);
-  this.owner.register('component:test-component', Ember.Component.extend(ComponentMixin, {
+  this.owner.register('component:test-component', Component.extend(ComponentMixin, {
     classNames: 'test-component',
     localClassNames: 'foo'
   }));
@@ -52,7 +54,7 @@ test('it honors a configured simple localClassNameBinding', function(assert) {
   this.set('flag', true);
 
   this.owner.register('styles:components/test-component', styles);
-  this.owner.register('component:test-component', Ember.Component.extend(ComponentMixin, {
+  this.owner.register('component:test-component', Component.extend(ComponentMixin, {
     classNames: 'test-component',
     localClassNameBindings: 'dynamicValue'
   }));
@@ -62,7 +64,7 @@ test('it honors a configured simple localClassNameBinding', function(assert) {
   let $element = this.$('.test-component');
   assert.ok($element.is('.foo'));
 
-  Ember.run(() => this.set('flag', false));
+  run(() => this.set('flag', false));
   assert.notOk($element.is('.foo'));
 });
 
@@ -75,7 +77,7 @@ test('it honors a configured mapped localClassNameBinding', function(assert) {
   this.set('flag', true);
 
   this.owner.register('styles:components/test-component', styles);
-  this.owner.register('component:test-component', Ember.Component.extend(ComponentMixin, {
+  this.owner.register('component:test-component', Component.extend(ComponentMixin, {
     classNames: 'test-component',
     localClassNameBindings: 'dynamicValue:other-class'
   }));
@@ -86,7 +88,7 @@ test('it honors a configured mapped localClassNameBinding', function(assert) {
   assert.notOk($element.is('.foo'));
   assert.ok($element.is('.bar'));
 
-  Ember.run(() => this.set('flag', false));
+  run(() => this.set('flag', false));
   assert.notOk($element.is('.foo'));
   assert.notOk($element.is('.bar'));
 });
@@ -101,7 +103,7 @@ test('it honors a configured mapped localClassNameBinding with an inverse', func
   this.set('flag', true);
 
   this.owner.register('styles:components/test-component', styles);
-  this.owner.register('component:test-component', Ember.Component.extend(ComponentMixin, {
+  this.owner.register('component:test-component', Component.extend(ComponentMixin, {
     classNames: 'test-component',
     localClassNameBindings: 'dynamicValue:other-class:different-class'
   }));
@@ -113,7 +115,7 @@ test('it honors a configured mapped localClassNameBinding with an inverse', func
   assert.ok($element.is('.bar'));
   assert.notOk($element.is('.baz'));
 
-  Ember.run(() => this.set('flag', false));
+  run(() => this.set('flag', false));
   assert.notOk($element.is('.foo'));
   assert.notOk($element.is('.bar'));
   assert.ok($element.is('.baz'));
@@ -125,7 +127,7 @@ test('it supports localClassNames with composition', function(assert) {
   };
 
   this.owner.register('styles:components/test-component', styles);
-  this.owner.register('component:test-component', Ember.Component.extend(ComponentMixin, {
+  this.owner.register('component:test-component', Component.extend(ComponentMixin, {
     classNames: 'test-component',
     localClassNames: 'some-class'
   }));
@@ -147,7 +149,7 @@ test('it supports localClassNameBindings with composition in the positive class'
   this.set('flag', true);
 
   this.owner.register('styles:components/test-component', styles);
-  this.owner.register('component:test-component', Ember.Component.extend(ComponentMixin, {
+  this.owner.register('component:test-component', Component.extend(ComponentMixin, {
     classNames: 'test-component',
     localClassNameBindings: 'dynamicValue:on-class:off-class'
   }));
@@ -159,7 +161,7 @@ test('it supports localClassNameBindings with composition in the positive class'
   assert.ok($element.is('.bar'));
   assert.notOk($element.is('.baz'));
 
-  Ember.run(() => this.set('flag', false));
+  run(() => this.set('flag', false));
   assert.notOk($element.is('.foo'));
   assert.notOk($element.is('.bar'));
   assert.ok($element.is('.baz'));
@@ -174,7 +176,7 @@ test('it supports localClassNameBindings with composition in the negative class'
   this.set('flag', true);
 
   this.owner.register('styles:components/test-component', styles);
-  this.owner.register('component:test-component', Ember.Component.extend(ComponentMixin, {
+  this.owner.register('component:test-component', Component.extend(ComponentMixin, {
     classNames: 'test-component',
     localClassNameBindings: 'dynamicValue:on-class:off-class'
   }));
@@ -186,7 +188,7 @@ test('it supports localClassNameBindings with composition in the negative class'
   assert.notOk($element.is('.bar'));
   assert.notOk($element.is('.baz'));
 
-  Ember.run(() => this.set('flag', false));
+  run(() => this.set('flag', false));
   assert.notOk($element.is('.foo'));
   assert.ok($element.is('.bar'));
   assert.ok($element.is('.baz'));

@@ -1,3 +1,6 @@
+import { helper } from '@ember/component/helper';
+import Component from '@ember/component';
+import { getOwner } from '@ember/application';
 import Ember from 'ember';
 import { moduleForComponent, test } from 'ember-qunit';
 import hbs from 'htmlbars-inline-precompile';
@@ -8,10 +11,10 @@ const { compile } = Ember.__loader.require('ember-template-compiler');
 moduleForComponent('', 'Integration | Template AST Plugin', {
   integration: true,
   beforeEach() {
-    const owner = Ember.getOwner(this);
+    const owner = getOwner(this);
     owner.register('template:components/x-div', hbs`{{yield}}`);
-    owner.register('component:x-div', Ember.Component.extend({ attributeBindings: ['data-test-value'] }));
-    owner.register('helper:helper', Ember.Helper.helper((params, hash) => {
+    owner.register('component:x-div', Component.extend({ attributeBindings: ['data-test-value'] }));
+    owner.register('helper:helper', helper((params, hash) => {
       const values = Object.keys(hash).map(key => hash[key]);
       return params.concat(values).join(' ');
     }));

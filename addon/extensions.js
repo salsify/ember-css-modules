@@ -1,3 +1,5 @@
+import Controller from '@ember/controller';
+import Component from '@ember/component';
 import Ember from 'ember';
 import Resolver from 'ember-resolver';
 
@@ -6,7 +8,7 @@ import ControllerMixin from './mixins/controller-mixin';
 import ComponentLookupMixin from './mixins/component-lookup-mixin';
 import ResolverMixin from './mixins/resolver-mixin';
 
-Ember.Component.reopen(ComponentMixin);
-Ember.Controller.reopen(ControllerMixin);
+Component.reopen(ComponentMixin);
+Controller.reopen(ControllerMixin);
 Ember.ComponentLookup.reopen(ComponentLookupMixin);
 Resolver.reopen(ResolverMixin);
