@@ -3,8 +3,6 @@ import Mixin from '@ember/object/mixin';
 import { dasherize } from '@ember/string';
 import { getOwner } from '@ember/application';
 
-const LOCALCLASSNAMESCP = '__local_class_names_cp';
-
 export default Mixin.create({
   localClassNames: null,
   localClassNameBindings: null,
@@ -19,11 +17,14 @@ export default Mixin.create({
     this.classNameBindings = [
       ...this.classNameBindings,
       ...localClassNames(this),
-      // ...localClassNameBindings(this)
-      LOCALCLASSNAMESCP,
+      LOCAL_CLASS_NAMES_CP,
     ];
 
-    this.set(LOCALCLASSNAMESCP, buildLocalClassNameBindingsCp(this.localClassNameBindings, this.get('__styles__')));
+    if (this.localClassNameBindings.length) {
+      Object.defineProperty(this, LOCAL_CLASS_NAMES_CP, {
+        value: localClassNamesCP(this.localClassNameBindings, this.get('__styles__'))
+      });
+    }
   },
 
   __styles__: computed(function() {
@@ -39,28 +40,33 @@ export default Mixin.create({
   })
 });
 
+const LOCAL_CLASS_NAMES_CP = '__ecm_local_class_names__';
+
 function localClassNames(component) {
   return component.localClassNames.map(className => `__styles__.${className}`);
 }
 
-function buildLocalClassNameBindingsCp(localClassNameBindings, styles) {
-  const bindings = localClassNameBindings
-    .map(c => c.split(':'))
-    .map(([property, trueStyle, falseStyle]) => {
-      const trueClasses = (styles[trueStyle || dasherize(property)] || '').split(/\s+/);
-      const falseClasses = (styles[falseStyle] || '').split(/\s+/);
-      const isBoolean = !!trueStyle;
-      return {property,trueClasses,falseClasses,isBoolean};
+function localClassNamesCP(localClassNameBindings, styles) {
+  let bindings = localClassNameBindings.map((binding) => {
+    let [property, trueStyle, falseStyle] = binding.split(':');
+    let trueClasses = styles[trueStyle || dasherize(property)] || '';
+    let falseClasses = styles[falseStyle] || '';
+    let isBoolean = !!trueStyle;
+    return { property, trueClasses, falseClasses, isBoolean };
+  });
+
+  return computed(...bindings.map(binding => binding.property), function() {
+    let classes = [];
+
+    bindings.forEach((binding) => {
+      let value = this.get(binding.property);
+      if (binding.isBoolean || typeof value !== 'string') {
+        classes.push(value ? binding.trueClasses : binding.falseClasses);
+      } else {
+        classes.push(value.split(/\s+/).map(key => styles[key]).join(' '));
+      }
     });
 
-  return computed(...bindings.map(b => b.property), function() {
-    return bindings.map(binding => {
-      const value = this.get(binding.property);
-      if(!binding.isBoolean && (typeof value === 'string')) {
-        return value.split(' ').map(c => styles[c]);
-      }
-
-      return value ? binding.trueClasses : binding.falseClasses;
-    }).reduce((a, b) => [...a, ...b], []).join(' ');
+    return classes.join(' ');
   });
 }

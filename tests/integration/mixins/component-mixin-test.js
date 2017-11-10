@@ -203,7 +203,7 @@ test('it honors a configured mapped localClassNameBinding string', function(asse
   this.set('cls', 'dynamic-class-name');
 
   this.owner.register('styles:components/test-component', styles);
-  this.owner.register('component:test-component', Ember.Component.extend(ComponentMixin, {
+  this.owner.register('component:test-component', Component.extend(ComponentMixin, {
     classNames: 'test-component',
     localClassNameBindings: 'cls'
   }));
@@ -214,11 +214,11 @@ test('it honors a configured mapped localClassNameBinding string', function(asse
   assert.ok($element.is('.foo'));
   assert.notOk($element.is('.bar'));
 
-  Ember.run(() => this.set('cls', 'other-dynamic-class-name'));
+  run(() => this.set('cls', 'other-dynamic-class-name'));
   assert.notOk($element.is('.foo'));
   assert.ok($element.is('.bar'));
 
-  Ember.run(() => this.set('cls', false));
+  run(() => this.set('cls', false));
   assert.notOk($element.is('.foo'));
   assert.notOk($element.is('.bar'));
 });
