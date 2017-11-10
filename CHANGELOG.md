@@ -1,3 +1,12 @@
+## Unreleased
+### Added
+- The ability to use `{{local-class}}` to inject classes from other modules is now public and documented (thanks [@kellyselden](https://github.com/kellyselden)!)
+
+### Fixed
+- `localClassNameBindings` now works with string values instead of just booleans (thanks [@luxferresum](https://github.com/luxferresum)!)
+- `headerFiles` and `footerFiles` will now accept file paths with and without extensions
+- Setup for `localClassNames` and `localClassNameBindings` now short circuits to avoid extra work for tagless components (thanks [@garno](https://github.com/garno)!)
+
 ## After All (August 16, 2017)
 ### Added
 - PostCSS plugins can now be specified to run against the final concatenated output of all modules using the `postprocess` array (thanks [@alexlafroscia](https://github.com/alexlafroscia)!)

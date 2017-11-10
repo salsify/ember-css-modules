@@ -151,8 +151,6 @@ export default Ember.Component.extend({
 - If `propB` is true, a local `special` class will be applied. If it's false, no additional classes will be applied.
 - If `propC` is true, a local `yes` class will be applied. If it's false, a local `no` class will be applied.
 
-**Note**: `localClassNameBindings` [currently only works with boolean values](https://github.com/salsify/ember-css-modules/issues/56), unlike `classNameBindings` which will apply a string value directly as a class name.
-
 ### Global Classes
 
 Some libraries provide explicit class names as part of their public interface in order to allow customization of their look and feel. If, for example, you're wrapping such a library in a component, you need to be able to reference those unscoped class names in the context of your component styles. The `:global` pseudoselector allows for this:
