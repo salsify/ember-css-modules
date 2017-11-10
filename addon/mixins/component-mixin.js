@@ -17,8 +17,14 @@ export default Mixin.create({
     this.classNameBindings = [
       ...this.classNameBindings,
       ...localClassNames(this),
-      ...localClassNameBindings(this)
+      LOCAL_CLASS_NAMES_CP,
     ];
+
+    if (this.localClassNameBindings.length) {
+      Object.defineProperty(this, LOCAL_CLASS_NAMES_CP, {
+        value: localClassNamesCP(this.localClassNameBindings, this.get('__styles__'))
+      });
+    }
   },
 
   __styles__: computed(function() {
@@ -34,36 +40,33 @@ export default Mixin.create({
   })
 });
 
+const LOCAL_CLASS_NAMES_CP = '__ecm_local_class_names__';
+
 function localClassNames(component) {
   return component.localClassNames.map(className => `__styles__.${className}`);
 }
 
-function localClassNameBindings(component) {
-  return component.localClassNameBindings.reduce((bindings, bindingSource) => {
-    return bindings.concat(buildBindings(component, bindingSource));
-  }, []);
-}
+function localClassNamesCP(localClassNameBindings, styles) {
+  let bindings = localClassNameBindings.map((binding) => {
+    let [property, trueStyle, falseStyle] = binding.split(':');
+    let trueClasses = styles[trueStyle || dasherize(property)] || '';
+    let falseClasses = styles[falseStyle] || '';
+    let isBoolean = !!trueStyle;
+    return { property, trueClasses, falseClasses, isBoolean };
+  });
 
-function buildBindings(component, bindingSource) {
-  let styles = component.get('__styles__');
-  if (!styles) { return []; }
+  return computed(...bindings.map(binding => binding.property), function() {
+    let classes = [];
 
-  let [property, trueStyle = dasherize(property), falseStyle] = bindingSource.split(':');
-  let trueClasses = (styles[trueStyle] || '').split(/\s+/);
-  let falseClasses = (styles[falseStyle] || '').split(/\s+/);
-  let bindings = [];
+    bindings.forEach((binding) => {
+      let value = this.get(binding.property);
+      if (binding.isBoolean || typeof value !== 'string') {
+        classes.push(value ? binding.trueClasses : binding.falseClasses);
+      } else {
+        classes.push(value.split(/\s+/).map(key => styles[key]).join(' '));
+      }
+    });
 
-  for (let i = 0, len = Math.max(trueClasses.length, falseClasses.length); i < len; i++) {
-    bindings.push(bindingString(property, trueClasses[i], falseClasses[i]));
-  }
-
-  return bindings;
-}
-
-function bindingString(property, trueClass = '', falseClass = '') {
-  let binding = `${property}:${trueClass || ''}`;
-  if (falseClass) {
-    binding += `:${falseClass}`;
-  }
-  return binding;
+    return classes.join(' ');
+  });
 }
