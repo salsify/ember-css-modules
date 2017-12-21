@@ -74,6 +74,9 @@
   },
   "ember-addon": {
     "configPath": "tests/dummy/config",
+    "after": [
+      "ember-font-awesome"
+    ],
     "before": [
       "ember-cli-babel",
       "ember-cli-less",
