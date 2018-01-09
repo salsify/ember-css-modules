@@ -1,3 +1,8 @@
+## 0.7.5 Everything is Awesome (January 8, 2018)
+### Fixed
+- The `local-class` template transform should now play nicely with ember-font-awesome's own transforms (thanks [@buschtoens](https://github.com/buschtoens)!)
+- The plugin registry no longer explodes when addons with no package keywords are present (thanks [@devotox](https://github.com/deotox)!)
+
 ## 0.7.4 String Theory (November 10, 2017)
 ### Added
 - The ability to use `{{local-class}}` to inject classes from other modules is now public and documented (thanks [@kellyselden](https://github.com/kellyselden)!)
