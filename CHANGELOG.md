@@ -1,3 +1,7 @@
+## 0.7.6 Lint Roller (January 29, 2018)
+### Added
+- The plugin system now supports a notion of lint plugins, which will activate for developing addons even when they're in `devDependencies`.
+
 ## 0.7.5 Everything is Awesome (January 8, 2018)
 ### Fixed
 - The `local-class` template transform should now play nicely with ember-font-awesome's own transforms (thanks [@buschtoens](https://github.com/buschtoens)!)
