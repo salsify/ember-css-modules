@@ -50,3 +50,9 @@ The inverse of `isForAddon()` — indicates whether this plugin's parent is an a
 
 ### `addPostcssPlugin(config, type, plugin)`
 Given a config hash, adds the given PostCSS plugin to that configuration, either as a `before` or `after` plugin. Particularly useful within the `config` hook.
+
+## Lint Plugins
+
+Normally, an ember-css-modules plugin will activate in exactly the same scenario a normal addon would: for apps when it's a `devDependency`, and for addons when it's a `dependency`. However, for addons this may cause an issue with plugins that provide development-time support, such as code linting. As an addon author, you wouldn't want to declare a production dependency on these plugins, but you _do_ want them to apply to your addon code while you're developing it.
+
+To handle this case, ECM plugins may provide an additonal package keyword: `ember-css-modules-lint-plugin`. This will cause the plugin to activate for addon code **even if it's only in the dummy app's `devDependencies`** as long as that addon's `isDevelopingAddon()` hook returns `true`. Plugins like [ember-css-modules-stylelint](https://github.com/dfreeman/ember-css-modules-stylelint) take advantage of this so they can be used with addons and engines without weighing down downstream consumers with extra dependencies.

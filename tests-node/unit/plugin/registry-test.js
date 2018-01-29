@@ -36,6 +36,39 @@ test('plugin discovery and instantiation', function(assert) {
   assert.equal(registry.plugins[0].name, 'b');
 });
 
+test('lint plugin discovery and instantiation', function(assert) {
+  let parent = {
+    isDevelopingAddon: () => true,
+    addons: [
+      {
+        name: 'a',
+        pkg: { keywords: ['ember-css-modules-plugin', 'ember-css-modules-lint-plugin'] },
+        createCssModulesPlugin: parent => new TestPlugin(parent, { name: 'a' })
+      }
+    ],
+
+    project: {
+      addons: [
+        {
+          name: 'a',
+          pkg: { keywords: ['ember-css-modules-plugin', 'ember-css-modules-lint-plugin'] },
+          createCssModulesPlugin: parent => new TestPlugin(parent, { name: 'already-in-addon' })
+        },
+        {
+          name: 'b',
+          pkg: { keywords: ['ember-css-modules-plugin', 'ember-css-modules-lint-plugin'] },
+          createCssModulesPlugin: parent => new TestPlugin(parent, { name: 'b' })
+        }
+      ]
+    }
+  };
+
+  let registry = new PluginRegistry(parent);
+  assert.equal(registry.plugins.length, 2);
+  assert.equal(registry.plugins[0].name, 'a');
+  assert.equal(registry.plugins[1].name, 'b');
+});
+
 test('warning when not returning a Plugin instance', function(assert) {
   let parent = {
     ui: { writeWarnLine: sinon.spy() },
