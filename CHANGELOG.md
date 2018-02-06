@@ -1,3 +1,7 @@
+## 0.7.7 Prelease Blues (February 6, 2018)
+### Fixed
+- Prerelease versions of Ember CLI are correctly detected now.
+
 ## 0.7.6 Lint Roller (January 29, 2018)
 ### Added
 - The plugin system now supports a notion of lint plugins, which will activate for developing addons even when they're in `devDependencies`.
