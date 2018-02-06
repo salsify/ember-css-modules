@@ -126,10 +126,10 @@ module.exports = {
 
   getAddonModulesRoot() {
     // CLI 2.12 stopped exposing addon stuff nested under `modules/`
-    if (this.checker.for('ember-cli', 'npm').satisfies('>= 2.12')) {
-      return '';
-    } else {
+    if (this.checker.for('ember-cli', 'npm').satisfies('< 2.12')) {
       return 'modules/';
+    } else {
+      return '';
     }
   },
 
