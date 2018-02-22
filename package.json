@@ -64,7 +64,7 @@
     "broccoli-concat": "^3.2.2",
     "broccoli-css-modules": "^0.6.2",
     "broccoli-funnel": "^2.0.1",
-    "broccoli-merge-trees": "^3.0.0",
+    "broccoli-merge-trees": "^2.0.0",
     "broccoli-postcss": "^3.5.2",
     "calculate-cache-key-for-tree": "^1.1.0",
     "debug": "^3.1.0",
