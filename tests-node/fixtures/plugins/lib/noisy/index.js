@@ -1,5 +1,6 @@
 'use strict';
 
+// eslint-disable-next-line node/no-missing-require
 const Plugin = require('ember-css-modules/lib/plugin');
 
 module.exports = {

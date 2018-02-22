@@ -1,224 +1,225 @@
 import { run } from '@ember/runloop';
 import Component from '@ember/component';
-import { getOwner } from '@ember/application';
 import hbs from 'htmlbars-inline-precompile';
 
 import ComponentMixin from 'ember-css-modules/mixins/component-mixin';
-import { moduleForComponent, test } from 'ember-qunit';
+import { module, test } from 'qunit';
+import { setupRenderingTest } from 'ember-qunit';
 
-moduleForComponent('', 'Integration | Mixin | component mixin', {
-  integration: true,
+import { render } from '@ember/test-helpers';
 
-  beforeEach() {
-    this.owner = getOwner(this);
+module('Integration | Mixin | component mixin', function(hooks) {
+  setupRenderingTest(hooks);
+
+  hooks.beforeEach(function() {
     this.owner.registerOptionsForType('styles', { instantiate: false });
-  }
-});
+  });
 
-test('it exposes a computed __styles__ property', function(assert) {
-  let styles = {};
+  test('it exposes a computed __styles__ property', function(assert) {
+    let styles = {};
 
-  this.owner.register('component:test-component', Component.extend(ComponentMixin));
-  this.owner.register('styles:components/test-component', styles);
+    this.owner.register('component:test-component', Component.extend(ComponentMixin));
+    this.owner.register('styles:components/test-component', styles);
 
-  let subject = this.owner.lookup('component:test-component');
+    let subject = this.owner.lookup('component:test-component');
 
-  assert.equal(subject.get('__styles__'), styles);
-});
+    assert.equal(subject.get('__styles__'), styles);
+  });
 
-test('it honors a configured localClassName', function(assert) {
-  let styles = {
-    foo: 'bar'
-  };
+  test('it honors a configured localClassName', async function(assert) {
+    let styles = {
+      foo: 'bar'
+    };
 
-  this.owner.register('styles:components/test-component', styles);
-  this.owner.register('component:test-component', Component.extend(ComponentMixin, {
-    classNames: 'test-component',
-    localClassNames: 'foo'
-  }));
+    this.owner.register('styles:components/test-component', styles);
+    this.owner.register('component:test-component', Component.extend(ComponentMixin, {
+      classNames: 'test-component',
+      localClassNames: 'foo'
+    }));
 
-  this.render(hbs`{{test-component}}`);
+    await render(hbs`{{test-component}}`);
 
-  let $element = this.$('.test-component');
+    let $element = this.$('.test-component');
 
-  assert.ok($element.is('.bar'));
-  assert.notOk($element.is('.foo'));
-  assert.notOk($element.is('.buzz'));
-});
+    assert.ok($element.is('.bar'));
+    assert.notOk($element.is('.foo'));
+    assert.notOk($element.is('.buzz'));
+  });
 
-test('it honors a configured simple localClassNameBinding', function(assert) {
-  let styles = {
-    'dynamic-value': 'foo'
-  };
+  test('it honors a configured simple localClassNameBinding', async function(assert) {
+    let styles = {
+      'dynamic-value': 'foo'
+    };
 
-  this.set('flag', true);
+    this.set('flag', true);
 
-  this.owner.register('styles:components/test-component', styles);
-  this.owner.register('component:test-component', Component.extend(ComponentMixin, {
-    classNames: 'test-component',
-    localClassNameBindings: 'dynamicValue'
-  }));
+    this.owner.register('styles:components/test-component', styles);
+    this.owner.register('component:test-component', Component.extend(ComponentMixin, {
+      classNames: 'test-component',
+      localClassNameBindings: 'dynamicValue'
+    }));
 
-  this.render(hbs`{{test-component dynamicValue=flag}}`);
+    await render(hbs`{{test-component dynamicValue=flag}}`);
 
-  let $element = this.$('.test-component');
-  assert.ok($element.is('.foo'));
+    let $element = this.$('.test-component');
+    assert.ok($element.is('.foo'));
 
-  run(() => this.set('flag', false));
-  assert.notOk($element.is('.foo'));
-});
+    run(() => this.set('flag', false));
+    assert.notOk($element.is('.foo'));
+  });
 
-test('it honors a configured mapped localClassNameBinding', function(assert) {
-  let styles = {
-    'dynamic-value': 'foo',
-    'other-class': 'bar'
-  };
+  test('it honors a configured mapped localClassNameBinding', async function(assert) {
+    let styles = {
+      'dynamic-value': 'foo',
+      'other-class': 'bar'
+    };
 
-  this.set('flag', true);
+    this.set('flag', true);
 
-  this.owner.register('styles:components/test-component', styles);
-  this.owner.register('component:test-component', Component.extend(ComponentMixin, {
-    classNames: 'test-component',
-    localClassNameBindings: 'dynamicValue:other-class'
-  }));
+    this.owner.register('styles:components/test-component', styles);
+    this.owner.register('component:test-component', Component.extend(ComponentMixin, {
+      classNames: 'test-component',
+      localClassNameBindings: 'dynamicValue:other-class'
+    }));
 
-  this.render(hbs`{{test-component dynamicValue=flag}}`);
+    await render(hbs`{{test-component dynamicValue=flag}}`);
 
-  let $element = this.$('.test-component');
-  assert.notOk($element.is('.foo'));
-  assert.ok($element.is('.bar'));
+    let $element = this.$('.test-component');
+    assert.notOk($element.is('.foo'));
+    assert.ok($element.is('.bar'));
 
-  run(() => this.set('flag', false));
-  assert.notOk($element.is('.foo'));
-  assert.notOk($element.is('.bar'));
-});
+    run(() => this.set('flag', false));
+    assert.notOk($element.is('.foo'));
+    assert.notOk($element.is('.bar'));
+  });
 
-test('it honors a configured mapped localClassNameBinding with an inverse', function(assert) {
-  let styles = {
-    'dynamic-value': 'foo',
-    'other-class': 'bar',
-    'different-class': 'baz'
-  };
+  test('it honors a configured mapped localClassNameBinding with an inverse', async function(assert) {
+    let styles = {
+      'dynamic-value': 'foo',
+      'other-class': 'bar',
+      'different-class': 'baz'
+    };
 
-  this.set('flag', true);
+    this.set('flag', true);
 
-  this.owner.register('styles:components/test-component', styles);
-  this.owner.register('component:test-component', Component.extend(ComponentMixin, {
-    classNames: 'test-component',
-    localClassNameBindings: 'dynamicValue:other-class:different-class'
-  }));
+    this.owner.register('styles:components/test-component', styles);
+    this.owner.register('component:test-component', Component.extend(ComponentMixin, {
+      classNames: 'test-component',
+      localClassNameBindings: 'dynamicValue:other-class:different-class'
+    }));
 
-  this.render(hbs`{{test-component dynamicValue=flag}}`);
+    await render(hbs`{{test-component dynamicValue=flag}}`);
 
-  let $element = this.$('.test-component');
-  assert.notOk($element.is('.foo'));
-  assert.ok($element.is('.bar'));
-  assert.notOk($element.is('.baz'));
+    let $element = this.$('.test-component');
+    assert.notOk($element.is('.foo'));
+    assert.ok($element.is('.bar'));
+    assert.notOk($element.is('.baz'));
 
-  run(() => this.set('flag', false));
-  assert.notOk($element.is('.foo'));
-  assert.notOk($element.is('.bar'));
-  assert.ok($element.is('.baz'));
-});
+    run(() => this.set('flag', false));
+    assert.notOk($element.is('.foo'));
+    assert.notOk($element.is('.bar'));
+    assert.ok($element.is('.baz'));
+  });
 
-test('it supports localClassNames with composition', function(assert) {
-  let styles = {
-    'some-class': 'foo bar baz'
-  };
+  test('it supports localClassNames with composition', async function(assert) {
+    let styles = {
+      'some-class': 'foo bar baz'
+    };
 
-  this.owner.register('styles:components/test-component', styles);
-  this.owner.register('component:test-component', Component.extend(ComponentMixin, {
-    classNames: 'test-component',
-    localClassNames: 'some-class'
-  }));
+    this.owner.register('styles:components/test-component', styles);
+    this.owner.register('component:test-component', Component.extend(ComponentMixin, {
+      classNames: 'test-component',
+      localClassNames: 'some-class'
+    }));
 
-  this.render(hbs`{{test-component}}`);
+    await render(hbs`{{test-component}}`);
 
-  let $element = this.$('.test-component');
-  assert.ok($element.is('.foo'));
-  assert.ok($element.is('.bar'));
-  assert.ok($element.is('.baz'));
-});
+    let $element = this.$('.test-component');
+    assert.ok($element.is('.foo'));
+    assert.ok($element.is('.bar'));
+    assert.ok($element.is('.baz'));
+  });
 
-test('it supports localClassNameBindings with composition in the positive class', function(assert) {
-  let styles = {
-    'on-class': 'foo bar',
-    'off-class': 'baz'
-  };
+  test('it supports localClassNameBindings with composition in the positive class', async function(assert) {
+    let styles = {
+      'on-class': 'foo bar',
+      'off-class': 'baz'
+    };
 
-  this.set('flag', true);
+    this.set('flag', true);
 
-  this.owner.register('styles:components/test-component', styles);
-  this.owner.register('component:test-component', Component.extend(ComponentMixin, {
-    classNames: 'test-component',
-    localClassNameBindings: 'dynamicValue:on-class:off-class'
-  }));
+    this.owner.register('styles:components/test-component', styles);
+    this.owner.register('component:test-component', Component.extend(ComponentMixin, {
+      classNames: 'test-component',
+      localClassNameBindings: 'dynamicValue:on-class:off-class'
+    }));
 
-  this.render(hbs`{{test-component dynamicValue=flag}}`);
+    await render(hbs`{{test-component dynamicValue=flag}}`);
 
-  let $element = this.$('.test-component');
-  assert.ok($element.is('.foo'));
-  assert.ok($element.is('.bar'));
-  assert.notOk($element.is('.baz'));
+    let $element = this.$('.test-component');
+    assert.ok($element.is('.foo'));
+    assert.ok($element.is('.bar'));
+    assert.notOk($element.is('.baz'));
 
-  run(() => this.set('flag', false));
-  assert.notOk($element.is('.foo'));
-  assert.notOk($element.is('.bar'));
-  assert.ok($element.is('.baz'));
-});
+    run(() => this.set('flag', false));
+    assert.notOk($element.is('.foo'));
+    assert.notOk($element.is('.bar'));
+    assert.ok($element.is('.baz'));
+  });
 
-test('it supports localClassNameBindings with composition in the negative class', function(assert) {
-  let styles = {
-    'on-class': 'foo',
-    'off-class': 'bar baz'
-  };
+  test('it supports localClassNameBindings with composition in the negative class', async function(assert) {
+    let styles = {
+      'on-class': 'foo',
+      'off-class': 'bar baz'
+    };
 
-  this.set('flag', true);
+    this.set('flag', true);
 
-  this.owner.register('styles:components/test-component', styles);
-  this.owner.register('component:test-component', Component.extend(ComponentMixin, {
-    classNames: 'test-component',
-    localClassNameBindings: 'dynamicValue:on-class:off-class'
-  }));
+    this.owner.register('styles:components/test-component', styles);
+    this.owner.register('component:test-component', Component.extend(ComponentMixin, {
+      classNames: 'test-component',
+      localClassNameBindings: 'dynamicValue:on-class:off-class'
+    }));
 
-  this.render(hbs`{{test-component dynamicValue=flag}}`);
+    await render(hbs`{{test-component dynamicValue=flag}}`);
 
-  let $element = this.$('.test-component');
-  assert.ok($element.is('.foo'));
-  assert.notOk($element.is('.bar'));
-  assert.notOk($element.is('.baz'));
+    let $element = this.$('.test-component');
+    assert.ok($element.is('.foo'));
+    assert.notOk($element.is('.bar'));
+    assert.notOk($element.is('.baz'));
 
-  run(() => this.set('flag', false));
-  assert.notOk($element.is('.foo'));
-  assert.ok($element.is('.bar'));
-  assert.ok($element.is('.baz'));
-});
+    run(() => this.set('flag', false));
+    assert.notOk($element.is('.foo'));
+    assert.ok($element.is('.bar'));
+    assert.ok($element.is('.baz'));
+  });
 
-test('it honors a configured mapped localClassNameBinding string', function(assert) {
-  let styles = {
-    'dynamic-class-name': 'foo',
-    'other-dynamic-class-name': 'bar',
-  };
+  test('it honors a configured mapped localClassNameBinding string', async function(assert) {
+    let styles = {
+      'dynamic-class-name': 'foo',
+      'other-dynamic-class-name': 'bar',
+    };
 
-  this.set('cls', 'dynamic-class-name');
+    this.set('cls', 'dynamic-class-name');
 
-  this.owner.register('styles:components/test-component', styles);
-  this.owner.register('component:test-component', Component.extend(ComponentMixin, {
-    classNames: 'test-component',
-    localClassNameBindings: 'cls'
-  }));
+    this.owner.register('styles:components/test-component', styles);
+    this.owner.register('component:test-component', Component.extend(ComponentMixin, {
+      classNames: 'test-component',
+      localClassNameBindings: 'cls'
+    }));
 
-  this.render(hbs`{{test-component cls=cls}}`);
+    await render(hbs`{{test-component cls=cls}}`);
 
-  let $element = this.$('.test-component');
-  assert.ok($element.is('.foo'));
-  assert.notOk($element.is('.bar'));
+    let $element = this.$('.test-component');
+    assert.ok($element.is('.foo'));
+    assert.notOk($element.is('.bar'));
 
-  run(() => this.set('cls', 'other-dynamic-class-name'));
-  assert.notOk($element.is('.foo'));
-  assert.ok($element.is('.bar'));
+    run(() => this.set('cls', 'other-dynamic-class-name'));
+    assert.notOk($element.is('.foo'));
+    assert.ok($element.is('.bar'));
 
-  run(() => this.set('cls', false));
-  assert.notOk($element.is('.foo'));
-  assert.notOk($element.is('.bar'));
+    run(() => this.set('cls', false));
+    assert.notOk($element.is('.foo'));
+    assert.notOk($element.is('.bar'));
+  });
 });

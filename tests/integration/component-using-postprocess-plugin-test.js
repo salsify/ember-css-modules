@@ -1,17 +1,19 @@
-import { test, moduleForComponent } from 'ember-qunit';
+import { module, test } from 'qunit';
+import { setupRenderingTest } from 'ember-qunit';
+import { render } from '@ember/test-helpers';
 import $ from 'jquery';
 import hbs from 'htmlbars-inline-precompile';
 
-moduleForComponent('testing/component-using-postprocess-plugin', 'Integration | "postprocess" Plugins', {
-  integration: true
-});
+module('Integration | "postprocess" Plugins', function(hooks) {
+  setupRenderingTest(hooks);
 
-test('executes postprocess plugins', function(assert) {
-  this.render(hbs`{{testing/component-using-postprocess-plugin}}`);
+  test('executes postprocess plugins', async function(assert) {
+    await render(hbs`{{testing/component-using-postprocess-plugin}}`);
 
-  let testElement = $('[data-test-element]').get(0);
-  assert.ok(testElement);
+    let testElement = $('[data-test-element]').get(0);
+    assert.ok(testElement);
 
-  let styles = window.getComputedStyle(testElement);
-  assert.equal(styles.backgroundColor, 'rgb(102, 51, 153)');
+    let styles = window.getComputedStyle(testElement);
+    assert.equal(styles.backgroundColor, 'rgb(102, 51, 153)');
+  });
 });
