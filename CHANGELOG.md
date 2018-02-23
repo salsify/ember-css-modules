@@ -1,7 +1,10 @@
-## 0.7.8 Party Like It's 1992 (February 22, 2018)
+## 0.7.9 Party Like It's 1992 (February 22, 2018)
 ### Fixed
 - Ember 3.1 ships with a version of Glimmer that expects AST transforms to use [a singular `visitor` key rather than plural `visitors`](https://github.com/glimmerjs/glimmer-vm/pull/557). So we do that. Big thanks to [@luqman](https://github.com/luqman) for tracking this down.
 - The internal computed property we set up to support `localClassNameBindings` now uses Ember's `defineProperty` for compatibility with the ES5 getters overhaul.
+
+## ~0.7.8 Let's Pretend This Never HAppened (February 22, 2018)~
+### This was essentially a no-op republish of 0.7.7.
 
 ## 0.7.7 Prelease Blues (February 6, 2018)
 ### Fixed
