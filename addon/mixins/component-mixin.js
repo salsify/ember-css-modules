@@ -1,4 +1,4 @@
-import { computed } from '@ember/object';
+import { computed, defineProperty } from '@ember/object';
 import Mixin from '@ember/object/mixin';
 import { dasherize } from '@ember/string';
 import { getOwner } from '@ember/application';
@@ -21,9 +21,8 @@ export default Mixin.create({
     ];
 
     if (this.localClassNameBindings.length) {
-      Object.defineProperty(this, LOCAL_CLASS_NAMES_CP, {
-        value: localClassNamesCP(this.localClassNameBindings, this.get('__styles__'))
-      });
+      let value = localClassNamesCP(this.localClassNameBindings, this.get('__styles__'));
+      defineProperty(this, LOCAL_CLASS_NAMES_CP, value);
     }
   },
 

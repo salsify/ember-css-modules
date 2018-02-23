@@ -1,6 +1,6 @@
-/* eslint-env node */
 'use strict';
 
+// eslint-disable-next-line node/no-unpublished-require
 var generateScopedName = require('../../lib/generate-scoped-name');
 
 module.exports = {

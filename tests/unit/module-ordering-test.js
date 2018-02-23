@@ -14,47 +14,47 @@ import xStyles from 'dummy/styles/testing/ordering/x';
 import yStyles from 'dummy/styles/testing/ordering/y';
 import zStyles from 'dummy/styles/testing/ordering/z';
 
-module('Unit | Module Ordering');
+module('Unit | Module Ordering', function() {
+  test('modules are ordered according to composition and explicit directives', function(assert) {
+    let orderedClassNames = [
+      // headerFiles
+      hStyles.h,
+      gStyles.g,
 
-test('modules are ordered according to composition and explicit directives', function(assert) {
-  let orderedClassNames = [
-    // headerFiles
-    hStyles.h,
-    gStyles.g,
+      // @after-module files
+      rStyles.r,
+      pStyles.p,
+      qStyles.q,
 
-    // @after-module files
-    rStyles.r,
-    pStyles.p,
-    qStyles.q,
+      // composes: files
+      cStyles.c,
+      aStyles.a,
+      bStyles.b,
 
-    // composes: files
-    cStyles.c,
-    aStyles.a,
-    bStyles.b,
+      // @value files
+      zStyles.z,
+      xStyles.x,
+      yStyles.y,
 
-    // @value files
-    zStyles.z,
-    xStyles.x,
-    yStyles.y,
+      // fooderFiles
+      tStyles.t,
+      uStyles.u
+    ];
 
-    // fooderFiles
-    tStyles.t,
-    uStyles.u
-  ];
+    let orderedSelectors = orderedClassNames.map(name => `.${name.split(' ')[0]}`);
+    let rules = findTestRules(findAppStylesheet(), orderedSelectors);
 
-  let orderedSelectors = orderedClassNames.map(name => `.${name.split(' ')[0]}`);
-  let rules = findTestRules(findAppStylesheet(), orderedSelectors);
+    assert.deepEqual(rules.map(rule => rule.selectorText), orderedSelectors);
+  });
 
-  assert.deepEqual(rules.map(rule => rule.selectorText), orderedSelectors);
-});
-
-function findAppStylesheet() {
-  for (let i = 0, len = document.styleSheets.length; i < len; i++) {
-    let sheet = document.styleSheets[i];
-    if (/dummy\.css$/.test(sheet.href)) { return sheet; }
+  function findAppStylesheet() {
+    for (let i = 0, len = document.styleSheets.length; i < len; i++) {
+      let sheet = document.styleSheets[i];
+      if (/dummy\.css$/.test(sheet.href)) { return sheet; }
+    }
   }
-}
 
-function findTestRules(stylesheet, selectors) {
-  return Array.prototype.filter.call(stylesheet.cssRules, rule => selectors.indexOf(rule.selectorText) > -1);
-}
+  function findTestRules(stylesheet, selectors) {
+    return Array.prototype.filter.call(stylesheet.cssRules, rule => selectors.indexOf(rule.selectorText) > -1);
+  }
+});
