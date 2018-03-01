@@ -1,3 +1,7 @@
+## 0.7.10 Super Scope (March 1, 2018)
+### Fixed
+- Support importing styles via `@value` and `composes:` from addons with `@scope`ed names.
+
 ## 0.7.9 Party Like It's 1992 (February 22, 2018)
 ### Fixed
 - Ember 3.1 ships with a version of Glimmer that expects AST transforms to use [a singular `visitor` key rather than plural `visitors`](https://github.com/glimmerjs/glimmer-vm/pull/557). So we do that. Big thanks to [@luqman](https://github.com/luqman) for tracking this down.
