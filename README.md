@@ -295,4 +295,10 @@ sourcemaps: {
 
 ## Ember Support
 
-This addon is tested against and expected to work with the Ember's [LTS releases](http://emberjs.com/blog/2016/02/25/announcing-embers-first-lts.html) as well as the current [release, beta, and canary](http://emberjs.com/builds/) builds.
+This addon is tested against and expected to work with Ember's active [LTS releases](http://emberjs.com/blog/2016/02/25/announcing-embers-first-lts.html) as well as the current [release, beta, and canary](http://emberjs.com/builds/) builds.
+
+Note that if you're using ember-css-modules with a version of Ember CLI prior to 2.13, you'll need to add the following to your `app.js`:
+
+```js
+import 'ember-css-modules/extensions';
+```
