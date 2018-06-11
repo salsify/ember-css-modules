@@ -44,7 +44,7 @@ module.exports = function(defaults) {
   let additionalTrees = [];
 
   if (HAS_EMBER_SOURCE) {
-    additionalTrees.push(new Funnel(path.dirname(require.resolve('ember-source')), {
+    additionalTrees.push(new Funnel(path.dirname(require.resolve('ember-source/package.json')), {
       srcDir: 'dist',
       destDir: 'vendor/ember',
       include: ['ember-template-compiler.js']

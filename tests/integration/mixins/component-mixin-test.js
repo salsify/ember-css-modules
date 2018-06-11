@@ -8,6 +8,10 @@ import { setupRenderingTest } from 'ember-qunit';
 
 import { render } from '@ember/test-helpers';
 
+import podStyles from 'dummy/components/testing/pod-component/styles';
+import rootPodStyles from 'dummy/testing/root-pod-component/styles';
+import classicStyles from 'dummy/styles/components/testing/classic-component';
+
 module('Integration | Mixin | component mixin', function(hooks) {
   setupRenderingTest(hooks);
 
@@ -15,15 +19,19 @@ module('Integration | Mixin | component mixin', function(hooks) {
     this.owner.registerOptionsForType('styles', { instantiate: false });
   });
 
-  test('it exposes a computed __styles__ property', function(assert) {
-    let styles = {};
+  test('it exposes a computed __styles__ property for pod components', function(assert) {
+    let subject = this.owner.lookup('component:testing/pod-component');
+    assert.equal(subject.get('__styles__'), podStyles);
+  });
 
-    this.owner.register('component:test-component', Component.extend(ComponentMixin));
-    this.owner.register('styles:components/test-component', styles);
+  test('it exposes a computed __styles__ property for pod components outside components/', function(assert) {
+    let subject = this.owner.lookup('component:testing/root-pod-component');
+    assert.equal(subject.get('__styles__'), rootPodStyles);
+  });
 
-    let subject = this.owner.lookup('component:test-component');
-
-    assert.equal(subject.get('__styles__'), styles);
+  test('it exposes a computed __styles__ property for classic components', function(assert) {
+    let subject = this.owner.lookup('component:testing/classic-component');
+    assert.equal(subject.get('__styles__'), classicStyles);
   });
 
   test('it honors a configured localClassName', async function(assert) {
@@ -31,8 +39,8 @@ module('Integration | Mixin | component mixin', function(hooks) {
       foo: 'bar'
     };
 
-    this.owner.register('styles:components/test-component', styles);
     this.owner.register('component:test-component', Component.extend(ComponentMixin, {
+      __styles__: styles,
       classNames: 'test-component',
       localClassNames: 'foo'
     }));
@@ -53,8 +61,8 @@ module('Integration | Mixin | component mixin', function(hooks) {
 
     this.set('flag', true);
 
-    this.owner.register('styles:components/test-component', styles);
     this.owner.register('component:test-component', Component.extend(ComponentMixin, {
+      __styles__: styles,
       classNames: 'test-component',
       localClassNameBindings: 'dynamicValue'
     }));
@@ -76,8 +84,8 @@ module('Integration | Mixin | component mixin', function(hooks) {
 
     this.set('flag', true);
 
-    this.owner.register('styles:components/test-component', styles);
     this.owner.register('component:test-component', Component.extend(ComponentMixin, {
+      __styles__: styles,
       classNames: 'test-component',
       localClassNameBindings: 'dynamicValue:other-class'
     }));
@@ -102,8 +110,8 @@ module('Integration | Mixin | component mixin', function(hooks) {
 
     this.set('flag', true);
 
-    this.owner.register('styles:components/test-component', styles);
     this.owner.register('component:test-component', Component.extend(ComponentMixin, {
+      __styles__: styles,
       classNames: 'test-component',
       localClassNameBindings: 'dynamicValue:other-class:different-class'
     }));
@@ -126,8 +134,8 @@ module('Integration | Mixin | component mixin', function(hooks) {
       'some-class': 'foo bar baz'
     };
 
-    this.owner.register('styles:components/test-component', styles);
     this.owner.register('component:test-component', Component.extend(ComponentMixin, {
+      __styles__: styles,
       classNames: 'test-component',
       localClassNames: 'some-class'
     }));
@@ -148,8 +156,8 @@ module('Integration | Mixin | component mixin', function(hooks) {
 
     this.set('flag', true);
 
-    this.owner.register('styles:components/test-component', styles);
     this.owner.register('component:test-component', Component.extend(ComponentMixin, {
+      __styles__: styles,
       classNames: 'test-component',
       localClassNameBindings: 'dynamicValue:on-class:off-class'
     }));
@@ -175,8 +183,8 @@ module('Integration | Mixin | component mixin', function(hooks) {
 
     this.set('flag', true);
 
-    this.owner.register('styles:components/test-component', styles);
     this.owner.register('component:test-component', Component.extend(ComponentMixin, {
+      __styles__: styles,
       classNames: 'test-component',
       localClassNameBindings: 'dynamicValue:on-class:off-class'
     }));
@@ -202,8 +210,8 @@ module('Integration | Mixin | component mixin', function(hooks) {
 
     this.set('cls', 'dynamic-class-name');
 
-    this.owner.register('styles:components/test-component', styles);
     this.owner.register('component:test-component', Component.extend(ComponentMixin, {
+      __styles__: styles,
       classNames: 'test-component',
       localClassNameBindings: 'cls'
     }));
