@@ -1,13 +1,10 @@
 import { helper } from '@ember/component/helper';
 import Component from '@ember/component';
-import Ember from 'ember';
 import { module, test } from 'qunit';
 import { setupRenderingTest } from 'ember-qunit';
 import hbs from 'htmlbars-inline-precompile';
 import { render } from '@ember/test-helpers';
-
-import ClassTransformPlugin from 'npm:../../lib/htmlbars-plugin';
-const { compile } = Ember.__loader.require('ember-template-compiler');
+import setupStyles from '../helpers/render-with-styles';
 
 module('Integration | Template AST Plugin', function(hooks) {
   setupRenderingTest(hooks);
@@ -23,257 +20,235 @@ module('Integration | Template AST Plugin', function(hooks) {
 
   testTransformation('local-class helper with no source specified', {
     elementInput: 'data-test-value="{{local-class "foo"}}"',
-    elementOutput: 'data-test-value="{{local-class "foo" from=(unbound __styles__)}}"',
     statementInput: 'data-test-value=(local-class "foo")',
-    statementOutput: 'data-test-value=(local-class "foo" from=(unbound __styles__))',
+    output: 'data-test-value="bar"',
 
     selector: '[data-test-value=bar]',
-    properties: {
-      __styles__: {
-        foo: 'bar'
-      }
+    styles: {
+      foo: 'bar'
     }
   });
 
   testTransformation('local-class helper with a source specified', {
     elementInput: 'data-test-value="{{local-class "foo" from=otherStyles}}"',
-    elementOutput: 'data-test-value="{{local-class "foo" from=otherStyles}}"',
     statementInput: 'data-test-value=(local-class "foo" from=otherStyles)',
-    statementOutput: 'data-test-value=(local-class "foo" from=otherStyles)',
+    output: 'data-test-value="baz"',
 
     selector: '[data-test-value=baz]',
+    styles: {
+      foo: 'bar'
+    },
     properties: {
       otherStyles: {
         foo: 'baz'
-      },
-      __styles__: {
-        foo: 'bar'
       }
     }
   });
 
   testTransformation('creating a class attribute', {
     input: 'local-class="foo"',
-    statementOutput: 'class=(concat (unbound __styles__.foo))', // FIXME superfluous concat
-    elementOutput: 'class="{{unbound __styles__.foo}}"',
+    output: 'class="--foo"',
 
     selector: '.--foo',
-    properties: {
-      __styles__: {
-        foo: '--foo'
-      }
+    styles: {
+      foo: '--foo'
     }
   });
 
   testTransformation('creating a class attribute with multiple classes', {
     input: 'local-class="foo bar"',
-    statementOutput: 'class=(concat (unbound __styles__.foo) " " (unbound __styles__.bar))',
-    elementOutput: 'class="{{unbound __styles__.foo}} {{unbound __styles__.bar}}"',
+    output: 'class="--foo --bar"',
 
     selector: '.--foo.--bar',
-    properties: {
-      __styles__: {
-        foo: '--foo',
-        bar: '--bar'
-      }
+    styles: {
+      foo: '--foo',
+      bar: '--bar'
     }
   });
 
   testTransformation('appending to a class attribute', {
     input: 'class="x" local-class="foo"',
-    statementOutput: 'class=(concat "x " (unbound __styles__.foo))',
-    elementOutput: 'class="x {{unbound __styles__.foo}}"',
+    output: 'class="x --foo"',
 
     selector: '.x.--foo',
-    properties: {
-      __styles__: {
-        foo: '--foo'
-      }
+    styles: {
+      foo: '--foo'
     }
   });
 
   testTransformation('appending to a class attribute with multiple classes', {
     input: 'class="x" local-class="foo bar"',
-    statementOutput: 'class=(concat "x " (unbound __styles__.foo) " " (unbound __styles__.bar))',
-    elementOutput: 'class="x {{unbound __styles__.foo}} {{unbound __styles__.bar}}"',
+    output: 'class="x --foo --bar"',
 
     selector: '.x.--foo.--bar',
-    properties: {
-      __styles__: {
-        foo: '--foo',
-        bar: '--bar'
-      }
+    styles: {
+      foo: '--foo',
+      bar: '--bar'
     }
   });
 
   testTransformation('appending to an unquoted string literal class attribute', {
     input: 'class=x local-class="foo"',
-    elementOutput: 'class="x {{unbound __styles__.foo}}"',
+    elementOutput: 'class="x --foo"',
 
     selector: '.x.--foo',
-    properties: {
-      __styles__: {
-        foo: '--foo'
-      }
+    styles: {
+      foo: '--foo'
     }
   });
 
   testTransformation('appending to an unquoted string literal class attribute with multiple classes', {
     input: 'class=x local-class="foo bar"',
-    elementOutput: 'class="x {{unbound __styles__.foo}} {{unbound __styles__.bar}}"',
+    elementOutput: 'class="x --foo --bar"',
 
     selector: '.x.--foo.--bar',
-    properties: {
-      __styles__: {
-        foo: '--foo',
-        bar: '--bar'
-      }
+    styles: {
+      foo: '--foo',
+      bar: '--bar'
     }
   });
 
   testTransformation('appending a ConcatStatement class', {
     input: 'class="x {{y}}" local-class="foo"',
-    elementOutput: 'class="{{concat "x " y}} {{unbound __styles__.foo}}"',
+    elementOutput: 'class="x --y --foo"',
 
     selector: '.x.--y.--foo',
+    styles: {
+      foo: '--foo'
+    },
     properties: {
       y: '--y',
-      __styles__: {
-        foo: '--foo'
-      }
     }
   });
 
   testTransformation('appending a static class with a ConcatStatement local-class', {
     input: 'class="x" local-class="foo {{variable}}"',
-    elementOutput: 'class="x {{local-class (concat "foo " variable) from=(unbound __styles__)}}"',
+    elementOutput: 'class="x --foo --bar"',
 
     selector: '.x.--foo.--bar',
+    styles: {
+      foo: '--foo',
+      bar: '--bar'
+    },
     properties: {
       x: '--x',
       variable: 'bar',
-      __styles__: {
-        foo: '--foo',
-        bar: '--bar'
-      }
     }
   });
 
   testTransformation('creating a class attribute with dynamic local-class value', {
     statementInput: 'local-class=(helper positional "bar" keyA=named keyB="qux")',
-    statementOutput: 'class=(concat (local-class (helper positional "bar" keyA=named keyB="qux") from=(unbound __styles__)))',
     elementInput: 'local-class={{helper positional "bar" keyA=named keyB="qux"}}',
-    elementOutput: 'class="{{local-class (helper positional "bar" keyA=named keyB="qux") from=(unbound __styles__)}}"',
+    output: 'class="--foo --bar --baz --qux"',
 
     selector: '.--foo.--bar.--baz.--qux',
+    styles: {
+      foo: '--foo',
+      bar: '--bar',
+      baz: '--baz',
+      qux: '--qux'
+    },
     properties: {
       positional: 'foo',
-      named: 'baz',
-      __styles__: {
-        foo: '--foo',
-        bar: '--bar',
-        baz: '--baz',
-        qux: '--qux'
-      }
+      named: 'baz'
     }
   });
 
   testTransformation('creating a class attribute with mixed local-class value', {
     statementInput: 'local-class=(concat "foo " (helper positional "bar" keyA=named keyB="qux"))',
-    statementOutput: 'class=(concat (local-class (concat "foo " (helper positional "bar" keyA=named keyB="qux")) from=(unbound __styles__)))',
     elementInput: 'local-class="foo {{helper positional "bar" keyA=named keyB="qux"}}"',
-    elementOutput: 'class="{{local-class (concat "foo " (helper positional "bar" keyA=named keyB="qux")) from=(unbound __styles__)}}"',
+    output: 'class="--foo --fizz --bar --baz --qux"',
 
-    selector: '.--foo.--bar.--baz.--qux',
+    selector: '.--foo.--fizz.--bar.--baz.--qux',
+    styles: {
+      foo: '--foo',
+      bar: '--bar',
+      baz: '--baz',
+      qux: '--qux',
+      fizz: '--fizz'
+    },
     properties: {
-      positional: 'foo',
+      positional: 'fizz',
       named: 'baz',
-      __styles__: {
-        foo: '--foo',
-        bar: '--bar',
-        baz: '--baz',
-        qux: '--qux'
-      }
     }
   });
 
   testTransformation('appending a class attribute with dynamic local-class value', {
     statementInput: 'class="x" local-class=(helper positional "bar" keyA=named keyB="qux")',
-    statementOutput: 'class=(concat "x " (local-class (helper positional "bar" keyA=named keyB="qux") from=(unbound __styles__)))',
     elementInput: 'class="x" local-class={{helper positional "bar" keyA=named keyB="qux"}}',
-    elementOutput: 'class="x {{local-class (helper positional "bar" keyA=named keyB="qux") from=(unbound __styles__)}}"',
+    output: 'class="x --foo --bar --baz --qux"',
 
     selector: '.x.--foo.--bar.--baz.--qux',
+    styles: {
+      foo: '--foo',
+      bar: '--bar',
+      baz: '--baz',
+      qux: '--qux'
+    },
     properties: {
       positional: 'foo',
-      named: 'baz',
-      __styles__: {
-        foo: '--foo',
-        bar: '--bar',
-        baz: '--baz',
-        qux: '--qux'
-      }
+      named: 'baz'
     }
   });
 
   testTransformation('appending a class attribute with mixed local-class value', {
     statementInput: 'class="x" local-class=(concat "foo " (helper positional "bar" keyA=named keyB="qux"))',
-    statementOutput: 'class=(concat "x " (local-class (concat "foo " (helper positional "bar" keyA=named keyB="qux")) from=(unbound __styles__)))',
     elementInput: 'class="x" local-class="foo {{helper positional "bar" keyA=named keyB="qux"}}"',
-    elementOutput: 'class="x {{local-class (concat "foo " (helper positional "bar" keyA=named keyB="qux")) from=(unbound __styles__)}}"',
+    output: 'class="x --foo --fizz --bar --baz --qux"',
 
     selector: '.x.--foo.--bar.--baz.--qux',
+    styles: {
+      foo: '--foo',
+      bar: '--bar',
+      baz: '--baz',
+      qux: '--qux',
+      fizz: '--fizz'
+    },
     properties: {
-      positional: 'foo',
-      named: 'baz',
-      __styles__: {
-        foo: '--foo',
-        bar: '--bar',
-        baz: '--baz',
-        qux: '--qux'
-      }
+      positional: 'fizz',
+      named: 'baz'
     }
   });
 
   testTransformation('appending a path class attribute', {
     statementInput: 'class=x local-class="foo"',
-    statementOutput: 'class=(concat x " " (unbound __styles__.foo))',
     elementInput: 'class={{x}} local-class="foo"',
-    elementOutput: 'class="{{x}} {{unbound __styles__.foo}}"',
+    output: 'class="--x --foo"',
 
     selector: '.--x.--foo',
+    styles: {
+      foo: '--foo'
+    },
     properties: {
-      x: '--x',
-      __styles__: {
-        foo: '--foo'
-      }
+      x: '--x'
     }
   });
 
   testTransformation('appending a helper class attribute', {
     statementInput: 'class=(concat "x") local-class="foo"',
-    statementOutput: 'class=(concat (concat "x") " " (unbound __styles__.foo))',
     elementInput: 'class={{concat "x"}} local-class="foo"',
-    elementOutput: 'class="{{concat "x"}} {{unbound __styles__.foo}}"',
+    output: 'class="x --foo"',
 
     selector: '.x.--foo',
-    properties: {
-      __styles__: {
-        foo: '--foo'
-      }
+    styles: {
+      foo: '--foo'
     }
   });
 
   function testTransformation(title, {
     properties,
+    styles,
     selector,
     input,
-    elementOutput,
-    statementOutput,
+    output,
+    elementOutput = output,
+    statementOutput = output,
     elementInput = input,
     statementInput = input
   }) {
     test(title, async function(assert) {
+      const compile = setupStyles(styles);
+
       const assertTransforms = async (template, type, input, output) => {
         const inputString = template.replace('[ATTRS]', input);
         const outputString = template.replace('[ATTRS]', output);
@@ -282,15 +257,16 @@ module('Integration | Template AST Plugin', function(hooks) {
         assert.ok(this.$(selector).length, 'Expected output contains verification selector');
         const expected = this.$().html().replace(/id="\w+"/g, '');
 
-        const plugin = ClassTransformPlugin.forEmberVersion(Ember.VERSION);
-        await render(compile(inputString, { plugins: { ast: [plugin] } }));
+        await render(compile(inputString));
         assert.ok(this.$(selector).length, 'Actual output contains verification selector');
         const actual = this.$().html().replace(/id="\w+"/g, '');
 
         assert.equal(actual, expected, `Works for ${type}`);
       };
 
-      this.setProperties(properties);
+      if (properties) {
+        this.setProperties(properties);
+      }
 
       if (elementOutput) {
         await assertTransforms('<div [ATTRS]></div>', 'ElementNode', elementInput, elementOutput);

@@ -1,7 +1,10 @@
+/* global require */
+
 import { computed, defineProperty } from '@ember/object';
 import Mixin from '@ember/object/mixin';
 import { dasherize } from '@ember/string';
 import { getOwner } from '@ember/application';
+import { assert } from '@ember/debug';
 
 export default Mixin.create({
   localClassNames: null,
@@ -27,17 +30,28 @@ export default Mixin.create({
   },
 
   __styles__: computed(function() {
-    // If styles is an explicitly set hash, defer to it. Otherwise, use the resolver.
-    if (this.styles && Object.getPrototypeOf(this.styles) === Object.prototype) {
-      return this.styles;
-    }
-
     let key = this._debugContainerKey;
     if (!key) { return; }
 
-    return getOwner(this).resolveRegistration(`styles:components/${key.substring(key.indexOf(':') + 1)}`);
+    let name = key.replace(/^component:/, '');
+    let layout = this.layout || getOwner(this).lookup(`template:components/${name}`);
+    assert('Unable to resolve localClassNames or localClassNameBindings for a component with no layout', layout);
+
+    // This is not public API and might break at any time...
+    let moduleName = (layout.meta || layout.referrer).moduleName.replace(/\.hbs$/, '');
+    if (/\/template$/.test(moduleName)) {
+      return tryLoad(moduleName.replace(/template$/, 'styles'));
+    } else if (/\/templates\//.test(moduleName)) {
+      return tryLoad(moduleName.replace('/templates/', '/styles/'));
+    }
   })
 });
+
+function tryLoad(path) {
+  if (require.has(path)) {
+    return require(path).default;
+  }
+}
 
 const LOCAL_CLASS_NAMES_CP = '__ecm_local_class_names__';
 
