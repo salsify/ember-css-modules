@@ -25,6 +25,8 @@
   },
   "homepage": "https://github.com/salsify/ember-css-modules#readme",
   "devDependencies": {
+    "@ember-decorators/babel-transforms": "^2.0.1",
+    "babel-eslint": "^8.2.5",
     "console-ui": "^2.2.2",
     "ember-ajax": "^3.0.0",
     "ember-browserify": "^1.2.1",
@@ -62,6 +64,7 @@
     "css-modules"
   ],
   "dependencies": {
+    "@ember-decorators/utils": "^2.1.0",
     "broccoli-concat": "^3.2.2",
     "broccoli-css-modules": "^0.6.2",
     "broccoli-funnel": "^2.0.1",
