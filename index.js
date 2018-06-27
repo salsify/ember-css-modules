@@ -23,7 +23,7 @@ module.exports = {
     this._super.init && this._super.init.apply(this, arguments);
     this.modulesPreprocessor = new ModulesPreprocessor({ owner: this });
     this.outputStylesPreprocessor = new OutputStylesPreprocessor({ owner: this });
-    this.checker = new VersionChecker(this);
+    this.checker = new VersionChecker(this.project);
   },
 
   included(includer) {
