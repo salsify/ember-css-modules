@@ -48,8 +48,39 @@ Indicates whether this plugin's parent is an addon (which may be useful when det
 ### `isForApp()`
 The inverse of `isForAddon()` — indicates whether this plugin's parent is an app.
 
-### `addPostcssPlugin(config, type, plugin)`
-Given a config hash, adds the given PostCSS plugin to that configuration, either as a `before` or `after` plugin. Particularly useful within the `config` hook.
+### `addPostcssPlugin(config, type, ...plugins)`
+Given a config hash, adds the given PostCSS plugins to that configuration, either as a `before`, `after` or `postprocess` plugin. Particularly useful within the `config` hook.
+
+`after` and `postprocess` plugins are inserted after already registered plugins. `before` plugins are prepended to already registered plugins.
+This means for `before` that if you called this method with plugins that are dependent on order of execution, you would either have to register the plugin that needs to be executed _last_ as the _first_ plugin, like so:
+
+```js
+class ExamplePlugin extends Plugin {
+  config(env, baseConfig) {
+    this.addPostcssPlugin(baseConfig, 'before', require('postcss-nested'));
+
+    // needs to be executed *before* `postcss-nested` and is thus registered, *after* it
+    this.addPostcssPlugin(baseConfig, 'before', require('postcss-nested-ancestors'));
+  }
+}
+```
+
+Because this is confusing, you should rather pass both plugins in one go, like so:
+
+```js
+class ExamplePlugin extends Plugin {
+  config(env, baseConfig) {
+    this.addPostcssPlugin(
+      baseConfig,
+      'before',
+      require('postcss-nested-ancestors'),
+      require('postcss-nested')
+    );
+  }
+}
+```
+
+`addPostcssPlugin` is variadic and accepts as many plugins as you like. The order _is preserved_, when passing all plugins in one go.
 
 ## Lint Plugins
 
