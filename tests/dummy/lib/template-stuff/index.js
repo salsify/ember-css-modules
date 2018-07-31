@@ -3,7 +3,6 @@
 'use strict';
 
 const EmberApp = require('ember-cli/lib/broccoli/ember-app');
-const Rollup = require('broccoli-rollup');
 
 module.exports = {
   name: 'template-stuff',
@@ -24,19 +23,27 @@ module.exports = {
   },
 
   treeForVendor() {
-    return new Rollup(`${__dirname}/../../../../lib`, {
-      rollup: {
-        input: 'htmlbars-plugin/index.js',
-        plugins: [
-          require('rollup-plugin-commonjs')(),
-          require('rollup-plugin-node-resolve')()
-        ],
-        output: {
-          file: 'ecm-template-transform.js',
-          format: 'umd',
-          name: 'ecm-template-transform'
+    try {
+      const Rollup = require('broccoli-rollup');
+
+      return new Rollup(`${__dirname}/../../../../lib`, {
+        rollup: {
+          input: 'htmlbars-plugin/index.js',
+          plugins: [
+            require('rollup-plugin-commonjs')(),
+            require('rollup-plugin-node-resolve')()
+          ],
+          output: {
+            file: 'ecm-template-transform.js',
+            format: 'umd',
+            name: 'ecm-template-transform'
+          }
         }
-      }
-    });
+      });
+    } catch (error) {
+      // When ECM is installed via git, this in-repo addon will be present, so we need to
+      // gracefully handle the possibility that the Rollup stuff might not be installed
+      return this._super.treeForVendor.apply(this, arguments);
+    }
   }
 };
