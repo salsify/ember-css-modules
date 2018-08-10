@@ -11,7 +11,7 @@ module.exports = {
     return true;
   },
 
-  init(parent) {
+  init() {
     this._super.init && this._super.init.apply(this, arguments);
 
     this.isDisabled = this.project.name() !== 'ember-css-modules';
