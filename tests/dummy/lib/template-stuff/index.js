@@ -14,12 +14,7 @@ module.exports = {
   init(parent) {
     this._super.init && this._super.init.apply(this, arguments);
 
-    let project = parent;
-    while (project.parent) {
-      project = project.parent;
-    }
-
-    this.isDisabled = project.name() !== 'ember-css-modules';
+    this.isDisabled = this.project.name() !== 'ember-css-modules';
   },
 
   included() {
