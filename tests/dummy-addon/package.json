@@ -1,16 +1,15 @@
 {
   "name": "dummy-addon",
+  "version": "1.0.0",
   "keywords": [
     "ember-addon"
   ],
   "ember-addon": {
     "paths": [
-      "../.."
+      "../..",
+      "../../node_modules/ember-cli-babel",
+      "../../node_modules/ember-cli-htmlbars"
     ]
-  },
-  "dependencies": {
-    "ember-cli-babel": "*",
-    "ember-cli-htmlbars": "*"
   },
   "engines": {
     "node": "6.* || 8.* || >= 10.*"
