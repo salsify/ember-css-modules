@@ -1,6 +1,8 @@
 ---
 language: node_js
 node_js:
+  # we recommend testing addons with the same minimum supported node version as Ember CLI
+  # so that your addon works for all apps
   - "6"
 
 sudo: true
@@ -17,30 +19,35 @@ cache:
 env:
   global:
     - JOBS=1
-  matrix:
-    - NODE_TESTS=true
-    - EMBER_TRY_SCENARIO=ember-lts-2.12
-    - EMBER_TRY_SCENARIO=ember-lts-2.16
-    - EMBER_TRY_SCENARIO=ember-lts-2.18
-    - EMBER_TRY_SCENARIO=ember-release
-    - EMBER_TRY_SCENARIO=ember-beta
-    - EMBER_TRY_SCENARIO=ember-canary
-    - EMBER_TRY_SCENARIO=ember-default
 
-matrix:
-  fast_finish: true
+jobs:
+  fail_fast: true
   allow_failures:
     - env: EMBER_TRY_SCENARIO=ember-canary
 
+  include:
+    # runs linting and tests with current locked deps
+
+    - stage: "Tests"
+      name: "Tests"
+      script:
+        - yarn lint:hbs
+        - yarn lint:js
+        - yarn test
+        - yarn test-node
+
+    # we recommend new addons test the current and previous LTS
+    # as well as latest stable release (bonus points to beta/canary)
+    - stage: "Additional Tests"
+      env: EMBER_TRY_SCENARIO=ember-lts-2.16
+    - env: EMBER_TRY_SCENARIO=ember-lts-2.18
+    - env: EMBER_TRY_SCENARIO=ember-release
+    - env: EMBER_TRY_SCENARIO=ember-beta
+    - env: EMBER_TRY_SCENARIO=ember-canary
+    - env: EMBER_TRY_SCENARIO=ember-default-with-jquery
+
 before_script:
-  - yarn global add bower
   - yarn run install-all
 
 script:
-  - yarn lint:js
-  - if [[ $NODE_TESTS == true ]]; then
-      npm install -g npm;
-      yarn run test-node;
-    else
-      node_modules/.bin/ember try:one $EMBER_TRY_SCENARIO test;
-    fi
+  - node_modules/.bin/ember try:one $EMBER_TRY_SCENARIO

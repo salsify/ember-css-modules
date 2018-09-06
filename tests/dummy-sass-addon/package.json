@@ -14,5 +14,8 @@
   "dependencies": {
     "ember-cli-sass": "^6.2.0",
     "postcss-scss": "^1.0.0"
+  },
+  "engines": {
+    "node": "6.* || 8.* || >= 10.*"
   }
 }

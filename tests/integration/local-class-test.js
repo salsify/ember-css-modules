@@ -10,7 +10,7 @@ module('Integration | Helper | local-class', function(hooks) {
   test('it works as a mustache', async function(assert) {
     let hbs = setupStyles({ foo: '--foo-value' });
     await render(hbs`{{local-class 'foo'}}`);
-    assert.equal(this.$().text().trim(), '--foo-value');
+    assert.equal(this.element.textContent.trim(), '--foo-value');
   });
 
   test('it works as a positional', async function(assert) {
@@ -23,7 +23,7 @@ module('Integration | Helper | local-class', function(hooks) {
       {{/test-component}}
     `);
 
-    assert.equal(this.$().text().trim(), '--foo-value');
+    assert.equal(this.element.textContent.trim(), '--foo-value');
   });
 
   test('it works as a named parameter', async function(assert) {
@@ -37,6 +37,6 @@ module('Integration | Helper | local-class', function(hooks) {
       {{/test-component}}
     `);
 
-    assert.equal(this.$().text().trim(), '--foo-value');
+    assert.equal(this.element.textContent.trim(), '--foo-value');
   });
 });

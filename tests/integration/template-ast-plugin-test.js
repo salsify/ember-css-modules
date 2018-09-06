@@ -254,12 +254,12 @@ module('Integration | Template AST Plugin', function(hooks) {
         const outputString = template.replace('[ATTRS]', output);
 
         await render(compile(outputString));
-        assert.ok(this.$(selector).length, 'Expected output contains verification selector');
-        const expected = this.$().html().replace(/id="\w+"/g, '');
+        assert.ok(this.element.querySelector(selector), 'Expected output contains verification selector');
+        const expected = this.element.outerHTML.replace(/id="\w+"/g, '');
 
         await render(compile(inputString));
-        assert.ok(this.$(selector).length, 'Actual output contains verification selector');
-        const actual = this.$().html().replace(/id="\w+"/g, '');
+        assert.ok(this.element.querySelector(selector), 'Actual output contains verification selector');
+        const actual = this.element.outerHTML.replace(/id="\w+"/g, '');
 
         assert.equal(actual, expected, `Works for ${type}`);
       };

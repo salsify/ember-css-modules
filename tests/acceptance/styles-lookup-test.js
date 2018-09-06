@@ -1,7 +1,6 @@
 import { module, test } from 'qunit';
 import { setupApplicationTest } from 'ember-qunit';
 import { visit } from '@ember/test-helpers';
-import $ from 'jquery';
 
 module('Acceptance | component styles lookup', function(hooks) {
   setupApplicationTest(hooks);
@@ -39,7 +38,7 @@ module('Acceptance | component styles lookup', function(hooks) {
     test(name, async function(assert) {
       await visit(route);
 
-      let testElement = $('[data-test-element]').get(0);
+      let testElement = this.element.querySelector('[data-test-element]');
       assert.ok(testElement);
 
       let styles = window.getComputedStyle(testElement);

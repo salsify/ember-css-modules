@@ -14,5 +14,8 @@
   "dependencies": {
     "ember-cli-less": "^1.5.4",
     "postcss-less": "^1.0.1"
+  },
+  "engines": {
+    "node": "6.* || 8.* || >= 10.*"
   }
 }

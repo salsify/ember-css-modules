@@ -2,5 +2,8 @@
   "name": "template-stuff",
   "keywords": [
     "ember-addon"
-  ]
+  ],
+  "engines": {
+    "node": "6.* || 8.* || >= 10.*"
+  }
 }

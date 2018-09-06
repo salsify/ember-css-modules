@@ -8,6 +8,6 @@ module('Integration | Helpers still function', function(hooks) {
 
   test('helpers work correctly', async function(assert) {
     await render(hbs`{{test-helper 'foo' 'bar'}}`);
-    assert.equal(this.$().text().trim(), 'foo, bar');
+    assert.equal(this.element.textContent.trim(), 'foo, bar');
   });
 });

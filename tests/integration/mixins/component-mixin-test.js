@@ -47,11 +47,9 @@ module('Integration | Mixin | component mixin', function(hooks) {
 
     await render(hbs`{{test-component}}`);
 
-    let $element = this.$('.test-component');
-
-    assert.ok($element.is('.bar'));
-    assert.notOk($element.is('.foo'));
-    assert.notOk($element.is('.buzz'));
+    assert.dom('.test-component').hasClass('bar');
+    assert.dom('.test-component').doesNotHaveClass('foo');
+    assert.dom('.test-component').doesNotHaveClass('buzz');
   });
 
   test('it honors a configured simple localClassNameBinding', async function(assert) {
@@ -69,11 +67,10 @@ module('Integration | Mixin | component mixin', function(hooks) {
 
     await render(hbs`{{test-component dynamicValue=flag}}`);
 
-    let $element = this.$('.test-component');
-    assert.ok($element.is('.foo'));
+    assert.dom('.test-component').hasClass('foo');
 
     run(() => this.set('flag', false));
-    assert.notOk($element.is('.foo'));
+    assert.dom('.test-component').doesNotHaveClass('foo');
   });
 
   test('it honors a configured mapped localClassNameBinding', async function(assert) {
@@ -92,13 +89,12 @@ module('Integration | Mixin | component mixin', function(hooks) {
 
     await render(hbs`{{test-component dynamicValue=flag}}`);
 
-    let $element = this.$('.test-component');
-    assert.notOk($element.is('.foo'));
-    assert.ok($element.is('.bar'));
+    assert.dom('.test-component').doesNotHaveClass('foo');
+    assert.dom('.test-component').hasClass('bar');
 
     run(() => this.set('flag', false));
-    assert.notOk($element.is('.foo'));
-    assert.notOk($element.is('.bar'));
+    assert.dom('.test-component').doesNotHaveClass('foo');
+    assert.dom('.test-component').doesNotHaveClass('bar');
   });
 
   test('it honors a configured mapped localClassNameBinding with an inverse', async function(assert) {
@@ -118,15 +114,14 @@ module('Integration | Mixin | component mixin', function(hooks) {
 
     await render(hbs`{{test-component dynamicValue=flag}}`);
 
-    let $element = this.$('.test-component');
-    assert.notOk($element.is('.foo'));
-    assert.ok($element.is('.bar'));
-    assert.notOk($element.is('.baz'));
+    assert.dom('.test-component').doesNotHaveClass('foo');
+    assert.dom('.test-component').hasClass('bar');
+    assert.dom('.test-component').doesNotHaveClass('baz');
 
     run(() => this.set('flag', false));
-    assert.notOk($element.is('.foo'));
-    assert.notOk($element.is('.bar'));
-    assert.ok($element.is('.baz'));
+    assert.dom('.test-component').doesNotHaveClass('foo');
+    assert.dom('.test-component').doesNotHaveClass('bar');
+    assert.dom('.test-component').hasClass('baz');
   });
 
   test('it supports localClassNames with composition', async function(assert) {
@@ -142,10 +137,9 @@ module('Integration | Mixin | component mixin', function(hooks) {
 
     await render(hbs`{{test-component}}`);
 
-    let $element = this.$('.test-component');
-    assert.ok($element.is('.foo'));
-    assert.ok($element.is('.bar'));
-    assert.ok($element.is('.baz'));
+    assert.dom('.test-component').hasClass('foo');
+    assert.dom('.test-component').hasClass('bar');
+    assert.dom('.test-component').hasClass('baz');
   });
 
   test('it supports localClassNameBindings with composition in the positive class', async function(assert) {
@@ -164,15 +158,14 @@ module('Integration | Mixin | component mixin', function(hooks) {
 
     await render(hbs`{{test-component dynamicValue=flag}}`);
 
-    let $element = this.$('.test-component');
-    assert.ok($element.is('.foo'));
-    assert.ok($element.is('.bar'));
-    assert.notOk($element.is('.baz'));
+    assert.dom('.test-component').hasClass('foo');
+    assert.dom('.test-component').hasClass('bar');
+    assert.dom('.test-component').doesNotHaveClass('baz');
 
     run(() => this.set('flag', false));
-    assert.notOk($element.is('.foo'));
-    assert.notOk($element.is('.bar'));
-    assert.ok($element.is('.baz'));
+    assert.dom('.test-component').doesNotHaveClass('foo');
+    assert.dom('.test-component').doesNotHaveClass('bar');
+    assert.dom('.test-component').hasClass('baz');
   });
 
   test('it supports localClassNameBindings with composition in the negative class', async function(assert) {
@@ -191,15 +184,14 @@ module('Integration | Mixin | component mixin', function(hooks) {
 
     await render(hbs`{{test-component dynamicValue=flag}}`);
 
-    let $element = this.$('.test-component');
-    assert.ok($element.is('.foo'));
-    assert.notOk($element.is('.bar'));
-    assert.notOk($element.is('.baz'));
+    assert.dom('.test-component').hasClass('foo');
+    assert.dom('.test-component').doesNotHaveClass('bar');
+    assert.dom('.test-component').doesNotHaveClass('baz');
 
     run(() => this.set('flag', false));
-    assert.notOk($element.is('.foo'));
-    assert.ok($element.is('.bar'));
-    assert.ok($element.is('.baz'));
+    assert.dom('.test-component').doesNotHaveClass('foo');
+    assert.dom('.test-component').hasClass('bar');
+    assert.dom('.test-component').hasClass('baz');
   });
 
   test('it honors a configured mapped localClassNameBinding string', async function(assert) {
@@ -218,16 +210,15 @@ module('Integration | Mixin | component mixin', function(hooks) {
 
     await render(hbs`{{test-component cls=cls}}`);
 
-    let $element = this.$('.test-component');
-    assert.ok($element.is('.foo'));
-    assert.notOk($element.is('.bar'));
+    assert.dom('.test-component').hasClass('foo');
+    assert.dom('.test-component').doesNotHaveClass('bar');
 
     run(() => this.set('cls', 'other-dynamic-class-name'));
-    assert.notOk($element.is('.foo'));
-    assert.ok($element.is('.bar'));
+    assert.dom('.test-component').doesNotHaveClass('foo');
+    assert.dom('.test-component').hasClass('bar');
 
     run(() => this.set('cls', false));
-    assert.notOk($element.is('.foo'));
-    assert.notOk($element.is('.bar'));
+    assert.dom('.test-component').doesNotHaveClass('foo');
+    assert.dom('.test-component').doesNotHaveClass('bar');
   });
 });
