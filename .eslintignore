@@ -1,4 +1,19 @@
-tmp/
-vendor/
-dist/
-node_modules/
+# unconventional js
+/blueprints/*/files/
+/vendor/
+
+# compiled output
+/dist/
+/tmp/
+
+# dependencies
+/bower_components/
+
+# misc
+/coverage/
+/tests/dummy*/node_modules
+
+# ember-try
+/.node_modules.ember-try/
+/bower.json.ember-try
+/package.json.ember-try

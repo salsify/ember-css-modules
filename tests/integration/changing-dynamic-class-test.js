@@ -17,12 +17,12 @@ module('Integration | Changing local classes', function(hooks) {
     this.set('extraClass', 'bar');
 
     await render(hbs`<div data-test-element class="global" local-class="foo {{extraClass}}"></div>`);
-    assert.equal(this.$('[data-test-element]').attr('class'), 'global --foo --bar');
+    assert.dom('[data-test-element]').hasAttribute('class', 'global --foo --bar');
 
     run(() => this.set('extraClass', 'baz'));
-    assert.equal(this.$('[data-test-element]').attr('class'), 'global --foo --baz');
+    assert.dom('[data-test-element]').hasAttribute('class', 'global --foo --baz');
 
     run(() => this.set('extraClass', 'qux'));
-    assert.equal(this.$('[data-test-element]').attr('class'), 'global --foo');
+    assert.dom('[data-test-element]').hasAttribute('class', 'global --foo');
   });
 });

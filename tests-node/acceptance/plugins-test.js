@@ -31,7 +31,14 @@ test('plugin discovery and build hooks', function(assert) {
   });
 
   return this.app.runEmberCommand('build').then((result) => {
+    let lines = result.output.join('').split(/\r?\n/);
+
     assert.equal(result.code, 0);
-    assert.ok(result.output.join('').includes('config\nbuildStart\nbuildSuccess\nbuildEnd\n'));
+    assert.deepEqual(lines.filter(line => line.startsWith('[plugin]')), [
+      '[plugin] config',
+      '[plugin] buildStart',
+      '[plugin] buildSuccess',
+      '[plugin] buildEnd'
+    ]);
   });
 });

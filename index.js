@@ -12,7 +12,7 @@ const OutputStylesPreprocessor = require('./lib/output-styles-preprocessor');
 const PluginRegistry = require('./lib/plugin/registry');
 
 module.exports = {
-  name: 'ember-css-modules',
+  name: require('./package.json').name,
 
   shouldIncludeChildAddon(addon) {
     // Don't infinitely recurse – it's the dummy test app that depends on dummy-addon, not this addon itself

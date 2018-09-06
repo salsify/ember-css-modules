@@ -13,22 +13,22 @@ module.exports = {
 
 class NoisyPlugin extends Plugin {
   config() {
-    this.parent.ui.writeLine('config');
+    this.parent.ui.writeLine('[plugin] config');
   }
 
   buildStart() {
-    this.parent.ui.writeLine('buildStart');
+    this.parent.ui.writeLine('[plugin] buildStart');
   }
 
   buildEnd() {
-    this.parent.ui.writeLine('buildEnd');
+    this.parent.ui.writeLine('[plugin] buildEnd');
   }
 
   buildSuccess() {
-    this.parent.ui.writeLine('buildSuccess');
+    this.parent.ui.writeLine('[plugin] buildSuccess');
   }
 
   buildError() {
-    this.parent.ui.writeLine('buildError')
+    this.parent.ui.writeLine('[plugin] buildError')
   }
 }

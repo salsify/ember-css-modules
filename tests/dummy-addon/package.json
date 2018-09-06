@@ -11,5 +11,8 @@
   "dependencies": {
     "ember-cli-babel": "*",
     "ember-cli-htmlbars": "*"
+  },
+  "engines": {
+    "node": "6.* || 8.* || >= 10.*"
   }
 }
