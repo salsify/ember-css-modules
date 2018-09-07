@@ -2,51 +2,59 @@
 /* eslint node/no-extraneous-require:off */
 'use strict';
 
-const EmberApp = require('ember-cli/lib/broccoli/ember-app');
+const Plugin = require('broccoli-plugin');
+const webpack = require('webpack');
 
 module.exports = {
   name: 'template-stuff',
 
-  isDevelopingAddon() {
-    return true;
-  },
-
-  init() {
-    this._super.init && this._super.init.apply(this, arguments);
-
-    this.isDisabled = this.project.name() !== 'ember-css-modules';
-  },
-
   included() {
     this._super.included.apply(this, arguments);
 
-    if (!this.isDisabled && EmberApp.env() === 'test') {
-      this.import('node_modules/ember-source/dist/ember-template-compiler.js');
-      this.import('vendor/ecm-template-transform.js', {
-        using: [{ transformation: 'amd', as: 'ecm-template-transform' }]
-      });
-    }
+    this.import('node_modules/ember-source/dist/ember-template-compiler.js');
+    this.import('vendor/ecm-template-transform.js', {
+      using: [{ transformation: 'amd', as: 'ecm-template-transform' }]
+    });
   },
 
   treeForVendor() {
-    if (!this.isDisabled) {
-      const Rollup = require('broccoli-rollup');
-      return new Rollup(`${__dirname}/../../../../lib`, {
-        rollup: {
-          input: 'htmlbars-plugin/index.js',
-          plugins: [
-            require('rollup-plugin-commonjs')(),
-            require('rollup-plugin-node-resolve')()
-          ],
-          output: {
-            file: 'ecm-template-transform.js',
-            format: 'umd',
-            name: 'ecm-template-transform'
-          }
-        }
-      });
-    }
-
-    return this._super.treeForVendor.apply(this, arguments);
+    return new HTMLBarsPluginTree(this.project);
   }
 };
+
+class HTMLBarsPluginTree extends Plugin {
+  constructor(project) {
+    super([], {
+      persistentOutput: true
+    });
+
+    this.project = project;
+    this.built = false;
+  }
+
+  build() {
+    if (this.built) return;
+
+    return new Promise((resolve, reject) => {
+      webpack(
+        {
+          mode: 'development',
+          entry: `${this.project.root}/lib/htmlbars-plugin`,
+          output: {
+            path: this.outputPath,
+            filename: 'ecm-template-transform.js',
+            library: 'ecm-template-transform',
+            libraryTarget: 'umd'
+          }
+        },
+        err => {
+          if (err) {
+            reject(err);
+          } else {
+            resolve();
+          }
+        }
+      );
+    });
+  }
+}

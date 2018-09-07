@@ -8,6 +8,6 @@ cache:
   - node_modules
 
 test_script:
-  - cmd: yarn run test-win
+  - cmd: yarn test
 
 build: off

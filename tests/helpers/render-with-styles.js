@@ -3,6 +3,7 @@
 import Ember from 'ember';
 import { VERSION } from '@ember/version';
 import ClassTransformPlugin from 'ecm-template-transform';
+
 const { compile } = Ember.__loader.require('ember-template-compiler');
 
 const TEST_STYLES = '-testing/styles';

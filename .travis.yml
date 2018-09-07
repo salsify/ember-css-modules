@@ -46,8 +46,5 @@ jobs:
     - env: EMBER_TRY_SCENARIO=ember-canary
     - env: EMBER_TRY_SCENARIO=ember-default-with-jquery
 
-before_script:
-  - yarn run install-all
-
 script:
   - node_modules/.bin/ember try:one $EMBER_TRY_SCENARIO
