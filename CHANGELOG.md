@@ -1,3 +1,16 @@
+## 1.0.0-beta.1 Ch-ch-changes (September 6, 2018)
+
+This release is the first beta for Ember CSS Modules 1.0. There are no known breaking changes since 0.7.10, but as described below, there were a few internal refactorings, so we'll run a beta series before christening the official 1.0 🎉
+
+### Added
+- `addPostcssPlugin` now accepts multiple arguments ([#103](https://github.com/salsify/ember-css-modules/pull/103))
+
+### Fixed
+- The `template-only-glimmer-components` feature should no longer conflict with ember-css-modules ([#98](https://github.com/salsify/ember-css-modules/issues/98))
+
+### Changed
+- The majority of the runtime monkeypatching that was present in this addon has been removed in favor of build-time processing. The only remaining runtime code is the `{{local-class}}` helper and an extension to the `Component` class to support `localClassNames` and `localClassNameBindings`. ([#99](https://github.com/salsify/ember-css-modules/pull/99))
+
 ## 0.7.10 Super Scope (March 1, 2018)
 ### Fixed
 - Support importing styles via `@value` and `composes:` from addons with `@scope`ed names.
