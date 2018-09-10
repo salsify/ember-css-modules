@@ -198,23 +198,9 @@ export default Ember.Controller.extend({
 
 ## Usage in Addons
 
-You can also use ember-css-modules in addons that expose components to their consuming application. However, as with component templates, the styles will need to be explicitly bound to the component class, since the resolver won't be able to find them in the addon tree. You will also need to move `ember-css-modules` out of `devDependencies` and into `dependencies` in your addon's `package.json` ([see issue #8](https://github.com/salsify/ember-css-modules/issues/8)).
-
-```js
-// addon/components/my-addon-component.js
-import Ember from 'ember';
-import layout from '../templates/components/my-addon-component'; // or './template' in pod format
-import styles from '../styles/components/my-addon-component';    // or './styles' in pod format
-
-export default Ember.Component.extend({
-  layout,
-  styles
-});
-```
+You can also use ember-css-modules in addons that expose components to their consuming application. To do this you'll need to move `ember-css-modules` out of `devDependencies` and into `dependencies` in your addon's `package.json` ([see issue #8](https://github.com/salsify/ember-css-modules/issues/8)).
 
 Note also that **your addon must have an `addon/styles` directory** in order to trigger CSS processing in Ember CLI. In order for the directory to be preserved when you publish your addon, you can create an empty `.placeholder` file (`.gitkeep` won't work; by default, the `.npmignore` for your addon will prevent files with that name from being published).
-
-If you're writing a [routable engine](https://github.com/dgeb/ember-engines#ember-engines-) and have route controller styles, you'll have to import the styles module and set it on your controller the same way you would with a component in the example above.
 
 ## Plugins
 
