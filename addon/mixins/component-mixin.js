@@ -35,7 +35,12 @@ export default Mixin.create({
 
     let name = key.replace(/^component:/, '');
     let layout = this.layout || getOwner(this).lookup(`template:components/${name}`);
-    assert('Unable to resolve localClassNames or localClassNameBindings for a component with no layout', layout);
+    assert(
+      `Unable to resolve localClassNames or localClassNameBindings for component ${name}, which has no ` +
+      `layout. You can fix this by either creating an empty template for your component or importing and ` +
+      `using the styles hash directly instead, e.g. \`classNames: styles['my-class']\`.`,
+      layout
+    );
 
     // This is not public API and might break at any time...
     let moduleName = (layout.meta || layout.referrer).moduleName.replace(/\.hbs$/, '');
