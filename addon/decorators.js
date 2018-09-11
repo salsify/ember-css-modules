@@ -1,3 +1,4 @@
+import { get } from '@ember/object';
 import { assert } from '@ember/debug';
 import { decoratorWithParams } from '@ember-decorators/utils/decorator';
 import collapseProto from '@ember-decorators/utils/collapse-proto';
@@ -48,7 +49,7 @@ export function localClassNames(...classNames) {
     @localClassName boundField = true;
 
     // With provided true/false class names
-    @className('active', 'inactive') isActive = true;
+    @localClassName('active', 'inactive') isActive = true;
   }
   ```
   @function
@@ -77,6 +78,14 @@ export const localClassName = decoratorWithParams(function(target, key, desc, pa
     // that the field becomes configurable (else it messes with things)
     desc.configurable = true;
     desc.writable = true;
+
+    // Babel provides a `null` initializer if one isn't set, but that can wind up
+    // overwriting passed-in values if they're specified.
+    if (desc.initializer === null) {
+      desc.initializer = function() {
+        return get(this, key);
+      };
+    }
   }
 
   return desc;
