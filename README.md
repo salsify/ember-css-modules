@@ -126,6 +126,8 @@ console.log(styles['hello-class']);
 
 ### Applying Classes to a Component's Root Element
 
+#### Ember Object Model
+
 Just like using [`classNames`](http://emberjs.com/api/classes/Ember.ClassNamesSupport.html#property_classNames) and [`classNameBindings`](http://emberjs.com/api/classes/Ember.ClassNamesSupport.html#property_classNameBindings) to set global classes on a component's root element, the `localClassNames` and `localClassNameBindings` properties allow you to set local classes on the root element.
 
 For instance, to statically set a local `my-component` class on your component:
@@ -150,6 +152,79 @@ export default Ember.Component.extend({
 - If `propA` is true, a local `prop-a` class will be applied. If it's false, no additional classes will be applied.
 - If `propB` is true, a local `special` class will be applied. If it's false, no additional classes will be applied.
 - If `propC` is true, a local `yes` class will be applied. If it's false, a local `no` class will be applied.
+
+#### Native ES6 Class Syntax
+
+The trusty Ember Object Model, that predates native ES6 class syntax, has served the community well over the years. But it's on its way out and you can already use the new native syntax in your apps today!
+
+Instead of setting [`classNames`](http://emberjs.com/api/classes/Ember.ClassNamesSupport.html#property_classNames) and [`classNameBindings`](http://emberjs.com/api/classes/Ember.ClassNamesSupport.html#property_classNameBindings) properties, you would use [`@classNames`](http://ember-decorators.github.io/ember-decorators/latest/docs/api/modules/@ember-decorators/component#classNames) and [`@className`](http://ember-decorators.github.io/ember-decorators/latest/docs/api/modules/@ember-decorators/component#className) decorators from the amazing [ember-decorators addon](http://ember-decorators.github.io/ember-decorators/latest/). ember-css-modules provides the exact same decorators, but for local classes.
+
+For instance, to statically set a local `my-component` class on your component, you use the `@localClassNames` decorator:
+
+```js
+import Component from '@ember/component';
+import { localClassNames } from 'ember-css-modules';
+
+@localClassNames('my-component')
+export default class ExampleComponent extends Component {
+  // your kickass code here
+}
+```
+
+Just as with [`@classNames`](http://ember-decorators.github.io/ember-decorators/latest/docs/api/modules/@ember-decorators/component#classNames) you can pass as many classes as you like:
+
+```js
+import Component from '@ember/component';
+import { localClassNames } from 'ember-css-modules';
+
+@localClassNames('my-component', 'make-it-pop', 'vibrant-colors')
+export default class ExampleComponent extends Component {
+  // your sensational code here
+}
+```
+
+And just like you'd use [`@className`](http://ember-decorators.github.io/ember-decorators/latest/docs/api/modules/@ember-decorators/component#className) to dynamically toggle classes on your component based on the boolean value of a given property, you use `@localClassName` for local classes:
+
+```js
+import Component from '@ember/component';
+import { localClassName } from 'ember-css-modules';
+
+export default class ExampleComponent extends Component {
+  @localClass propA;
+  @localClass('special') propB;
+  @localClass('yes', 'no') propC;
+}
+```
+
+- If `propA` is true, a local `prop-a` class will be applied. If it's false, no additional classes will be applied.
+- If `propB` is true, a local `special` class will be applied. If it's false, no additional classes will be applied.
+- If `propC` is true, a local `yes` class will be applied. If it's false, a local `no` class will be applied.
+
+This is especially beautiful when combined with other decorators or computed properties:
+
+```js
+import Component from '@ember/component';
+import { computed } from '@ember-decorators/object';
+import { notEmpty } from '@ember-decorators/object/computed';
+import { localClassName } from 'ember-css-modules';
+
+export default class ExampleComponent extends Component {
+  user; // provided as an attr to the component
+
+  @localClass
+  @notEmpty('user.lastName')
+  hasLastName;
+
+  @localClass('the-good-stuff', 'soda-pop')
+  @computed('user.age')
+  isOldEnoughToDrink() {
+    return this.user.age >= 21;
+  }
+}
+```
+
+- If the property `user.lastName` is not empty, a local `has-last-name` class will be applied.
+- If the user is at least of age `21`, a local `the-good-stuff` class is applied, otherwise a local `soda-pop` class is applied.
 
 ### Global Classes
 
