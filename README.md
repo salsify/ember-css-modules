@@ -226,6 +226,44 @@ export default class ExampleComponent extends Component {
 - If the property `user.lastName` is not empty, a local `has-last-name` class will be applied.
 - If the user is at least of age `21`, a local `the-good-stuff` class is applied, otherwise a local `soda-pop` class is applied.
 
+You can even return strings from computed properties or decorate string properties in order to set local classes in a fully dynamic fashion:
+
+```js
+import Component from '@ember/component';
+import { computed } from '@ember-decorators/object';
+import { reads } from '@ember-decorators/object/computed';
+import { localClassName } from 'ember-css-modules';
+
+export default class ExampleComponent extends Component {
+  user; // provided as an attr to the component
+
+  @localClass somethingDynamic = 'hello-world';
+
+  @localClass
+  @reads('user.favoriteColor')
+  favoriteColor;
+
+  @localClass
+  @computed('user.usedTechnologies.[]')
+  get coolness() {
+    const { usedTechnologies } = this.user;
+    const coolTech = ['TypeScript', 'Ember.js', 'ember-css-modules'];
+    const coolUsedTech = coolTech.filter(t => usedTechnologies.includes(t));
+
+    switch (coolUsedTech.length) {
+      case 1: return 'cool';
+      case 2: return 'pretty-rad'
+      case 3: return 'rockstar';
+    }
+
+    return null;
+  }
+}
+```
+- The local `hello-world` class will be applied.
+- If the property `user.favoriteColor` is `'red'`, a local `red` class will be applied.
+- If the user uses all the cool technologies, the local `rockstar` class will be applied. If the user uses no cool technoloy, no further local class will be applied.
+
 ### Global Classes
 
 Some libraries provide explicit class names as part of their public interface in order to allow customization of their look and feel. If, for example, you're wrapping such a library in a component, you need to be able to reference those unscoped class names in the context of your component styles. The `:global` pseudoselector allows for this:
