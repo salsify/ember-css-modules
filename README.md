@@ -190,9 +190,9 @@ import Component from '@ember/component';
 import { localClassName } from 'ember-css-modules';
 
 export default class ExampleComponent extends Component {
-  @localClass propA;
-  @localClass('special') propB;
-  @localClass('yes', 'no') propC;
+  @localClassName propA;
+  @localClassName('special') propB;
+  @localClassName('yes', 'no') propC;
 }
 ```
 
@@ -211,11 +211,11 @@ import { localClassName } from 'ember-css-modules';
 export default class ExampleComponent extends Component {
   user; // provided as an attr to the component
 
-  @localClass
+  @localClassName
   @notEmpty('user.lastName')
   hasLastName;
 
-  @localClass('the-good-stuff', 'soda-pop')
+  @localClassName('the-good-stuff', 'soda-pop')
   @computed('user.age')
   get isOldEnoughToDrink() {
     return this.user.age >= 21;
