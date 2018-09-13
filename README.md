@@ -217,7 +217,7 @@ export default class ExampleComponent extends Component {
 
   @localClass('the-good-stuff', 'soda-pop')
   @computed('user.age')
-  isOldEnoughToDrink() {
+  get isOldEnoughToDrink() {
     return this.user.age >= 21;
   }
 }
