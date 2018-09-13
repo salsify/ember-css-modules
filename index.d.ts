@@ -1,5 +1,3 @@
-import { TemplateFactory } from 'htmlbars-inline-precompile';
-
 /**
   Decorator which indicates that the field or computed should be bound to the
   component local class names. This replaces `localClassNameBindings` by
