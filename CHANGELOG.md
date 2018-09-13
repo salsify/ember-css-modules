@@ -1,3 +1,11 @@
+## 1.0.0-beta.2 Decorations (September 13, 2018)
+
+### Added
+- The long awaited `@localClassNames` and `@localClassName` decorators, which work as parallels to `ember-decorators`' [`@classNames` and `@className`](http://ember-decorators.github.io/ember-decorators/latest/docs/api/modules/@ember-decorators/component), are now available.
+
+### Fixed
+- Turns out there was one breaking change from the 0.7 series: components must now have a template in order for their `localClassNames` and `localClassNameBindings` (as well as the decorator versions) to resolve. The error message for this scenario has been improved to provide more actionable details.
+
 ## 1.0.0-beta.1 Ch-ch-changes (September 6, 2018)
 
 This release is the first beta for Ember CSS Modules 1.0. There are no known breaking changes since 0.7.10, but as described below, there were a few internal refactorings, so we'll run a beta series before christening the official 1.0 🎉
