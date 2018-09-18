@@ -25,7 +25,7 @@ export function localClassName(
 ): PropertyDecorator;
 
 /**
-  Class decorator which specifies the local  class names to be applied to a
+  Class decorator which specifies the local class names to be applied to a
   component. This replaces the `localClassNames` property on components in the
   traditional Ember object model.
 
@@ -36,5 +36,5 @@ export function localClassName(
 
   @param {...string} classNames - The list of local classes to be applied to the component
  */
-export function classNames(...classNames: string[]): ClassDecorator;
+export function localClassNames(...classNames: string[]): ClassDecorator;
 
