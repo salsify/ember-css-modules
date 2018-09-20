@@ -1,6 +1,6 @@
 ## 1.0.0 The Big Dig (September 20, 2018)
 
-## Migrating from 0.7.x
+### Migrating from 0.7.x
 The 1.0 release should largely be a drop-in replacement coming from 0.7.x, but there are a few changes to be aware of:
 - Referencing a `local-class` in a template that doesn't have a corresponding `styles` module is now a hard error (before it would silently fail and add no class to the target element).
 - Using `localClassNames` or `localClassNameBindings` on a component with no template is no longer possible. You can either create an empty template for that component or import the styles module and set `classNames` or `classNameBindings` using the imported mapping, e.g. `classNames: styles['my-local-class']`.
