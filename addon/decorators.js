@@ -1,3 +1,10 @@
+/*
+  The implementation of these decorators is based on the original work of the
+  ember-osf-web project, released under the Apache License 2.0:
+
+  https://github.com/CenterForOpenScience/ember-osf-web/blob/4675920c4d53e60c62eed7a87ea84e0f4c5ab018/app/decorators/css-modules.ts
+*/
+
 import { get } from '@ember/object';
 import { assert } from '@ember/debug';
 import { decoratorWithParams } from '@ember-decorators/utils/decorator';
