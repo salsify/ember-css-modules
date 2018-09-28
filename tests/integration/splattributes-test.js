@@ -9,7 +9,7 @@ if (gte('3.4.0')) {
   module('Integration | Components with splattributes', function(hooks) {
     setupRenderingTest(hooks);
 
-    test('no classees ', async function(assert) {
+    test('inner and outer local and global classes are all present', async function(assert) {
       const hbs = setupStyles({
         'local-outer': '--local-outer'
       });
