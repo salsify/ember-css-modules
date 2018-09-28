@@ -1,3 +1,7 @@
+## 1.0.1 Things That Go Splat in the Night (September 28, 2018)
+### Fixed
+- Elements with both `local-class` and `...attributes` should no longer lose their local class when an external `class` or `local-class` is passed in. [#116](https://github.com/salsify/ember-css-modules/issues/116)
+
 ## 1.0.0 The Big Dig (September 20, 2018)
 
 ### Migrating from 0.7.x
