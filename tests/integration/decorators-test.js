@@ -1,6 +1,7 @@
 import { run } from '@ember/runloop';
 import Component from '@ember/component';
 import { layout, classNames } from '@ember-decorators/component';
+import { reads } from '@ember-decorators/object/computed';
 import setupStyles from '../helpers/render-with-styles';
 
 import { localClassName, localClassNames } from 'ember-css-modules';
@@ -211,5 +212,160 @@ module('Integration | decorators', function(hooks) {
     run(() => this.set('cls', false));
     assert.dom('.test-component').doesNotHaveClass('foo');
     assert.dom('.test-component').doesNotHaveClass('bar');
+  });
+
+  test('it can decorate a simple ES5 getter', async function(assert) {
+    let hbs = setupStyles({
+      'simple-bool-class': 'simple-bool--true',
+
+      'bool-true': 'explicit-bool--true',
+      'bool-false': 'explicit-bool--false',
+
+      'foo': 'string--foo',
+      'bar': 'string--bar'
+    });
+
+    this.setProperties({
+      simpleBool: false,
+      explicitBool: false,
+      string: null
+    });
+
+    @layout(hbs``)
+    @classNames('test-component')
+    class TestComponent extends Component {
+      simpleBool;
+      explicitBool;
+      string;
+
+      @localClassName
+      get simpleBoolClass() {
+        return this.simpleBool;
+      }
+
+      @localClassName('bool-true', 'bool-false')
+      get explicitBoolClass() {
+        return this.explicitBool;
+      }
+
+      @localClassName
+      get stringClass() {
+        return this.string;
+      }
+
+      didReceiveAttrs() {
+        // Should be `super.didReceiveAttrs()`, however there is an
+        // incompatibility between the Babel class transpilation and the Ember
+        // Object Model.
+        this._super();
+
+        // Since these are just plain getter, which don't have a dependency
+        // mapping and change tracking, we need to tell Ember that the world
+        // has changed and a re-render is required.
+        this.notifyPropertyChange('simpleBoolClass');
+        this.notifyPropertyChange('explicitBoolClass');
+        this.notifyPropertyChange('stringClass');
+      }
+    }
+
+    this.owner.register('component:test-component', TestComponent);
+
+    await render(hbs`{{test-component
+      simpleBool=simpleBool
+      explicitBool=explicitBool
+      string=string
+    }}`);
+
+    assert.dom('.test-component').doesNotHaveClass('simple-bool--true');
+
+    assert.dom('.test-component').doesNotHaveClass('explicit-bool--true');
+    assert.dom('.test-component').hasClass('explicit-bool--false');
+
+    assert.dom('.test-component').doesNotHaveClass('foo');
+    assert.dom('.test-component').doesNotHaveClass('bar');
+
+    run(() => this.set('simpleBool', true));
+    assert.dom('.test-component').hasClass('simple-bool--true');
+
+    run(() => this.set('explicitBool', true));
+    assert.dom('.test-component').hasClass('explicit-bool--true');
+    assert.dom('.test-component').doesNotHaveClass('explicit-bool--false');
+
+    run(() => this.set('string', 'foo'));
+    assert.dom('.test-component').hasClass('string--foo');
+    assert.dom('.test-component').doesNotHaveClass('string--bar');
+
+    run(() => this.set('string', 'bar'));
+    assert.dom('.test-component').doesNotHaveClass('string--foo');
+    assert.dom('.test-component').hasClass('string--bar');
+  });
+
+  test('it can decorate a computed property', async function(assert) {
+    let hbs = setupStyles({
+      'simple-bool-class': 'simple-bool--true',
+
+      'bool-true': 'explicit-bool--true',
+      'bool-false': 'explicit-bool--false',
+
+      'foo': 'string--foo',
+      'bar': 'string--bar'
+    });
+
+    this.setProperties({
+      simpleBool: false,
+      explicitBool: false,
+      string: null
+    });
+
+    @layout(hbs``)
+    @classNames('test-component')
+    class TestComponent extends Component {
+      simpleBool;
+      explicitBool;
+      string;
+
+      @localClassName
+      @reads('simpleBool')
+      simpleBoolClass;
+
+      @localClassName('bool-true', 'bool-false')
+      @reads('explicitBool')
+      explicitBoolClass;
+
+      @localClassName
+      @reads('string')
+      stringClass;
+    }
+
+    this.owner.register('component:test-component', TestComponent);
+
+    await render(hbs`{{test-component
+      simpleBool=simpleBool
+      explicitBool=explicitBool
+      string=string
+    }}`);
+
+    assert.dom('.test-component').doesNotHaveClass('simple-bool--true');
+
+    assert.dom('.test-component').doesNotHaveClass('explicit-bool--true');
+    assert.dom('.test-component').hasClass('explicit-bool--false');
+
+    assert.dom('.test-component').doesNotHaveClass('foo');
+    assert.dom('.test-component').doesNotHaveClass('bar');
+
+    run(() => this.set('simpleBool', true));
+    assert.dom('.test-component').hasClass('simple-bool--true');
+
+    run(() => this.set('explicitBool', true));
+    assert.dom('.test-component').hasClass('explicit-bool--true');
+    assert.dom('.test-component').doesNotHaveClass('explicit-bool--false');
+
+    run(() => this.set('string', 'foo'));
+    assert.dom('.test-component').hasClass('string--foo');
+    assert.dom('.test-component').doesNotHaveClass('string--bar');
+
+    run(() => this.set('string', 'bar'));
+    assert.dom('.test-component').doesNotHaveClass('string--foo');
+    assert.dom('.test-component').hasClass('string--bar');
   });
 });
