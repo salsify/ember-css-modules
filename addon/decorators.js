@@ -84,7 +84,14 @@ export const localClassName = decoratorWithParams(function(target, key, desc, pa
     // Decorated fields are currently not configurable in Babel for some reason, so ensure
     // that the field becomes configurable (else it messes with things)
     desc.configurable = true;
-    desc.writable = true;
+
+    // Decorated fields which don't have a getter or setter, but also no
+    // explicit `writable` flag, default to not being writable in Babel. Since
+    // by default fields _are_ writable and this decorator should not change
+    // that, we enable the `writable` flag in this specific case.
+    if (!('get' in desc || 'set' in desc || 'writable' in desc)) {
+      desc.writable = true;
+    }
 
     // Babel provides a `null` initializer if one isn't set, but that can wind up
     // overwriting passed-in values if they're specified.
