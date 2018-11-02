@@ -74,6 +74,7 @@
   "license": "MIT",
   "author": "Dan Freeman",
   "dependencies": {
+    "@ember-decorators/utils": "^3.0.1",
     "broccoli-concat": "^3.2.2",
     "broccoli-css-modules": "^0.6.2",
     "broccoli-funnel": "^2.0.1",
