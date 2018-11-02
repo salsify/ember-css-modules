@@ -79,7 +79,7 @@
     "broccoli-css-modules": "^0.6.2",
     "broccoli-funnel": "^2.0.1",
     "broccoli-merge-trees": "^2.0.0",
-    "broccoli-postcss": "^3.5.2",
+    "broccoli-postcss": "^4.0.1",
     "calculate-cache-key-for-tree": "^1.1.0",
     "debug": "^3.1.0",
     "ember-cli-babel": "^6.16.0",
