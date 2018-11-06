@@ -1,3 +1,10 @@
+## 1.0.2 I Can't Get No Satisfaction (November 6, 2018)
+### Fixed
+- The `@localClassName` decorator now properly works with getters across various Babel and TypeScript versions. [#118](https://github.com/salsify/ember-css-modules/pull/118)
+
+### Changed
+- We're now using `broccoli-postcss@4` (which itself uses `postcss@7`) for `postprocess` plugins. This should be a non-breaking change for our usage in this addon. [#124](https://github.com/salsify/ember-css-modules/pull/124) 
+
 ## 1.0.1 Things That Go Splat in the Night (September 28, 2018)
 ### Fixed
 - Elements with both `local-class` and `...attributes` should no longer lose their local class when an external `class` or `local-class` is passed in. [#116](https://github.com/salsify/ember-css-modules/issues/116)
