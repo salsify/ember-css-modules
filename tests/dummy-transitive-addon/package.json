@@ -1,5 +1,5 @@
 {
-  "name": "dummy-addon",
+  "name": "dummy-transitive-addon",
   "version": "1.0.0",
   "keywords": [
     "ember-addon"
@@ -7,9 +7,7 @@
   "ember-addon": {
     "paths": [
       "../..",
-      "../../node_modules/ember-cli-babel",
-      "../../node_modules/ember-cli-htmlbars",
-      "../dummy-transitive-addon"
+      "../../node_modules/ember-cli-babel"
     ]
   },
   "engines": {
