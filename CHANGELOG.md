@@ -1,9 +1,14 @@
+## 1.0.3 High Resolution (November 8, 2018)
+### Fixed
+- Resolving `@value`s and class names from addons no longer fails for addons that aren't dependencies of the root application. [#125](https://github.com/salsify/ember-css-modules/issues/125)
+- Projects using ember-css-modules with other preprocessors (like ember-cli-sass) should no longer see those preprocessors fully rebuild when unrelated files (like templates) change. [#120](https://github.com/salsify/ember-css-modules/issues/120)
+
 ## 1.0.2 I Can't Get No Satisfaction (November 6, 2018)
 ### Fixed
 - The `@localClassName` decorator now properly works with getters across various Babel and TypeScript versions. [#118](https://github.com/salsify/ember-css-modules/pull/118)
 
 ### Changed
-- We're now using `broccoli-postcss@4` (which itself uses `postcss@7`) for `postprocess` plugins. This should be a non-breaking change for our usage in this addon. [#124](https://github.com/salsify/ember-css-modules/pull/124) 
+- We're now using `broccoli-postcss@4` (which itself uses `postcss@7`) for `postprocess` plugins. This should be a non-breaking change for our usage in this addon. [#124](https://github.com/salsify/ember-css-modules/pull/124)
 
 ## 1.0.1 Things That Go Splat in the Night (September 28, 2018)
 ### Fixed
