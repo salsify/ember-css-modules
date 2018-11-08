@@ -13,6 +13,7 @@ module('Acceptance | component styles lookup', function(hooks) {
     'pod-component',
     'pod-template-only-component',
     'addon-component',
+    'addon-component-with-value-from-transitive-addon',
     'pod-route/nested-pod-component',
     'pod-route/nested-pod-template-only-component',
     'component-with-dynamic-local-class',

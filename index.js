@@ -87,6 +87,10 @@ module.exports = {
     return this.ownerName;
   },
 
+  getParent() {
+    return this.parent;
+  },
+
   getProject() {
     return this.project;
   },

@@ -1,0 +1,5 @@
+@value transitive-value from 'dummy-transitive-addon/styles/testing/constants';
+
+.component-class {
+  font-family: transitive-value;
+}
