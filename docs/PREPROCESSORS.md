@@ -49,3 +49,13 @@ cssModules: {
   }
 }
 ```
+
+### Passing Through Other Files
+
+When you configure an `intermediateOutputPath`, ember-css-modules will automatically pass through all files with stylesheet-like extensions for subsequent processors to be able to include. If you're relying on being able to reference data from other files in a downstream processing step, you may configure the extensions of files that should be passed on.
+
+```js
+cssModules: {
+  passthroughFileExtensions: ['json']
+}
+```
