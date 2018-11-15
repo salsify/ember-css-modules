@@ -135,7 +135,7 @@ module.exports = {
   },
 
   getParentAddonTree() {
-    return path.join(this.parentAddon.root, this.parentAddon.treePaths.addon);
+    return path.join(this.parentAddon.root, this.parentAddon.treePaths.src || this.parentAddon.treePaths.addon);
   },
 
   getFixedModules(type) {
