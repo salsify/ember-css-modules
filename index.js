@@ -10,6 +10,7 @@ const HtmlbarsPlugin = require('./lib/htmlbars-plugin');
 const ModulesPreprocessor = require('./lib/modules-preprocessor');
 const OutputStylesPreprocessor = require('./lib/output-styles-preprocessor');
 const PluginRegistry = require('./lib/plugin/registry');
+const isModuleUnification = require('./lib/utils/is-module-unification');
 
 module.exports = {
   name: require('./package.json').name,
@@ -137,9 +138,9 @@ module.exports = {
   getParentAddonTree() {
     return path.join(
       this.parentAddon.root,
-      this.parentAddon.modulePrefix ?
-        this.parentAddon.treePaths.addon :
-        this.parentAddon.treePaths.src
+      isModuleUnification(this.parentAddon) ?
+        this.parentAddon.treePaths.src :
+        this.parentAddon.treePaths.addon
     );
   },
 
