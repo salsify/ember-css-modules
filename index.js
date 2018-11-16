@@ -34,8 +34,8 @@ module.exports = {
     this.cssModulesOptions = this.plugins.computeOptions(includer.options && includer.options.cssModules);
 
     if (this.belongsToAddon()) {
-      this.verifyStylesDirectory();
       this.parentAddon = includer;
+      this.verifyStylesDirectory();
     }
 
     this._super.included.apply(this, arguments);
@@ -65,7 +65,7 @@ module.exports = {
   },
 
   verifyStylesDirectory() {
-    if (!fs.existsSync(path.join(this.parent.root, this.parent.treePaths['addon-styles']))) {
+    if (!isModuleUnification(this.parentAddon) && !fs.existsSync(path.join(this.parent.root, this.parent.treePaths['addon-styles']))) {
       this.ui.writeWarnLine(
         'The addon ' + this.getOwnerName() + ' has ember-css-modules installed, but no addon styles directory. ' +
         'You must have at least a placeholder file in this directory (e.g. `addon/styles/.placeholder`) in ' +
