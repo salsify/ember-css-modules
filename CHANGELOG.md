@@ -1,3 +1,7 @@
+## 1.1.0 Stage Fright (November 26, 2018)
+### Added
+- `@localClassNames` and `@localClassName` now support projects using either stage 1 or stage 2 of the decorators proposal.
+
 ## 1.0.3 High Resolution (November 8, 2018)
 ### Fixed
 - Resolving `@value`s and class names from addons no longer fails for addons that aren't dependencies of the root application. [#125](https://github.com/salsify/ember-css-modules/issues/125)
