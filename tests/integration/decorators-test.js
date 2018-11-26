@@ -42,7 +42,7 @@ module('Integration | decorators', function(hooks) {
     @layout(hbs``)
     @classNames('test-component')
     class TestComponent extends Component.extend({}) {
-      @localClassName dynamicValue;
+      @localClassName dynamicValue = this.dynamicValue;
     }
 
     this.owner.register('component:test-component', TestComponent);
@@ -65,7 +65,7 @@ module('Integration | decorators', function(hooks) {
     @layout(hbs``)
     @classNames('test-component')
     class TestComponent extends Component {
-      @localClassName('other-class') dynamicValue;
+      @localClassName('other-class') dynamicValue = this.dynamicValue;
     }
 
     this.owner.register('component:test-component', TestComponent);
@@ -92,7 +92,7 @@ module('Integration | decorators', function(hooks) {
     @layout(hbs``)
     @classNames('test-component')
     class TestComponent extends Component {
-      @localClassName('other-class', 'different-class') dynamicValue;
+      @localClassName('other-class', 'different-class') dynamicValue = this.dynamicValue;
     }
 
     this.owner.register('component:test-component', TestComponent);
@@ -139,7 +139,7 @@ module('Integration | decorators', function(hooks) {
     @layout(hbs``)
     @classNames('test-component')
     class TestComponent extends Component {
-      @localClassName('on-class', 'off-class') dynamicValue;
+      @localClassName('on-class', 'off-class') dynamicValue = this.dynamicValue;
     }
 
     this.owner.register('component:test-component', TestComponent);
@@ -167,7 +167,7 @@ module('Integration | decorators', function(hooks) {
     @layout(hbs``)
     @classNames('test-component')
     class TestComponent extends Component {
-      @localClassName('on-class', 'off-class') dynamicValue;
+      @localClassName('on-class', 'off-class') dynamicValue = this.dynamicValue;
     }
 
     this.owner.register('component:test-component', TestComponent);
@@ -195,7 +195,7 @@ module('Integration | decorators', function(hooks) {
     @layout(hbs``)
     @classNames('test-component')
     class TestComponent extends Component {
-      @localClassName cls;
+      @localClassName cls = this.cls;
     }
 
     this.owner.register('component:test-component', TestComponent);

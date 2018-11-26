@@ -13,7 +13,11 @@ testModule('Acceptance | plugins', {
     this.app = new AddonTestApp();
 
     ui.startProgress('Creating dummy app for plugin testing...');
-    return this.app.create('plugins', { fixturesPath: 'tests-node/fixtures' })
+    return this.app.create('plugins', {
+        fixturesPath: 'tests-node/fixtures',
+        emberVersion: 'latest',
+        emberDataVersion: 'latest'
+      })
       .then(() => {
         ui.stopProgress();
       })
