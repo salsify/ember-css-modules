@@ -33,17 +33,16 @@ function collapseAndMerge(prototype, property, ...items) {
 
   @param {...string} classNames - The list of local classes to be applied to the component
 */
-export function localClassNames(...classNames) {
+export const localClassNames = decoratorWithParams((desc, classNames = []) => {
   assert(
     `The @localClassNames decorator must be provided strings, received: ${classNames}`,
     classNames.every(className => typeof className === 'string')
   );
 
-  return klass => {
-    collapseAndMerge(klass.prototype, 'localClassNames', ...classNames);
-    return klass;
+  desc.finisher = target => {
+    collapseAndMerge(target.prototype, 'localClassNames', ...classNames);
   };
-}
+});
 
 /**
   Decorator which indicates that the field or computed should be bound to the
@@ -66,7 +65,7 @@ export function localClassNames(...classNames) {
   @param {string} falsyName? - The class to be applied if the value of the field
                                is falsy.
 */
-export const localClassName = decoratorWithParams(function(target, key, desc, params) {
+export const localClassName = decoratorWithParams((desc, params = []) => {
   assert(
     `The @localClassName decorator may take up to two parameters, the truthy class and falsy class for the class binding. Received: ${params.length}`,
     params.length <= 2
@@ -76,31 +75,34 @@ export const localClassName = decoratorWithParams(function(target, key, desc, pa
     params.every(className => typeof className === 'string')
   );
 
-  const binding = params.length > 0 ? `${key}:${params.join(':')}` : key;
+  desc.finisher = target => {
+    const { key, descriptor } = desc;
+    const binding = params.length > 0 ? `${key}:${params.join(':')}` : key;
 
-  collapseAndMerge(target, 'localClassNameBindings', binding);
+    collapseAndMerge(target.prototype, 'localClassNameBindings', binding);
 
-  if (desc) {
-    // Decorated fields are currently not configurable in Babel for some reason, so ensure
-    // that the field becomes configurable (else it messes with things)
-    desc.configurable = true;
+    if (descriptor) {
+      // Decorated fields are currently not configurable in Babel for some reason, so ensure
+      // that the field becomes configurable (else it messes with things)
+      descriptor.configurable = true;
 
-    // Decorated fields which don't have a getter or setter, but also no
-    // explicit `writable` flag, default to not being writable in Babel. Since
-    // by default fields _are_ writable and this decorator should not change
-    // that, we enable the `writable` flag in this specific case.
-    if (!('get' in desc || 'set' in desc || 'writable' in desc)) {
-      desc.writable = true;
+      // Decorated fields which don't have a getter or setter, but also no
+      // explicit `writable` flag, default to not being writable in Babel. Since
+      // by default fields _are_ writable and this decorator should not change
+      // that, we enable the `writable` flag in this specific case.
+      if (!('get' in descriptor || 'set' in descriptor || 'writable' in descriptor)) {
+        descriptor.writable = true;
+      }
+
+      // Babel 6 provides a `null` initializer if one isn't set, but that can wind up
+      // overwriting passed-in values if they're specified.
+      // This is a no-op in Babel 7 (since `initializer` isn't part of the property descriptor)
+      // and can be dropped when we remove support for Babel 6
+      if (descriptor.initializer === null) {
+        descriptor.initializer = function() {
+          return get(this, key);
+        };
+      }
     }
-
-    // Babel provides a `null` initializer if one isn't set, but that can wind up
-    // overwriting passed-in values if they're specified.
-    if (desc.initializer === null) {
-      desc.initializer = function() {
-        return get(this, key);
-      };
-    }
-  }
-
-  return desc;
+  };
 });

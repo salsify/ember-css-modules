@@ -77,6 +77,15 @@ module.exports = function() {
               '@ember/jquery': '^0.5.1'
             }
           }
+        },
+        {
+          name: 'babel-6',
+          npm: {
+            devDependencies: {
+              'ember-cli-babel': '^6',
+              '@ember-decorators/babel-transforms': '^2'
+            }
+          }
         }
       ]
     };
