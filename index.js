@@ -65,7 +65,10 @@ module.exports = {
   },
 
   verifyStylesDirectory() {
-    if (!isModuleUnification(this.parentAddon) && !fs.existsSync(path.join(this.parent.root, this.parent.treePaths['addon-styles']))) {
+    // @TODO: this should actually check for the presence of style files in `src/*`,
+    // but apparently ember-cli has this path hard coded.
+    // https://github.com/salsify/ember-css-modules/pull/128#discussion_r233838109
+    if (!fs.existsSync(path.join(this.parent.root, this.parent.treePaths['addon-styles']))) {
       this.ui.writeWarnLine(
         'The addon ' + this.getOwnerName() + ' has ember-css-modules installed, but no addon styles directory. ' +
         'You must have at least a placeholder file in this directory (e.g. `addon/styles/.placeholder`) in ' +
