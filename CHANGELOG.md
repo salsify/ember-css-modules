@@ -1,3 +1,7 @@
+## 1.1.1 Decorum (February 25, 2019)
+### Added
+- ember-css-modules now officially supports being installed in projects running either the 3.x or 5.x series of ember-decorators releases [#134](https://github.com/salsify/ember-css-modules/pull/134)
+
 ## 1.1.0 Stage Fright (November 26, 2018)
 ### Added
 - `@localClassNames` and `@localClassName` now support projects using either stage 1 or stage 2 of the decorators proposal.
