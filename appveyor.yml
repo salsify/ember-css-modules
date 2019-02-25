@@ -1,6 +1,6 @@
 install:
-  - ps: Install-Product node 6
-  - yarn
+  - ps: Install-Product node 10
+  - yarn --check-files
 
 cache:
   - '%APPDATA%\npm-cache'
