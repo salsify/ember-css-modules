@@ -4,6 +4,23 @@ Ember-flavored support for [CSS Modules](https://github.com/css-modules/css-modu
 
 If you have ideas or questions that aren't addressed here, try [#e-css-modules](https://discord.gg/zT3asNS) on the Ember Discord Server.
 
+* [Installation](#installation)
+* [What and Why?](#what-and-why)
+* [Usage](#usage)
+  * [Simple Example](#simple-example)
+  * ["Classic" Structure Applications](#classic-structure-applications)
+  * [Styling Reuse](#styling-reuse)
+  * [Programmatic Styles Access](#programmatic-styles-access)
+  * [Global Classes](#global-classes)
+  * [Values](#values)
+* [Usage in Addons](#usage-in-addons)
+* [Plugins](#plugins)
+* [Advanced Configuration](#advanced-configuration)
+  * [Where to Specify Options](#where-to-specify-options)
+  * [Scoped Name Generation](#scoped-name-generation)
+  * [Source Maps](#source-maps)
+* [Ember Support](#ember-support)
+
 ## Installation
 
 ```sh
