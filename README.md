@@ -2,7 +2,7 @@
 
 Ember-flavored support for [CSS Modules](https://github.com/css-modules/css-modules). For an overview of some of the motivations for the CSS Modules concept, see [this blog post](http://blog.salsify.com/engineering/good-fences-with-css-modules).
 
-If you have ideas or questions that aren't addressed here, try [#e-css-modules](https://discord.gg/zT3asNS) on the Ember Discord Server.
+If you have ideas or questions that aren't addressed here, try [#topic-css](https://discordapp.com/channels/480462759797063690/486013244667068436) on the Ember Discord Server.
 
 * [Installation](#installation)
 * [What and Why?](#what-and-why)
