@@ -9,6 +9,10 @@ module.exports = function(defaults) {
       enabled: true
     },
 
+    'ember-cli-babel': {
+      throwUnlessParallelizable: true
+    },
+
     cssModules: {
       _silenceAfterModuleDeprecation: true,
       headerModules: [
