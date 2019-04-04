@@ -13,7 +13,7 @@
     ]
   },
   "dependencies": {
-    "ember-cli-less": "^1.5.4",
+    "ember-cli-less": "^2.0.0",
     "postcss-less": "^1.0.1"
   },
   "engines": {
