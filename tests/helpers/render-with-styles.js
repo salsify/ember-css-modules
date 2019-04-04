@@ -21,7 +21,7 @@ export default function registerStyles(styles) {
       template = template[0];
     }
 
-    const plugins = { ast: [ClassTransformPlugin.forEmberVersion(VERSION)] };
+    const plugins = { ast: [ClassTransformPlugin.forEmberVersion(VERSION).plugin] };
     const meta = { moduleName: TEST_TEMPLATE };
     return compile(template, { plugins, meta });
   }
