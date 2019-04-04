@@ -1,3 +1,7 @@
+## 1.1.2 Parallelogram (April 4, 2019)
+### Fixed
+- ECM's template AST transform no longer prevents ember-cli-babel from performing parallel transpilation.
+
 ## 1.1.1 Decorum (February 25, 2019)
 ### Added
 - ember-css-modules now officially supports being installed in projects running either the 3.x or 5.x series of ember-decorators releases [#134](https://github.com/salsify/ember-css-modules/pull/134)
