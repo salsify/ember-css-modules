@@ -145,7 +145,8 @@ console.log(styles['hello-class']);
 
 There is no root element, if you are using either of the following:
 
-- [Glimmer components (`@glimmer/component`)](https://octane-guides-preview.emberjs.com/release/components/component-basics/), - [template-only components](https://github.com/emberjs/rfcs/blob/master/text/0278-template-only-components.md)
+- [Glimmer components (`@glimmer/component`)](https://octane-guides-preview.emberjs.com/release/components/component-basics/)
+- [template-only components](https://github.com/emberjs/rfcs/blob/master/text/0278-template-only-components.md)
 - [tag-less components](https://api.emberjs.com/ember/3.9/classes/Component/properties/tagName?anchor=tagName)
 
 In this case, you can ignore this complete section and just use the `local-class` attribute or helper.
