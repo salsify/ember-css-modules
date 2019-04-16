@@ -68,9 +68,14 @@ module.exports = function() {
         {
           name: 'babel-6',
           npm: {
-            devDependencies: {
+            dependencies: {
               'ember-cli-babel': '^6',
-              '@ember-decorators/babel-transforms': '^2'
+            },
+            devDependencies: {
+              'ember-decorators-polyfill': null,
+              '@ember-decorators/babel-transforms': '^2',
+              '@ember-decorators/object': '^2',
+              '@ember-decorators/component': '^2',
             }
           }
         },
@@ -78,9 +83,12 @@ module.exports = function() {
           // We test withs stage-1 decorators by default
           name: 'stage-2-decorators',
           npm: {
-            devDependencies: {
+            dependencies: {
               'ember-cli-babel': '7.3.0',
+            },
+            devDependencies: {
               'ember-decorators-polyfill': null,
+              '@ember-decorators/babel-transforms': '^5',
               '@ember-decorators/object': '^5',
               '@ember-decorators/component': '^5'
             }

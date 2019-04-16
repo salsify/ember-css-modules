@@ -12,7 +12,9 @@ import { render } from '@ember/test-helpers';
 
 /* global require */
 // We test against both stage-1 decorators (the polyfill) and stage-2 (@ember-decorators/object @ 5)
-const computed = require.has('@ember-decorators/object') ? require('@ember-decorators/object').computed : nativeComputed;
+const computed = require.has('@ember-decorators/object')
+  ? require(['@ember-decorators', 'object'].join('/')).computed
+  : nativeComputed;
 
 module('Integration | decorators', function(hooks) {
   setupRenderingTest(hooks);

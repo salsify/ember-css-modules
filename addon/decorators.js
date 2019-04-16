@@ -29,7 +29,7 @@ export const localClassNames = (...classNames) => (...desc) => {
   if (isStage1ClassDescriptor(desc)) {
     collapseAndMerge(desc[0].prototype, 'localClassNames', ...classNames);
   } else {
-    desc.finisher = target => {
+    desc[0].finisher = target => {
       collapseAndMerge(target.prototype, 'localClassNames', ...classNames);
     };
   }
@@ -71,8 +71,8 @@ export const localClassName = (...params) => {
       let [prototype, key, descriptor] = desc;
       setUpLocalClassField(params, prototype, key, descriptor);
     } else if (isStage2FieldDescriptor(desc)) {
-      desc.finisher = target => {
-        const { key, descriptor } = desc;
+      desc[0].finisher = target => {
+        const { key, descriptor } = desc[0];
         setUpLocalClassField(params, target.prototype, key, descriptor);
       };
     }
