@@ -66,24 +66,23 @@ module.exports = function() {
           }
         },
         {
-          name: 'ember-default-with-jquery',
-          env: {
-            EMBER_OPTIONAL_FEATURES: JSON.stringify({
-              'jquery-integration': true
-            })
-          },
-          npm: {
-            devDependencies: {
-              '@ember/jquery': '^0.5.1'
-            }
-          }
-        },
-        {
           name: 'babel-6',
           npm: {
             devDependencies: {
               'ember-cli-babel': '^6',
               '@ember-decorators/babel-transforms': '^2'
+            }
+          }
+        },
+        {
+          // We test withs stage-1 decorators by default
+          name: 'stage-2-decorators',
+          npm: {
+            devDependencies: {
+              'ember-cli-babel': '7.3.0',
+              'ember-decorators-polyfill': null,
+              '@ember-decorators/object': '^5',
+              '@ember-decorators/component': '^5'
             }
           }
         }
