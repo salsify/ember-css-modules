@@ -1,7 +1,7 @@
 import { run } from '@ember/runloop';
 import Component from '@ember/component';
 import { layout, classNames } from '@ember-decorators/component';
-import { reads } from '@ember-decorators/object/computed';
+import { computed as nativeComputed } from '@ember/object';
 import setupStyles from '../helpers/render-with-styles';
 
 import { localClassName, localClassNames } from 'ember-css-modules';
@@ -9,6 +9,12 @@ import { module, test } from 'qunit';
 import { setupRenderingTest } from 'ember-qunit';
 
 import { render } from '@ember/test-helpers';
+
+/* global require */
+// We test against both stage-1 decorators (the polyfill) and stage-2 (@ember-decorators/object @ 5)
+const computed = require.has('@ember-decorators/object')
+  ? require(['@ember-decorators', 'object'].join('/')).computed
+  : nativeComputed;
 
 module('Integration | decorators', function(hooks) {
   setupRenderingTest(hooks);
@@ -325,16 +331,22 @@ module('Integration | decorators', function(hooks) {
       string;
 
       @localClassName
-      @reads('simpleBool')
-      simpleBoolClass;
+      @computed('simpleBool')
+      get simpleBoolClass() {
+        return this.simpleBool;
+      }
 
       @localClassName('bool-true', 'bool-false')
-      @reads('explicitBool')
-      explicitBoolClass;
+      @computed('explicitBool')
+      get explicitBoolClass() {
+        return this.explicitBool;
+      }
 
       @localClassName
-      @reads('string')
-      stringClass;
+      @computed('string')
+      get stringClass() {
+        return this.string;
+      }
     }
 
     this.owner.register('component:test-component', TestComponent);
