@@ -29,7 +29,7 @@ module.exports = {
   included(includer) {
     debug('included in %s', includer.name);
     this.ownerName = includer.name;
-    this.plugins = new PluginRegistry(this.parent);
+    this.plugins = new PluginRegistry(this.parent, includer);
     this.cssModulesOptions = this.plugins.computeOptions(includer.options && includer.options.cssModules);
 
     if (this.belongsToAddon()) {
