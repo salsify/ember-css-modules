@@ -27,14 +27,18 @@ jobs:
 
   include:
     # runs linting and tests with current locked deps
-
     - stage: "Tests"
       name: "Tests"
+      node_js:
+        # Officially we still support Node 6 until ECM 2.0, but unfortunately
+        # ember-cli-addon-tests always pulls dependencies fresh, so that part
+        # of the test suite will only run under Node 8+
+        - "8"
       script:
         - yarn lint:hbs
         - yarn lint:js
-        - yarn test
         - yarn test-node
+        - yarn test
 
     # we recommend new addons test the current and previous LTS
     # as well as latest stable release (bonus points to beta/canary)
