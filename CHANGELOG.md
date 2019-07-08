@@ -1,3 +1,7 @@
+## 1.2.1 Form Over Function (July 8, 2019)
+### Fixed
+- Support new template factory format coming in Ember 3.13 [#146](https://github.com/salsify/ember-css-modules/pull/146)
+
 ## 1.2.0 What's Old is New Again (April 16, 2019)
 ### Added
 - ember-css-modules now works in projects using either stage 1 or stage 2 of the decorators proposal, regardless of whether you're using `@ember-decorators/*`, `ember-decorators-polyfill`, or built-in decorator support via `ember-cli-babel` >= 7.7 and Ember 3.10.
