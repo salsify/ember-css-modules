@@ -42,6 +42,9 @@ export default Mixin.create({
       layout
     );
 
+    // Since https://github.com/emberjs/ember.js/pull/18096
+    if (typeof layout === 'function') layout = layout(getOwner(this));
+
     // This is not public API and might break at any time...
     let moduleName = (layout.meta || layout.referrer).moduleName.replace(/\.hbs$/, '');
     if (/\/template$/.test(moduleName)) {
