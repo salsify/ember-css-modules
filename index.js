@@ -28,7 +28,6 @@ module.exports = {
 
   included(includer) {
     debug('included in %s', includer.name);
-    this.ownerName = includer.name;
     this.plugins = new PluginRegistry(this.parent);
     this.cssModulesOptions = this.plugins.computeOptions(includer.options && includer.options.cssModules);
 
@@ -66,7 +65,7 @@ module.exports = {
   verifyStylesDirectory() {
     if (!fs.existsSync(path.join(this.parent.root, this.parent.treePaths['addon-styles']))) {
       this.ui.writeWarnLine(
-        'The addon ' + this.getOwnerName() + ' has ember-css-modules installed, but no addon styles directory. ' +
+        'The addon ' + this.getParentName() + ' has ember-css-modules installed, but no addon styles directory. ' +
         'You must have at least a placeholder file in this directory (e.g. `addon/styles/.placeholder`) in ' +
         'the published addon in order for ember-cli to process its CSS modules.'
       );
@@ -77,8 +76,8 @@ module.exports = {
     this.plugins.notify(event);
   },
 
-  getOwnerName() {
-    return this.ownerName;
+  getParentName() {
+    return this.app ? this.app.name : this.parent.name;
   },
 
   getParent() {
