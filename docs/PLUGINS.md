@@ -13,13 +13,15 @@ const Plugin = require('ember-css-modules/lib/plugin');
 module.exports = {
   name: 'ember-css-modules-super-cool-plugin',
 
-  createCssModulesPlugin(parent) {
-    return new Plugin(parent);
+  createCssModulesPlugin(parent, includer) {
+    return new Plugin(parent, includer);
   }
 }
 ```
 
 The `createCssModulesPlugin` method receives a reference to the plugin's parent, which is either a [`Project`](https://ember-cli.com/api/classes/Project.html) or an [`Addon`](https://ember-cli.com/api/classes/Addon.html), depending on whether the plugin was included by an app or an addon, respectively.
+
+It also receives the direct [`includer`](https://ember-cli.com/api/classes/Addon.html#method_included) as a second parameter.
 
 This isn't a particularly exciting example, though, as it doesn't actually do anything. To have any impact on the build, a plugin needs to implement one or more of the available hooks.
 
