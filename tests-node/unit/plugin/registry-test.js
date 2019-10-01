@@ -32,8 +32,8 @@ test('plugin discovery and instantiation', function(assert) {
   };
 
   let registry = new PluginRegistry(parent);
-  assert.equal(registry.plugins.length, 1);
-  assert.equal(registry.plugins[0].name, 'b');
+  assert.equal(registry.getPlugins().length, 1);
+  assert.equal(registry.getPlugins()[0].name, 'b');
 });
 
 test('lint plugin discovery and instantiation', function(assert) {
@@ -64,9 +64,9 @@ test('lint plugin discovery and instantiation', function(assert) {
   };
 
   let registry = new PluginRegistry(parent);
-  assert.equal(registry.plugins.length, 2);
-  assert.equal(registry.plugins[0].name, 'a');
-  assert.equal(registry.plugins[1].name, 'b');
+  assert.equal(registry.getPlugins().length, 2);
+  assert.equal(registry.getPlugins()[0].name, 'a');
+  assert.equal(registry.getPlugins()[1].name, 'b');
 });
 
 test('warning when not returning a Plugin instance', function(assert) {
@@ -79,7 +79,7 @@ test('warning when not returning a Plugin instance', function(assert) {
     }]
   };
 
-  new PluginRegistry(parent);
+  new PluginRegistry(parent).getPlugins();
   assert.ok(parent.ui.writeWarnLine.calledWith(
     'Addon a did not return a Plugin instance from its createCssModulesPlugin hook'
   ));
