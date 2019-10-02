@@ -1,3 +1,9 @@
+## 1.3.0-beta.1 Come Together (October 2, 2019)
+### Added
+- Experimental support for apps built using [`@embroider/compat`](https://github.com/embroider-build/embroider). Note that, until [embroider-build/embroider#309](https://github.com/embroider-build/embroider/issues/309) is fixed, CSS changes will likely not show up on rebuilds (though corresponding JS changes will)
+- Experimental support for components in the Octane "colocation" layout (see [the README](https://github.com/salsify/ember-css-modules#component-colocation-in-octane-applications) for details.)
+- A new `includeExtensionInModulePath` option that, when set to `true`, will include `.css` (or whatever your configured extension is) in the import path for your modules. Note that the extension is always included in the module name for colocated styles in order not to conflict with the component definition itself.
+
 ## 1.2.1 Form Over Function (July 8, 2019)
 ### Fixed
 - Support new template factory format coming in Ember 3.13 [#146](https://github.com/salsify/ember-css-modules/pull/146)
