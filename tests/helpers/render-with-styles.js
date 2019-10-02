@@ -21,8 +21,14 @@ export default function registerStyles(styles) {
       template = template[0];
     }
 
-    const plugins = { ast: [ClassTransformPlugin.forEmberVersion(VERSION).plugin] };
-    const meta = { moduleName: TEST_TEMPLATE };
-    return compile(template, { plugins, meta });
+    const { plugin } = ClassTransformPlugin.instantiate({
+      emberVersion: VERSION,
+      options: {
+        includeExtensionInModulePath: false
+      }
+    });
+
+    const plugins = { ast: [plugin] };
+    return compile(template, { plugins, moduleName: TEST_TEMPLATE });
   }
 }

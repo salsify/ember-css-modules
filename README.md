@@ -73,6 +73,22 @@ For example, the component given above in pod structure would look like this in 
 
 Similarly, if you were styling e.g. your application controller, you would mirror the template at `app/templates/application.hbs` and put your CSS at `app/styles/application.css`.
 
+### Component Colocation in Octane Applications
+
+In Octane apps, where component templates can be colocated with their backing class, your styles module for a component takes the same name as the backing class and template files:
+
+```hbs
+{{! app/components/my-component.hbs }}
+<div local-class="hello-class">Hello, world!</div>
+```
+
+```css
+/* app/components/my-component.css */
+.hello-class {
+  font-weight: bold;
+}
+```
+
 ### Styling Reuse
 
 In the example above, `hello-class` is rewritten internally to something like `_hello-class_1dr4n4` to ensure it doesn't conflict with a `hello-class` defined in some other module.
@@ -140,6 +156,14 @@ import styles from 'my-app-name/components/my-component/styles';
 console.log(styles['hello-class']);
 // => "_hello-class_1dr4n4"
 ```
+
+**Note**: by default, the import path for a styles module does _not_ include the `.css` (or equivalent) extension. However, if you set `includeExtensionInModulePath: true`, then you'd instead write:
+
+```js
+import styles from 'my-app-name/components/my-component/styles.css';
+```
+
+Note that the extension is **always** included for styles modules that are part of an Octane "colocated" component, to avoid a conflict with the import path for the component itself.
 
 ### Applying Classes to a Component's Root Element
 
@@ -385,6 +409,20 @@ module.exports = {
     }
   }
 };
+```
+
+### Extensions in Module Paths
+
+When importing a CSS module's values from JS, or referencing it via `@value` or `composes:`, by default you do not include the `.css` extension in the import path. The exception to this rule is for modules that are part of an Octane-style colocated component, as the extension is the only thing to differentiate the styles module from the component module itself.
+
+If you wish to enable this behavior for _all_ modules, you can set the `includeExtensionInModulePath` flag in your configuration:
+
+```js
+new EmberApp(defaults, {
+  cssModules: {
+    includeExtensionInModulePath: true,
+  },
+});
 ```
 
 ### Scoped Name Generation

@@ -24,13 +24,11 @@ module.exports = {
     this.modulesPreprocessor = new ModulesPreprocessor({ owner: this });
     this.outputStylesPreprocessor = new OutputStylesPreprocessor({ owner: this });
     this.checker = new VersionChecker(this.project);
+    this.plugins = new PluginRegistry(this.parent);
   },
 
   included(includer) {
     debug('included in %s', includer.name);
-    this.ownerName = includer.name;
-    this.plugins = new PluginRegistry(this.parent);
-    this.cssModulesOptions = this.plugins.computeOptions(includer.options && includer.options.cssModules);
 
     if (this.belongsToAddon()) {
       this.verifyStylesDirectory();
@@ -58,15 +56,24 @@ module.exports = {
     // Skip if we're setting up this addon's own registry
     if (type !== 'parent') { return; }
 
+    let includerOptions = this.app ? this.app.options : this.parent.options;
+    this.cssModulesOptions = this.plugins.computeOptions(includerOptions && includerOptions.cssModules);
+
     registry.add('js', this.modulesPreprocessor);
     registry.add('css', this.outputStylesPreprocessor);
-    registry.add('htmlbars-ast-plugin', HtmlbarsPlugin.forEmberVersion(this.checker.forEmber().version));
+    registry.add('htmlbars-ast-plugin', HtmlbarsPlugin.instantiate({
+      emberVersion: this.checker.forEmber().version,
+      options: {
+        fileExtension: this.getFileExtension(),
+        includeExtensionInModulePath: this.includeExtensionInModulePath(),
+      },
+    }));
   },
 
   verifyStylesDirectory() {
     if (!fs.existsSync(path.join(this.parent.root, this.parent.treePaths['addon-styles']))) {
       this.ui.writeWarnLine(
-        'The addon ' + this.getOwnerName() + ' has ember-css-modules installed, but no addon styles directory. ' +
+        'The addon ' + this.getParentName() + ' has ember-css-modules installed, but no addon styles directory. ' +
         'You must have at least a placeholder file in this directory (e.g. `addon/styles/.placeholder`) in ' +
         'the published addon in order for ember-cli to process its CSS modules.'
       );
@@ -77,8 +84,8 @@ module.exports = {
     this.plugins.notify(event);
   },
 
-  getOwnerName() {
-    return this.ownerName;
+  getParentName() {
+    return this.app ? this.app.name : this.parent.name;
   },
 
   getParent() {
@@ -95,6 +102,10 @@ module.exports = {
 
   getScopedNameGenerator() {
     return this.cssModulesOptions.generateScopedName || require('./lib/generate-scoped-name');
+  },
+
+  getModuleRelativePath(fullPath) {
+    return this.modulesPreprocessor.getModuleRelativePath(fullPath);
   },
 
   getModulesTree() {
@@ -119,6 +130,10 @@ module.exports = {
 
   getFileExtension() {
     return this.cssModulesOptions && this.cssModulesOptions.extension || 'css';
+  },
+
+  includeExtensionInModulePath() {
+    return !!this.cssModulesOptions.includeExtensionInModulePath;
   },
 
   getPostcssOptions() {
