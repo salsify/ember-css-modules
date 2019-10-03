@@ -1,0 +1,101 @@
+name: CI
+
+# These trigger patterns courtesy of https://github.com/broccolijs/broccoli/pull/436
+on:
+  pull_request:
+  push:
+    # filtering branches here prevents duplicate builds from pull_request and push
+    branches:
+      - master
+      - 'v*'
+    # always run CI for tags
+    tags:
+      - '*'
+
+  # early issue detection: run CI weekly on Sundays
+  schedule:
+  - cron:  '0 6 * * 0'
+
+env:
+  CI: true
+
+jobs:
+  test-locked-deps:
+    name: Locked Deps
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v1
+      - name: Install Node
+        uses: actions/setup-node@v1
+        with:
+          version: 12
+      - name: Install Dependencies
+        run: yarn install --frozen-lockfile
+      - name: Lint
+        run: yarn lint:js
+      - name: Browser Tests
+        run: yarn test
+      - name: Node Tests
+        run: yarn test-node
+
+  test-windows:
+    name: Windows
+    runs-on: windows-latest
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v1
+      - name: Install Node
+        uses: actions/setup-node@v1
+        with:
+          version: 12
+      - name: Install Dependencies
+        run: yarn install --frozen-lockfile
+      - name: Run Tests
+        run: yarn test
+
+  # Officially we still support Node 6 until ECM 2.0, but unfortunately
+  # many of our dependencies have dropped Node 6 in non-breaking releases,
+  # which makes running the full suite hard. We run the browser test suite
+  # with locked dependencies as a reasonable smoke test instead.
+  test-node-6:
+    name: Node 6
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v1
+      - name: Install Node
+        uses: actions/setup-node@v1
+        with:
+          version: 6
+      - name: Install Dependencies
+        run: yarn install --frozen-lockfile
+      - name: Run Tests
+        run: yarn test
+
+  test-try:
+    name: Try
+    runs-on: ubuntu-latest
+    needs: [test-locked-deps, test-windows, test-node-6]
+    strategy:
+      matrix:
+        scenario:
+         - babel-6
+         - stage-2-decorators
+         - ember-lts-2.16
+         - ember-lts-2.18
+         - ember-release
+         - ember-beta
+         - ember-canary
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v1
+      - name: Install Node
+        uses: actions/setup-node@v1
+        with:
+          version: 12
+      - name: Install Dependencies
+        run: yarn install --frozen-lockfile
+      - name: Try Scenario
+        run: yarn ember try:one ${{ matrix.scenario }}
