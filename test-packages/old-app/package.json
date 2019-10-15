@@ -1,0 +1,40 @@
+{
+  "name": "old-app",
+  "version": "0.0.0",
+  "private": true,
+  "description": "Small description for old-app goes here",
+  "license": "MIT",
+  "author": "",
+  "directories": {
+    "doc": "doc",
+    "test": "tests"
+  },
+  "repository": "",
+  "scripts": {
+    "build": "ember build",
+    "start": "ember server",
+    "test": "ember test"
+  },
+  "devDependencies": {
+    "@ember-decorators/babel-transforms": "2",
+    "ember-cli": "~2.16",
+    "ember-cli-babel": "^6.6.0",
+    "ember-cli-dependency-checker": "^3.2.0",
+    "ember-cli-htmlbars": "^2.0.1",
+    "ember-cli-htmlbars-inline-precompile": "^1.0.0",
+    "ember-cli-inject-live-reload": "^1.4.1",
+    "ember-cli-qunit": "^4.0.0",
+    "ember-cli-shims": "^1.1.0",
+    "ember-css-modules": "file:../../packages/ember-css-modules",
+    "ember-load-initializers": "^1.0.0",
+    "ember-resolver": "^4.0.0",
+    "ember-source": "~2.16.0",
+    "loader.js": "^4.2.3"
+  },
+  "engines": {
+    "node": "^4.5 || 6.* || >= 7.*"
+  },
+  "volta": {
+    "node": "6.17.1"
+  }
+}
