@@ -1,0 +1,9 @@
+@value --sass-family from '../../testing/constants';
+
+@mixin sass-component {
+  font-family: --sass-family;
+}
+
+.component-class {
+  @include sass-component;
+}
