@@ -214,8 +214,9 @@ For instance, to statically set a local `my-component` class on your component, 
 import Component from '@ember/component';
 import { localClassNames } from 'ember-css-modules';
 
+export default
 @localClassNames('my-component')
-export default class ExampleComponent extends Component {
+class ExampleComponent extends Component {
   // your kickass code here
 }
 ```
@@ -226,8 +227,9 @@ Just as with [`@classNames`](http://ember-decorators.github.io/ember-decorators/
 import Component from '@ember/component';
 import { localClassNames } from 'ember-css-modules';
 
+export default
 @localClassNames('my-component', 'make-it-pop', 'vibrant-colors')
-export default class ExampleComponent extends Component {
+class ExampleComponent extends Component {
   // your sensational code here
 }
 ```
