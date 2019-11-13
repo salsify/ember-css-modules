@@ -379,7 +379,8 @@ You can find a list of all publicly available plugins by browsing [the npm `embe
 ## Advanced Configuration
 
 Details about specific advanced configuration options are broken out into smaller mini-guides that each focus on a single topic:
- - [Using CSS Modules with other preprocessors](docs/PREPROCESSORS.md)
+ - [Using CSS Modules with Tailwind CSS](docs/TAILWINDCSS.md)
+ - [Using CSS Modules with other preprocessors like Sass or Less](docs/PREPROCESSORS.md)
  - [Working with PostCSS plugins](docs/POSTCSS.md)
  - [Module ordering](docs/ORDERING.md)
  - [Defining values at build time with virtual modules](docs/VIRTUAL_MODULES.md)
