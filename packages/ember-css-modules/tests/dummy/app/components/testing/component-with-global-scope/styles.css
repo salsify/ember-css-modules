@@ -1,0 +1,5 @@
+:global {
+  .global-scope-class {
+    font-family: 'component-with-global-class-composition';
+  }
+}

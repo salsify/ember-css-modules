@@ -14,6 +14,7 @@ module('Acceptance | styles lookup', function() {
     'pod-route/nested-pod-component',
     'pod-route/nested-pod-template-only-component',
     'component-with-dynamic-local-class',
+    'component-with-global-scope',
     'component-with-global-class-and-dynamic-local-class',
     'component-with-local-class-helper',
     'component-with-global-class-composition',
