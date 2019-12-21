@@ -89,6 +89,8 @@ Note that any plugins that run _after_ postcss-import will be applied to the imp
 
 ## Migrating from ember-cli-postcss
 
+### Configuration
+
 ember-cli-postcss uses an untraditional configuration approach, where ember-css-modules sticks to traditional css plugin processor conventions. 
 
 ```ts
@@ -155,4 +157,17 @@ postcssOptions: {
 ```
 These two settings blocks are equivelent. 
 
-NOTE: ember-css-modules' postcss support already includes autoprefixer.
+NOTE: 
+- ember-css-modules' postcss support already includes autoprefixer.
+- ember-css-modules' plugins must be in the array form (without using before/after), or vendor css will be transformed into local versions of the provided classes
+
+
+### Porting over old styles
+
+All css classes in \*.css files _by default_ will be made into "local versions". To make migrating more of an incremental process, wrap your styles in:
+```css
+:global {
+  your old styles here
+}
+```
+This way, you can gradually port your classes over to local versions and make other improvements as time allows, rather than making the jump all at once.
