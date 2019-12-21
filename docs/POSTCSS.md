@@ -86,3 +86,73 @@ new EmberApp(defaults, {
 ```
 
 Note that any plugins that run _after_ postcss-import will be applied to the imported files, which is why setting the `--h1` variable above affects the Basscss output.
+
+## Migrating from ember-cli-postcss
+
+ember-cli-postcss uses an untraditional configuration approach, where ember-css-modules sticks to traditional css plugin processor conventions. 
+
+```ts
+cssModules: {
+  plugins: [
+    PostCSSImport({
+      path: ['node_modules/shoelace-css/source/css'],
+    }),
+    PostCSSNext({
+      features: {
+        colorFunction: {
+          preserveCustomProps: false,
+        },
+        customProperties: {
+          preserve: true,
+        },
+        rem: false,
+      },
+    }),
+  ],
+},
+```
+where as with ember-cli-postcss:
+```ts
+postcssOptions: {
+  compile: {
+    enabled: true,
+    extension: 'css',
+    plugins: [
+      {
+        module: PostCSSImport,
+        options: {
+          path: ['node_modules/shoelace-css/source/css'],
+        },
+      },
+      {
+        module: PostCSSNext,
+        options: {
+          features: {
+            colorFunction: {
+              preserveCustomProps: false,
+            },
+            customProperties: {
+              preserve: true,
+            },
+            rem: false,
+          },
+        },
+      },
+    ],
+  },
+  filter: {
+    enabled: true,
+    plugins: [
+      {
+        module: autoprefixer,
+        options: {
+          browsers: ['last 2 versions'],
+        },
+      },
+    ],
+  },
+},
+```
+These two settings blocks are equivelent. 
+
+NOTE: ember-css-modules' postcss support already includes autoprefixer.
