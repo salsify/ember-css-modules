@@ -75,6 +75,11 @@ Similarly, if you were styling e.g. your application controller, you would mirro
 
 ### Component Colocation in Octane Applications
 
+**Note:** you need the beta version for component template colocation support:
+```
+ember install ember-css-modules@1.3.0-beta1
+```
+
 In Octane apps, where component templates can be colocated with their backing class, your styles module for a component takes the same name as the backing class and template files:
 
 ```hbs
