@@ -30,6 +30,10 @@ module.exports = {
   included(includer) {
     debug('included in %s', includer.name);
 
+    this.cssModulesOptions = this.plugins.computeOptions(
+      includer.options && includer.options.cssModules
+    );
+
     if (this.belongsToAddon()) {
       this.verifyStylesDirectory();
       this.parentAddon = includer;
@@ -56,18 +60,22 @@ module.exports = {
     // Skip if we're setting up this addon's own registry
     if (type !== 'parent') { return; }
 
-    let includerOptions = this.app ? this.app.options : this.parent.options;
-    this.cssModulesOptions = this.plugins.computeOptions(includerOptions && includerOptions.cssModules);
-
     registry.add('js', this.modulesPreprocessor);
     registry.add('css', this.outputStylesPreprocessor);
-    registry.add('htmlbars-ast-plugin', HtmlbarsPlugin.instantiate({
-      emberVersion: this.checker.forEmber().version,
-      options: {
-        fileExtension: this.getFileExtension(),
-        includeExtensionInModulePath: this.includeExtensionInModulePath(),
-      },
-    }));
+    registry.add(
+      'htmlbars-ast-plugin',
+      HtmlbarsPlugin.instantiate({
+        emberVersion: this.checker.forEmber().version,
+        optionsFn: this.htmlbarsOptions.bind(this)
+      })
+    );
+  },
+
+  htmlbarsOptions() {
+    return {
+      fileExtension: this.getFileExtension(),
+      includeExtensionInModulePath: this.includeExtensionInModulePath()
+    };
   },
 
   verifyStylesDirectory() {

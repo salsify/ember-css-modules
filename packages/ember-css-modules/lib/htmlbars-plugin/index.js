@@ -4,10 +4,10 @@ const utils = require('./utils');
 const semver = require('semver');
 
 module.exports = class ClassTransformPlugin {
-  constructor(env, options) {
+  constructor(env, optionsFn) {
     this.syntax = env.syntax;
     this.builders = env.syntax.builders;
-    this.options = options;
+    this.optionsFn = optionsFn;
     this.stylesModule = this.determineStylesModule(env);
     this.isGlimmer = this.detectGlimmer();
     this.visitor = this.buildVisitor(env);
@@ -16,16 +16,16 @@ module.exports = class ClassTransformPlugin {
     this.visitors = this.visitor;
   }
 
-  static instantiate({ emberVersion, options }) {
+  static instantiate({ emberVersion, optionsFn }) {
     return {
       name: 'ember-css-modules',
       plugin: semver.lt(emberVersion, '2.15.0-alpha')
-        ? LegacyAdapter.bind(null, this, options)
-        : env => new this(env, options),
+        ? LegacyAdapter.bind(null, this, optionsFn)
+        : env => new this(env, optionsFn),
       parallelBabel: {
         requireFile: __filename,
         buildUsing: 'instantiate',
-        params: { emberVersion, options },
+        params: { emberVersion, optionsFn },
       },
       baseDir() {
         return `${__dirname}/../..`;
@@ -36,7 +36,9 @@ module.exports = class ClassTransformPlugin {
   determineStylesModule(env) {
     if (!env || !env.moduleName) return;
 
-    let includeExtension = this.options.includeExtensionInModulePath;
+    let options = this.optionsFn();
+
+    let includeExtension = options.includeExtensionInModulePath;
     let name = env.moduleName.replace(/\.\w+$/, '');
 
     if (name.endsWith('template')) {
@@ -48,7 +50,7 @@ module.exports = class ClassTransformPlugin {
     }
 
     if (includeExtension) {
-      name = `${name}.${this.options.fileExtension}`;
+      name = `${name}.${options.fileExtension}`;
     }
 
     return name;
@@ -228,15 +230,15 @@ module.exports = class ClassTransformPlugin {
 
 // For Ember < 2.15
 class LegacyAdapter {
-  constructor(plugin, options, env) {
+  constructor(plugin, optionsFn, env) {
     this.plugin = plugin;
-    this.options = options;
+    this.optionsFn = optionsFn;
     this.meta = env.meta;
     this.syntax = null;
   }
 
   transform(ast) {
-    let plugin = new this.plugin(Object.assign({ syntax: this.syntax }, this.meta), this.options);
+    let plugin = new this.plugin(Object.assign({ syntax: this.syntax }, this.meta), this.optionsFn);
     this.syntax.traverse(ast, plugin.visitor);
     return ast;
   }
