@@ -1,4 +1,3 @@
-import { helper } from '@ember/component/helper';
 import { module, test } from 'qunit';
 import { setupRenderingTest } from 'ember-qunit';
 import { render } from '@ember/test-helpers';
@@ -28,7 +27,6 @@ module('Integration | Helper | local-class', function(hooks) {
 
   test('it works as a named parameter', async function(assert) {
     let hbs = setupStyles({ foo: '--foo-value' });
-    this.owner.register('helper:hash', helper((params, hash) => hash));
     this.owner.register('template:components/test-component', hbs`{{yield (hash value=(local-class 'foo'))}}`);
 
     await render(hbs`
