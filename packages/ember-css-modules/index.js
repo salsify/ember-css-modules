@@ -21,6 +21,11 @@ module.exports = {
 
   init() {
     this._super.init && this._super.init.apply(this, arguments);
+
+    if (this.belongsToAddon()) {
+      this.parentAddon = this.getParent();
+    }
+
     this.modulesPreprocessor = new ModulesPreprocessor({ owner: this });
     this.outputStylesPreprocessor = new OutputStylesPreprocessor({ owner: this });
     this.checker = new VersionChecker(this.project);
@@ -32,7 +37,6 @@ module.exports = {
 
     if (this.belongsToAddon()) {
       this.verifyStylesDirectory();
-      this.parentAddon = includer;
     }
 
     this._super.included.apply(this, arguments);
