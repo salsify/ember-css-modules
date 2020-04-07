@@ -39,22 +39,6 @@ jobs:
       - name: Node Tests
         run: yarn workspace ember-css-modules test:node
 
-  test-windows:
-    name: Windows
-    runs-on: windows-latest
-    needs: [test-locked-deps]
-    steps:
-      - name: Checkout Code
-        uses: actions/checkout@v1
-      - name: Install Node
-        uses: actions/setup-node@v1
-        with:
-          node-version: 12
-      - name: Install Dependencies
-        run: yarn install --frozen-lockfile
-      - name: Run Tests
-        run: yarn workspace ember-css-modules test
-
   test-old-dependencies:
     name: Oldest Supported Env
     runs-on: ubuntu-16.04
@@ -71,6 +55,41 @@ jobs:
       - name: Run Tests
         run: yarn test
         working-directory: test-packages/old-app
+
+  test-latest-ember-cli:
+    name: Latest CLI
+    runs-on: ubuntu-16.04
+    needs: [test-locked-deps]
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v1
+      - name: Install Node
+        uses: actions/setup-node@v1
+        with:
+          node-version: 12
+      - name: Install Dependencies
+        run: yarn install --frozen-lockfile
+      - name: Install Latest `ember-cli`
+        run: yarn workspace ember-css-modules add --dev ember-cli@latest
+      - name: Run Tests
+        run: yarn workspace ember-css-modules test
+
+
+  test-windows:
+    name: Windows
+    runs-on: windows-latest
+    needs: [test-locked-deps]
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v1
+      - name: Install Node
+        uses: actions/setup-node@v1
+        with:
+          node-version: 12
+      - name: Install Dependencies
+        run: yarn install --frozen-lockfile
+      - name: Run Tests
+        run: yarn workspace ember-css-modules test
 
   test-try:
     name: Ember Try
