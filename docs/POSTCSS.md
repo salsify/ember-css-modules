@@ -18,6 +18,12 @@ new EmberApp(defaults, {
 });
 ```
 
+## Plugin Configuration
+
+If you're unfamiliar with PostCSS, it may not be obvious how you pass configuration to a plugin. PostCSS plugins are themselves actually functions that you call with the configuration you want to pass to them. In the Autoprefixer example above, note that we call the `autoprefixer` function with the config we want to use with it (in this case a simple string, but with many plugins this would be an object literal with any number of option keys provided).
+
+Note: if you're coming from `ember-cli-postcss`, its nonstandard `[plugin, config]` tuple format is _not_ supported.
+
 ## Before/After PostCSS Plugins
 
 By default, any PostCSS plugins you specify will be applied after the module transformation. To apply a set of plugins beforehand instead, you can pass a hash with `before` and `after` keys. For instance, if you wanted to use [postcss-nested](https://github.com/postcss/postcss-nested) so that you could define a set of global classes as a single block:
