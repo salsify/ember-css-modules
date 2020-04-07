@@ -11,7 +11,7 @@ module.exports = function resolvePath(importPath, fromFile, options) {
   } else if (isLocalPath(pathWithExtension, options)) {
     return resolveLocalPath(pathWithExtension, fromFile, options);
   } else {
-    return resolveExternalPath(pathWithExtension, options);
+    return resolveExternalPath(pathWithExtension, importPath, fromFile, options);
   }
 };
 
@@ -37,13 +37,16 @@ function resolveLocalPath(importPath, fromFile, options) {
 }
 
 // Resolve absolute paths pointing to external addons
-function resolveExternalPath(importPath, options) {
+function resolveExternalPath(importPath, originalPath, fromFile, options) {
   let baseIndex = importPath[0] === '@' ? importPath.indexOf('/') + 1 : 0;
   let addonName = importPath.substring(0, importPath.indexOf('/', baseIndex));
   let addon = options.parent.addons.find(addon => addon.name === addonName);
 
   if (!addon) {
-    throw new Error(`Unable to resolve styles from addon ${addonName}; is it installed?`);
+    throw new Error(
+      `Unable to resolve styles module '${originalPath}' imported from '${fromFile}'. ` +
+      `No virtual module with that name was defined and no corresponding addon was found.`
+    );
   }
 
   let pathWithinAddon = importPath.substring(addonName.length + 1);

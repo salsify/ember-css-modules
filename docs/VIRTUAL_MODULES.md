@@ -23,19 +23,21 @@ The following import would retrieve the value `#4dbd33`:
 Virtual modules may be particularly useful for addon authors, as they provide a way to make your addon styling configurable by consumers of your addon at build time. For instance, in your `index.js` you might have something like:
 
 ```js
-included() {
-  // ...
-  this.options = Object.assign({}, this.options, {
-    cssModules: {
-      virtualModules: {
-        'my-addon-config': {
-          'header-color': config.headerColor || 'green',
-          'header-background': config.headerBackground || 'gray'
+setupPreprocessorRegistry(target) {
+  if (target === 'parent') {
+    let includingAppOrAddon = this.app || this.parent;
+    let config = includingAppOrAddon.options.mySpecialConfig || {};
+
+    this.options = Object.assign({}, this.options, {
+      cssModules: {
+        virtualModules: {
+          'my-addon-config': {
+            'header-color': config.headerColor || 'green',
+            'header-background': config.headerBackground || 'gray'
+          }
         }
       }
-    }
-  });
-  this._super.included.apply(this, arguments);
-  // ...
+    });
+  }
 }
 ```
