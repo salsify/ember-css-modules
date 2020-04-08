@@ -27,7 +27,7 @@
     "broccoli-merge-trees": "^3.0.2",
     "ember-cli-babel": "^7.11.1",
     "ember-cli-htmlbars": "^4.0.0",
-    "ember-css-modules": "*"
+    "ember-css-modules": "link:../../packages/ember-css-modules"
   },
   "devDependencies": {
     "@ember/optional-features": "^1.0.0",
