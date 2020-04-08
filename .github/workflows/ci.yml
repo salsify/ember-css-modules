@@ -22,7 +22,7 @@ env:
 jobs:
   test-locked-deps:
     name: Locked Deps
-    runs-on: ubuntu-16.04
+    runs-on: ubuntu-latest
     steps:
       - name: Checkout Code
         uses: actions/checkout@v1
@@ -41,7 +41,7 @@ jobs:
 
   test-old-dependencies:
     name: Oldest Supported Env
-    runs-on: ubuntu-16.04
+    runs-on: ubuntu-latest
     steps:
       - name: Checkout Code
         uses: actions/checkout@v1
@@ -58,7 +58,7 @@ jobs:
 
   test-latest-ember-cli:
     name: Latest CLI
-    runs-on: ubuntu-16.04
+    runs-on: ubuntu-latest
     needs: [test-locked-deps]
     steps:
       - name: Checkout Code
@@ -93,7 +93,7 @@ jobs:
 
   test-try:
     name: Ember Try
-    runs-on: ubuntu-16.04
+    runs-on: ubuntu-latest
     needs: [test-locked-deps]
     strategy:
       matrix:
@@ -115,7 +115,7 @@ jobs:
 
   test-packages:
     name: Test Packages
-    runs-on: ubuntu-16.04
+    runs-on: ubuntu-latest
     needs: [test-locked-deps]
     steps:
       - name: Checkout Code
