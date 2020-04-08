@@ -36,6 +36,9 @@ module.exports = {
     }
 
     this._super.included.apply(this, arguments);
+
+    this.cssModulesOptions = this.plugins.computeOptions(includer.options && includer.options.cssModules);
+    this.setupTemplateTransform();
   },
 
   treeForAddon() {
@@ -56,12 +59,23 @@ module.exports = {
     // Skip if we're setting up this addon's own registry
     if (type !== 'parent') { return; }
 
-    let includerOptions = this.app ? this.app.options : this.parent.options;
-    this.cssModulesOptions = this.plugins.computeOptions(includerOptions && includerOptions.cssModules);
+    this.parentPreprocessorRegistry = registry;
 
     registry.add('js', this.modulesPreprocessor);
     registry.add('css', this.outputStylesPreprocessor);
-    registry.add('htmlbars-ast-plugin', HtmlbarsPlugin.instantiate({
+  },
+
+  setupTemplateTransform() {
+    // This is a pretty sketchy approach, as we're adding another entry to the
+    // template transform registry long after `setupPreprocessorRegistry` was called,
+    // but for backcompat reasons, we need to wait to compute the effective ECM
+    // options until our own `included()` hook, and we need those options in order
+    // to configure the template transform.
+    if (!this.parentPreprocessorRegistry) {
+      throw new Error('[ember-css-modules] internal error: unable to locate parent preprocessor registry');
+    }
+
+    this.parentPreprocessorRegistry.add('htmlbars-ast-plugin', HtmlbarsPlugin.instantiate({
       emberVersion: this.checker.forEmber().version,
       options: {
         fileExtension: this.getFileExtension(),
