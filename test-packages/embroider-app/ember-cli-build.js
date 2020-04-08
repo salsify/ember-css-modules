@@ -12,7 +12,7 @@ module.exports = function(defaults) {
   return compatBuild(app, Webpack, {
     staticAddonTestSupportTrees: true,
     staticAddonTrees: true,
-    // staticHelpers: true,
+    staticHelpers: true,
     // staticComponents: true,
   });
 };
