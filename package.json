@@ -3,6 +3,7 @@
   "workspaces": [
     "packages/ember-css-modules",
     "test-packages/dummy-addon",
+    "test-packages/embroider-app",
     "test-packages/plugin-addon",
     "test-packages/sass-app"
   ]
