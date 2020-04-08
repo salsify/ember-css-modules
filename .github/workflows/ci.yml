@@ -126,6 +126,8 @@ jobs:
           node-version: 12
       - name: Install Dependencies
         run: yarn install --frozen-lockfile
+      - name: Embroider App
+        run: yarn workspace embroider-app test
       - name: Sass App
         run: yarn workspace sass-app test
       - name: Dummy Addon
