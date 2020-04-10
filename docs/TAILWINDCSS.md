@@ -1,6 +1,7 @@
 # Using ember-css-modules with tailwindcss
 
 Adapted from https://github.com/chrism/emberjs-tailwind-purgecss
+NOTE: if you're coming from this installation be aware that you'll need to uninstall ember-cli-postcss
 
 ## Installation
 
