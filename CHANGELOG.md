@@ -1,3 +1,11 @@
+## 1.3.0-beta.2 Help Me Out (April 10, 2020)
+### Added
+- Support for Embroider's `staticHelpers` flag. [#188](https://github.com/salsify/ember-css-modules/pull/188)
+
+### Fixed
+- Timing changes to when ECM calculates its configuration caused some addons that late-defined their options (e.g. in their `included()` hook) not to be picked up correctly. This timing has been reverted to match that of ECM stable. [#186](https://github.com/salsify/ember-css-modules/pull/186)
+- ECM no longer emits a nonsense error message without actionable information when a bad import path is specified for a `@value` or `composes` directive. [#186](https://github.com/salsify/ember-css-modules/pull/186)
+
 ## 1.3.0-beta.1 Come Together (October 2, 2019)
 ### Added
 - Experimental support for apps built using [`@embroider/compat`](https://github.com/embroider-build/embroider). Note that, until [embroider-build/embroider#309](https://github.com/embroider-build/embroider/issues/309) is fixed, CSS changes will likely not show up on rebuilds (though corresponding JS changes will)
