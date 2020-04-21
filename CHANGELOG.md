@@ -1,3 +1,7 @@
+## 1.3.0  (April 20, 2020)
+
+This is a stable release of the changes included in 1.3.0-beta.1 and -beta.2. Headline additions include support for building in projects using `@embroider/concat` and for defining styles when writing components in the [component/template colocation layout](https://github.com/emberjs/rfcs/blob/master/text/0481-component-templates-co-location.md).
+
 ## 1.3.0-beta.2 Help Me Out (April 10, 2020)
 ### Added
 - Support for Embroider's `staticHelpers` flag. [#188](https://github.com/salsify/ember-css-modules/pull/188)
