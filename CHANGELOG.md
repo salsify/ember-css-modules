@@ -1,3 +1,7 @@
+## 1.3.1 (May 26, 2020)
+### Fixed
+- Ensure local imports work with CLI 3.12 [#197](https://github.com/salsify/ember-css-modules/pull/197)
+
 ## 1.3.0  (April 20, 2020)
 
 This is a stable release of the changes included in 1.3.0-beta.1 and -beta.2. Headline additions include support for building in projects using `@embroider/concat` and for defining styles when writing components in the [component/template colocation layout](https://github.com/emberjs/rfcs/blob/master/text/0481-component-templates-co-location.md).
