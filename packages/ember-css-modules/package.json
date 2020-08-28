@@ -94,6 +94,7 @@
     ],
     "before": [
       "ember-cli-babel",
+      "ember-cli-htmlbars",
       "ember-cli-less",
       "ember-cli-sass",
       "ember-cli-stylus",
