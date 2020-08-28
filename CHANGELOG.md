@@ -1,3 +1,7 @@
+## 1.3.2 (August 28, 2020)
+### Fixed
+- Ensure `ember-css-modules` is initialized before `ember-cli-htmlbars`. This almost always was coincidentally the case already, but ordering constraints from other addons _could_ cause ECM to init later, causing `local-class` in colocated templates not to be processed, as in [ember-concurrency-async#4](https://github.com/chancancode/ember-concurrency-async/issues/4)
+
 ## 1.3.1 (May 26, 2020)
 ### Fixed
 - Ensure local imports work with CLI 3.12 [#197](https://github.com/salsify/ember-css-modules/pull/197)
