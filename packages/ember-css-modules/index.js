@@ -115,7 +115,14 @@ module.exports = {
   },
 
   getScopedNameGenerator() {
-    return this.cssModulesOptions.generateScopedName || require('./lib/generate-scoped-name');
+    if (!this._scopedNameGenerator) {
+      let rootOptions = this._findRootApp().options.cssModules || {};
+      this._scopedNameGenerator = this.cssModulesOptions.generateScopedName
+        || rootOptions.generateScopedName
+        || require('./lib/generate-scoped-name');
+    }
+
+    return this._scopedNameGenerator;
   },
 
   getModuleRelativePath(fullPath) {

@@ -440,6 +440,8 @@ new EmberApp(defaults, {
 });
 ```
 
+Note that addons may specify their own `generateScopedName` function, but otherwise they will fall back to using the one (if any) specified by the host application.
+
 ### Source Maps
 
 Ember CLI allows you to [specify source map settings](https://ember-cli.com/user-guide/#source-maps) for your entire build process, and ember-css-modules will honor that configuration. For instance, to enable source maps in all environments for both JS and CSS files, you could put the following in your `ember-cli-build.js`:
