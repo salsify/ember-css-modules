@@ -1,3 +1,7 @@
+## 1.3.3 (October 19, 2020)
+### Fixed
+- Ensure addons use the host app's `generateScopedName` for consistency if they don't have their own configured.
+
 ## 1.3.2 (August 28, 2020)
 ### Fixed
 - Ensure `ember-css-modules` is initialized before `ember-cli-htmlbars`. This almost always was coincidentally the case already, but ordering constraints from other addons _could_ cause ECM to init later, causing `local-class` in colocated templates not to be processed, as in [ember-concurrency-async#4](https://github.com/chancancode/ember-concurrency-async/issues/4)
@@ -6,7 +10,7 @@
 ### Fixed
 - Ensure local imports work with CLI 3.12 [#197](https://github.com/salsify/ember-css-modules/pull/197)
 
-## 1.3.0  (April 20, 2020)
+## 1.3.0 (April 20, 2020)
 
 This is a stable release of the changes included in 1.3.0-beta.1 and -beta.2. Headline additions include support for building in projects using `@embroider/concat` and for defining styles when writing components in the [component/template colocation layout](https://github.com/emberjs/rfcs/blob/master/text/0481-component-templates-co-location.md).
 
