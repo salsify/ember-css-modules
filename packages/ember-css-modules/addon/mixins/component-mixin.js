@@ -51,9 +51,9 @@ export default Mixin.create({
       return tryLoad(moduleName.replace(/template$/, 'styles'));
     } else if (/\/templates\//.test(moduleName)) {
       return tryLoad(moduleName.replace('/templates/', '/styles/'));
+    } else {
+      return tryLoad(`${moduleName}.css`);
     }
-
-    return;
   })
 });
 
