@@ -12,7 +12,7 @@ module('Integration | Template AST Plugin', function(hooks) {
   hooks.beforeEach(function() {
     this.owner.register('template:components/x-div', hbs`{{yield}}`);
     this.owner.register('component:x-div', Component.extend({ attributeBindings: ['data-test-value'] }));
-    this.owner.register('helper:helper', helper((params, hash) => {
+    this.owner.register('helper:custom-helper', helper((params, hash) => {
       const values = Object.keys(hash).map(key => hash[key]);
       return params.concat(values).join(' ');
     }));
@@ -137,8 +137,8 @@ module('Integration | Template AST Plugin', function(hooks) {
   });
 
   testTransformation('creating a class attribute with dynamic local-class value', {
-    statementInput: 'local-class=(helper positional "bar" keyA=named keyB="qux")',
-    elementInput: 'local-class={{helper positional "bar" keyA=named keyB="qux"}}',
+    statementInput: 'local-class=(custom-helper positional "bar" keyA=named keyB="qux")',
+    elementInput: 'local-class={{custom-helper positional "bar" keyA=named keyB="qux"}}',
     output: 'class="--foo --bar --baz --qux"',
 
     selector: '.--foo.--bar.--baz.--qux',
@@ -155,8 +155,8 @@ module('Integration | Template AST Plugin', function(hooks) {
   });
 
   testTransformation('creating a class attribute with mixed local-class value', {
-    statementInput: 'local-class=(concat "foo " (helper positional "bar" keyA=named keyB="qux"))',
-    elementInput: 'local-class="foo {{helper positional "bar" keyA=named keyB="qux"}}"',
+    statementInput: 'local-class=(concat "foo " (custom-helper positional "bar" keyA=named keyB="qux"))',
+    elementInput: 'local-class="foo {{custom-helper positional "bar" keyA=named keyB="qux"}}"',
     output: 'class="--foo --fizz --bar --baz --qux"',
 
     selector: '.--foo.--fizz.--bar.--baz.--qux',
@@ -174,8 +174,8 @@ module('Integration | Template AST Plugin', function(hooks) {
   });
 
   testTransformation('appending a class attribute with dynamic local-class value', {
-    statementInput: 'class="x" local-class=(helper positional "bar" keyA=named keyB="qux")',
-    elementInput: 'class="x" local-class={{helper positional "bar" keyA=named keyB="qux"}}',
+    statementInput: 'class="x" local-class=(custom-helper positional "bar" keyA=named keyB="qux")',
+    elementInput: 'class="x" local-class={{custom-helper positional "bar" keyA=named keyB="qux"}}',
     output: 'class="x --foo --bar --baz --qux"',
 
     selector: '.x.--foo.--bar.--baz.--qux',
@@ -192,8 +192,8 @@ module('Integration | Template AST Plugin', function(hooks) {
   });
 
   testTransformation('appending a class attribute with mixed local-class value', {
-    statementInput: 'class="x" local-class=(concat "foo " (helper positional "bar" keyA=named keyB="qux"))',
-    elementInput: 'class="x" local-class="foo {{helper positional "bar" keyA=named keyB="qux"}}"',
+    statementInput: 'class="x" local-class=(concat "foo " (custom-helper positional "bar" keyA=named keyB="qux"))',
+    elementInput: 'class="x" local-class="foo {{custom-helper positional "bar" keyA=named keyB="qux"}}"',
     output: 'class="x --foo --fizz --bar --baz --qux"',
 
     selector: '.x.--foo.--bar.--baz.--qux',
