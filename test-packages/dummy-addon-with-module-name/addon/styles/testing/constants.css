@@ -1,0 +1,10 @@
+@value superbold: 800;
+@value addon-value: 'component-with-addon-value';
+
+.important-message {
+  background-color: rgb(255, 255, 0);
+}
+
+.addon-class {
+  font-family: 'component-with-addon-composition';
+}
