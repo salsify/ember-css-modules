@@ -15,6 +15,7 @@ module.exports = class ModulesPreprocessor {
     this._modulesTree = null;
     this._modulesBasePath = null;
     this._modulesBridge = new Bridge();
+    this._parentName = null;
   }
 
   toTree(inputTree, path) {
@@ -37,10 +38,16 @@ module.exports = class ModulesPreprocessor {
         });
       }
 
+      // If moduleName is defined, that should override the parent's name.
+      // Otherwise, the template and generated module will disagree as to what the path should be.
+      let ownerParent = this.owner.getParent();
+      let parentName = ownerParent.moduleName ? ownerParent.moduleName() : this.owner.getParentName();
+      this._parentName = parentName;
+
       let modulesSources = new ModuleSourceFunnel(inputRoot, modulesInput, {
         include: ['**/*.' + this.owner.getFileExtension()],
         outputRoot,
-        parentName: this.owner.getParentName()
+        parentName,
       });
 
       let modulesTree = new (require('broccoli-css-modules'))(modulesSources, {
@@ -184,7 +191,7 @@ module.exports = class ModulesPreprocessor {
 
     return this._resolvePath(importPath, fromFile, {
       defaultExtension: this.owner.getFileExtension(),
-      ownerName: this.owner.getParentName(),
+      ownerName: this._parentName || this.owner.getParentName(),
       addonModulesRoot: this.owner.getAddonModulesRoot(),
       root: ensurePosixPath(this._modulesTree.inputPaths[0]),
       parent: this.owner.getParent()

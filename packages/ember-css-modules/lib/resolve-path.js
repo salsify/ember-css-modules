@@ -49,7 +49,12 @@ function resolveLocalPath(importPath, fromFile, options) {
 function resolveExternalPath(importPath, originalPath, fromFile, options) {
   let baseIndex = importPath[0] === '@' ? importPath.indexOf('/') + 1 : 0;
   let addonName = importPath.substring(0, importPath.indexOf('/', baseIndex));
-  let addon = options.parent.addons.find(addon => addon.name === addonName);
+  let addon = options.parent.addons.find((addon) => {
+    if (addon.moduleName) {
+      return addon.moduleName() === addonName;
+    }
+    return addon.name === addonName;
+  });
 
   if (!addon) {
     throw new Error(
