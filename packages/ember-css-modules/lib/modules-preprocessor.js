@@ -191,7 +191,7 @@ module.exports = class ModulesPreprocessor {
 
     return this._resolvePath(importPath, fromFile, {
       defaultExtension: this.owner.getFileExtension(),
-      ownerName: this._parentName || this.owner.getParentName(),
+      ownerName: this._parentName,
       addonModulesRoot: this.owner.getAddonModulesRoot(),
       root: ensurePosixPath(this._modulesTree.inputPaths[0]),
       parent: this.owner.getParent()
