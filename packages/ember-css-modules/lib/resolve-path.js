@@ -10,6 +10,16 @@ module.exports = function resolvePath(importPath, fromFile, options) {
     return resolveRelativePath(pathWithExtension, fromFile, options);
   } else if (isLocalPath(pathWithExtension, options)) {
     return resolveLocalPath(pathWithExtension, fromFile, options);
+  } else if (isLocalPathWithOldPackageNameRef(pathWithExtension, options)) {
+    const amendedPathWithExtension = pathWithExtension.replace(options.parentName, options.ownerName);
+    options.ui.writeWarnLine(
+      'For addons that define a moduleName, you should reference any CSS Modules provided by that addon ' +
+      'using its moduleName instead of the package name.\n' +
+      'Current path: ' + importPath + '\n' +
+      'Replace with: ' + importPath.replace(options.parentName, options.ownerName) + '\n' +
+      'File: ' + fromFile
+    );
+    return resolveLocalPath(amendedPathWithExtension, fromFile, options);
   } else {
     return resolveExternalPath(pathWithExtension, importPath, fromFile, options);
   }
@@ -21,6 +31,10 @@ function isRelativePath(importPath) {
 
 function isLocalPath(importPath, options) {
   return importPath.indexOf(options.ownerName + '/') === 0;
+}
+
+function isLocalPathWithOldPackageNameRef(importPath, options) {
+  return (options.ownerName !== options.parentName) && importPath.indexOf(options.parentName + '/') === 0;
 }
 
 function resolveRelativePath(importPath, fromFile, options) {
