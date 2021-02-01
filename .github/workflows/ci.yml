@@ -134,3 +134,9 @@ jobs:
         run: yarn workspace dummy-addon test
       - name: Plugin Addon
         run: yarn workspace plugin-addon test
+      - name: Octane Addon
+        run: yarn workspace octane-addon test
+      - name: Dummy Addon With Custom moduleName
+        run: yarn workspace @my-namespace/dummy-addon test
+      - name: Octane Addon With Custom moduleName
+        run: yarn workspace @my-namespace/octane-addon test
