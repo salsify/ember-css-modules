@@ -1,3 +1,7 @@
+## 1.3.4 (February 2, 2021)
+### Fixed
+- Ensure styles from addons that define a custom `moduleName` use correct import paths ([#220](https://github.com/salsify/ember-css-modules/pull/220); thank you [@timlindvall](https://github.com/timlindvall)!)
+
 ## 1.3.3 (October 19, 2020)
 ### Fixed
 - Ensure addons use the host app's `generateScopedName` for consistency if they don't have their own configured.
