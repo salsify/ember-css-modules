@@ -15,6 +15,19 @@ module.exports = class ModulesPreprocessor {
     this._modulesTree = null;
     this._modulesBasePath = null;
     this._modulesBridge = new Bridge();
+
+    /*
+     * The addon name we should use to look up modules.
+     * Uses moduleName if defined, else uses the parent/package name.
+     */
+    this._ownerName = null;
+
+    /*
+     * The parent/package name. This is used as a fallback to look up
+     * paths that may reference the package name instead of the
+     * module name. (See resolve-path.js)
+     */
+    this._parentName = null;
   }
 
   toTree(inputTree, path) {
@@ -37,10 +50,17 @@ module.exports = class ModulesPreprocessor {
         });
       }
 
+      // If moduleName is defined, that should override the parent's name.
+      // Otherwise, the template and generated module will disagree as to what the path should be.
+      let ownerParent = this.owner.getParent();
+      this._parentName = this.owner.getParentName();
+      let ownerName = ownerParent.moduleName ? ownerParent.moduleName() : this._parentName;
+      this._ownerName = ownerName;
+
       let modulesSources = new ModuleSourceFunnel(inputRoot, modulesInput, {
         include: ['**/*.' + this.owner.getFileExtension()],
         outputRoot,
-        parentName: this.owner.getParentName()
+        parentName: ownerName,
       });
 
       let modulesTree = new (require('broccoli-css-modules'))(modulesSources, {
@@ -184,10 +204,12 @@ module.exports = class ModulesPreprocessor {
 
     return this._resolvePath(importPath, fromFile, {
       defaultExtension: this.owner.getFileExtension(),
-      ownerName: this.owner.getParentName(),
+      ownerName: this._ownerName,
+      parentName: this._parentName,
       addonModulesRoot: this.owner.getAddonModulesRoot(),
       root: ensurePosixPath(this._modulesTree.inputPaths[0]),
-      parent: this.owner.getParent()
+      parent: this.owner.getParent(),
+      ui: this.owner.ui
     });
   }
 };
