@@ -1,5 +1,5 @@
 {
-  "name": "@my-namespace/dummy-addon-with-module-name",
+  "name": "@my-namespace/dummy-addon",
   "version": "0.0.0",
   "description": "The default blueprint for ember-cli addons.",
   "keywords": [

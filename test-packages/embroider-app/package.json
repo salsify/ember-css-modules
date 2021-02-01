@@ -16,8 +16,7 @@
     "lint:hbs": "ember-template-lint .",
     "lint:js": "eslint .",
     "start": "ember serve",
-    "test": "npm-run-all lint:* test:*",
-    "test:ember": "ember test"
+    "test": "ember test"
   },
   "devDependencies": {
     "@ember/optional-features": "^1.3.0",

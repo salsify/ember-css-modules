@@ -3,7 +3,10 @@
   "workspaces": [
     "packages/ember-css-modules",
     "test-packages/dummy-addon",
+    "test-packages/dummy-addon-with-module-name",
     "test-packages/embroider-app",
+    "test-packages/octane-addon",
+    "test-packages/octane-addon-with-module-name",
     "test-packages/plugin-addon",
     "test-packages/sass-app"
   ]
