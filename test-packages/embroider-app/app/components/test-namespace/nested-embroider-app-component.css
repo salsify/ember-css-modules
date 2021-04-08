@@ -1,6 +1,6 @@
 @value gray-100 from 'embroider-app/styles/variables';
 
-.test-component {
+.nested-test-component {
   color: gray-100;
-  font-family: TestComponent;
+  font-family: NestedTestComponent;
 }
