@@ -194,7 +194,7 @@ module.exports = class ModulesPreprocessor {
   }
 
   rootPathPlugin() {
-    return require('postcss').plugin('root-path-tag', () => (css) => {
+    return require('./make-postcss-plugin')('root-path-tag', () => (css) => {
       css.source.input.rootPath = this._modulesTree.inputPaths[0];
     });
   }
