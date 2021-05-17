@@ -1848,7 +1848,7 @@ broccoli-config-replace@^1.1.2:
     debug "^2.2.0"
     fs-extra "^0.24.0"
 
-broccoli-css-modules@^0.7.0:
+broccoli-css-modules@^0.7.0, "broccoli-css-modules@^0.7.0 || ^0.8.0":
   version "0.7.0"
   resolved "https://registry.yarnpkg.com/broccoli-css-modules/-/broccoli-css-modules-0.7.0.tgz#2afaf3c24bc5258ef2ed5f6829b0ebbad7e04817"
   integrity sha512-Svaj4zZsL2rhotK6hbV/NoEIuNu/Sda4OdqvRLsvV55GjRMol/rLTo2Lm3uVdkh5wmsjL3VwWdPM77+4IJAqcQ==
@@ -2015,7 +2015,7 @@ broccoli-plugin@^1.0.0, broccoli-plugin@^1.1.0, broccoli-plugin@^1.2.0, broccoli
     rimraf "^2.3.4"
     symlink-or-copy "^1.1.8"
 
-broccoli-postcss@^4.0.1:
+"broccoli-postcss@^4.0.1 || ^5.0.0 || ^6.0.0", broccoli-postcss@^4.0.3:
   version "4.0.3"
   resolved "https://registry.yarnpkg.com/broccoli-postcss/-/broccoli-postcss-4.0.3.tgz#9a2839660888dc5544189fc7faa4552e6bfb72b0"
   integrity sha512-sparRjTNnP83v11F7F+kbSv1yH2LrdPvHUIzh0KyisVlYTjaBkS/B0tdccmk0VjXXO8H23IMn5msxuJxoeJ5/w==
@@ -3081,14 +3081,14 @@ ember-cli@~2.16:
     yam "0.0.22"
 
 "ember-css-modules@file:../../packages/ember-css-modules":
-  version "1.3.3"
+  version "1.3.4"
   dependencies:
     broccoli-bridge "^1.0.0"
     broccoli-concat "^3.2.2"
-    broccoli-css-modules "^0.7.0"
+    broccoli-css-modules "^0.7.0 || ^0.8.0"
     broccoli-funnel "^2.0.1"
     broccoli-merge-trees "^2.0.0"
-    broccoli-postcss "^4.0.1"
+    broccoli-postcss "^4.0.1 || ^5.0.0 || ^6.0.0"
     calculate-cache-key-for-tree "^1.1.0"
     debug "^3.1.0"
     ember-cli-babel "^7.7.3"
@@ -3097,7 +3097,7 @@ ember-cli@~2.16:
     ensure-posix-path "^1.0.2"
     hash-string "^1.0.0"
     lodash.merge "^4.6.1"
-    postcss "^6.0.19"
+    postcss "^7.0.35"
     semver "^5.5.0"
     toposort "^1.0.6"
 
@@ -5716,7 +5716,7 @@ postcss-modules-values@^1.3.0:
     source-map "^0.6.1"
     supports-color "^6.1.0"
 
-postcss@^6.0.1, postcss@^6.0.19:
+postcss@^6.0.1:
   version "6.0.23"
   resolved "https://registry.yarnpkg.com/postcss/-/postcss-6.0.23.tgz#61c82cc328ac60e677645f979054eb98bc0e3324"
   integrity sha512-soOk1h6J3VMTZtVeVpv15/Hpdl2cBLX3CAw4TAbkpTJiNPk9YP/zWcD1ND+xEtvyuuvKzbxliTOIyvkSeSJ6ag==
@@ -5724,6 +5724,15 @@ postcss@^6.0.1, postcss@^6.0.19:
     chalk "^2.4.1"
     source-map "^0.6.1"
     supports-color "^5.4.0"
+
+postcss@^7.0.35:
+  version "7.0.35"
+  resolved "https://registry.yarnpkg.com/postcss/-/postcss-7.0.35.tgz#d2be00b998f7f211d8a276974079f2e92b970e24"
+  integrity sha512-3QT8bBJeX/S5zKTTjTCIjRF3If4avAT6kqxcASlTWEtAFCb9NH0OUxNDfgZSWdP5fJnBYCMEWkIFfWeugjzYMg==
+  dependencies:
+    chalk "^2.4.2"
+    source-map "^0.6.1"
+    supports-color "^6.1.0"
 
 preserve@^0.2.0:
   version "0.2.0"

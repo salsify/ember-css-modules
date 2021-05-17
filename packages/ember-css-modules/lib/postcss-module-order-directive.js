@@ -1,10 +1,10 @@
 'use strict';
 
-const postcss = require('postcss');
 const ensurePosixPath = require('ensure-posix-path');
+const makePostCSSPlugin = require('./make-postcss-plugin');
 
 // Report all discovered @after-module rules in a module and strip them out of the source
-module.exports = postcss.plugin('ember-css-modules-ordering', (options) => {
+module.exports = makePostCSSPlugin('ember-css-modules-ordering', (options) => {
   return (css) => {
     let dependencies = [];
     let input = css.source.input;

@@ -1,3 +1,18 @@
+## Unreleased
+### Added
+- We now support a wider range of dependencies that includes PostCSS 8 out of the box. Depending on your package manager, you'll likely see this upgrade take effect automatically when you update ECM, and you may see deprecation warnings for any older PostCSS plugins you're using.
+
+### Upgrade Notes
+If you're using older PostCSS plugins or an older Node version and wish to continue using PostCSS 7, the appropriate dependency versions are still in range for ECM, and we still run tests against them. The easiest way to lock to those versions locally is likely with `resolutions` entries, which you can see [an example of](test-packages/old-app/package.json) in `test-package/old-app`.
+
+```json
+  "resolutions": {
+    "ember-css-modules/broccoli-css-modules": "^0.7.0",
+    "ember-css-modules/broccoli-postcss": "^4.0.3",
+    "ember-css-modules/postcss": "^7.0.35"
+  },
+```
+
 ## 1.3.4 (February 2, 2021)
 ### Fixed
 - Ensure styles from addons that define a custom `moduleName` use correct import paths ([#220](https://github.com/salsify/ember-css-modules/pull/220); thank you [@timlindvall](https://github.com/timlindvall)!)

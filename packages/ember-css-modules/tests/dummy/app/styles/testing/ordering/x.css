@@ -1,4 +1,4 @@
-@value z from './z';
-@value x: 'x';
+@value zValue from './z';
+@value xValue: 'x';
 
 .x {}
