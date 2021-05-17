@@ -1,4 +1,4 @@
-## Unreleased
+## 1.4.0 (May 17, 2021) 
 ### Added
 - We now support a wider range of dependencies that includes PostCSS 8 out of the box. Depending on your package manager, you'll likely see this upgrade take effect automatically when you update ECM, and you may see deprecation warnings for any older PostCSS plugins you're using.
 
