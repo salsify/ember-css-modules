@@ -3816,36 +3816,30 @@ broccoli-funnel@^2.0.0, broccoli-funnel@^2.0.1, broccoli-funnel@^2.0.2:
     symlink-or-copy "^1.0.0"
     walk-sync "^0.3.1"
 
-broccoli-funnel@^3.0.0:
-  version "3.0.5"
-  resolved "https://registry.yarnpkg.com/broccoli-funnel/-/broccoli-funnel-3.0.5.tgz#60da33d060fae2936b3d78217bd4008a6eea5e41"
-  integrity sha512-fcjvQIWq4lpKyzQ7FWRo/V8/nOALjIrAoRMFCLgFeO2xhOC1+i7QWbMndLTwpnLCoXpTa+luBu3WSFoxQ3VPlw==
+broccoli-funnel@^3.0.0, broccoli-funnel@^3.0.3:
+  version "3.0.7"
+  resolved "https://registry.yarnpkg.com/broccoli-funnel/-/broccoli-funnel-3.0.7.tgz#003c1e90e15f2416ccaad7a12667bfeaed843123"
+  integrity sha512-DuiMqbR3eHY/c5ctOd0d/aqiGcY3r8Ynoz12vxTsEp5vRkFaIRuMhz5w7UHJbMcoC9nMNnY9hGrvVFODngPRXw==
   dependencies:
     array-equal "^1.0.0"
-    blank-object "^1.0.1"
     broccoli-plugin "^4.0.7"
     debug "^4.1.1"
-    fast-ordered-set "^1.0.0"
     fs-tree-diff "^2.0.1"
     heimdalljs "^0.2.0"
     minimatch "^3.0.0"
-    path-posix "^1.0.0"
     walk-sync "^2.0.2"
 
-broccoli-funnel@^3.0.3:
-  version "3.0.3"
-  resolved "https://registry.yarnpkg.com/broccoli-funnel/-/broccoli-funnel-3.0.3.tgz#26fd42632471f67a91f4770d1987118087219937"
-  integrity sha512-LPzZ91BwStoHZXdXHQAJeYORl189OrRKM5NdIi86SDU9wZ4s/3lV1PRFOiobDT/jKM10voM7CDzfvicHbCYxAQ==
+broccoli-funnel@^3.0.8:
+  version "3.0.8"
+  resolved "https://registry.yarnpkg.com/broccoli-funnel/-/broccoli-funnel-3.0.8.tgz#f5b62e2763c3918026a15a3c833edc889971279b"
+  integrity sha512-ng4eIhPYiXqMw6SyGoxPHR3YAwEd2lr9FgBI1CyTbspl4txZovOsmzFkMkGAlu88xyvYXJqHiM2crfLa65T1BQ==
   dependencies:
     array-equal "^1.0.0"
-    blank-object "^1.0.1"
-    broccoli-plugin "^4.0.1"
+    broccoli-plugin "^4.0.7"
     debug "^4.1.1"
-    fast-ordered-set "^1.0.0"
     fs-tree-diff "^2.0.1"
     heimdalljs "^0.2.0"
     minimatch "^3.0.0"
-    path-posix "^1.0.0"
     walk-sync "^2.0.2"
 
 broccoli-kitchen-sink-helpers@^0.2.5:
@@ -6621,12 +6615,12 @@ ember-compatibility-helpers@^1.0.2, ember-compatibility-helpers@^1.1.1, ember-co
     semver "^5.4.1"
 
 "ember-css-modules@link:packages/ember-css-modules":
-  version "1.3.4"
+  version "1.4.0"
   dependencies:
     broccoli-bridge "^1.0.0"
     broccoli-concat "^3.2.2"
     broccoli-css-modules "^0.7.0 || ^0.8.0"
-    broccoli-funnel "^2.0.1"
+    broccoli-funnel "^3.0.8"
     broccoli-merge-trees "^2.0.0"
     broccoli-postcss "^4.0.1 || ^5.0.0 || ^6.0.0"
     calculate-cache-key-for-tree "^1.1.0"
