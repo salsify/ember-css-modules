@@ -13995,7 +13995,6 @@ temp@^0.8.3:
 
 "template-stuff@link:packages/ember-css-modules/tests/dummy/lib/template-stuff":
   version "0.0.0"
-  uid ""
 
 terser-webpack-plugin@^1.1.0, terser-webpack-plugin@^1.4.3:
   version "1.4.3"
