@@ -1,4 +1,50 @@
-## 1.4.0 (May 17, 2021) 
+## Unreleased
+### Deprecated
+- ECM's support for binding local class names on the root element of a classic `Ember.Compnent` (the `localClassNames` and `localClassNameBindings` properties and the `@localClassName` and `@localClassNames` decorators) has been deprecated and will be removed in the next major release. These APIs rely on reopening `Ember.Component` (which is itself [now deprecated](https://github.com/emberjs/rfcs/pull/671)) and can be replaced by several alternative patterns. See the Upgrade Notes section below for migration suggestions.
+
+### Upgrade Notes
+For classic `@ember/component` subclasses, `ember-css-modules` has had support for binding static and dynamic local class names to the component's root element using either `.extend()` or decorator syntax:
+
+```js
+export default Component.extend({
+  localClassNames: ['always-present'],
+  localClassNameBindings: ['flipACoin'],
+
+  flipACoin: computed(function() {
+    return Math.random() > 0.5 ? 'yes-class' : 'no-class';
+  }),
+});
+```
+
+```js
+@localClassNames('always-present')
+export default class MyComponent extends Component {
+  @localClassName flipACoin = Math.random() > 0.5 ? 'yes-class' : 'no-class';
+}
+```
+
+Both versions of these APIs are now deprecated, as:
+  1. they rely on monkey-patching `Ember.Component`, which is itself [now deprecated](https://github.com/emberjs/rfcs/pull/671)
+  1. they're parallels of the `classNames` and `classNameBindings` APIs that are no longer relevant in modern Ember applications
+
+Depending on your appetite for refactoring and modernizing, you might take one of three approaches to migrating off of these APIs:
+  1. Convert your components to use the modern `@glimmer/component` base class instead of `@ember/component`. Since Glimmer component templates have "outer HTML" semantics, there's no implicit root element for these APIs to apply to. See the [Octane vs Classic cheat sheet](https://ember-learn.github.io/ember-octane-vs-classic-cheat-sheet/) for further details on the differences between classic and Glimmer components.
+  1. Use `tagName: ''` to remove the implicit root element from your classic component, then add a corresponding explicit root element to your template, where you can use `local-class` as you would for any other element.
+  1. Import the class name mapping from your styles module and use that with the classic `classNames` and `classNameBindings` APIs:
+     ```js
+     import styles from './styles';
+
+     export default Component.extend({
+       classNames: [styles['always-present']],
+       classNameBindings: ['flipACoin'],
+
+       flipACoin: computed(function() {
+         return Math.random() > 0.5 ? styles['yes-class'] : styles['no-class'];
+       }),
+     });
+     ```
+
+## 1.4.0 (May 17, 2021)
 ### Added
 - We now support a wider range of dependencies that includes PostCSS 8 out of the box. Depending on your package manager, you'll likely see this upgrade take effect automatically when you update ECM, and you may see deprecation warnings for any older PostCSS plugins you're using.
 
