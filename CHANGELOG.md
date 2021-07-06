@@ -1,4 +1,6 @@
 ## Unreleased
+
+## 1.5.0 (July 6, 2021)
 ### Deprecated
 - ECM's support for binding local class names on the root element of a classic `Ember.Compnent` (the `localClassNames` and `localClassNameBindings` properties and the `@localClassName` and `@localClassNames` decorators) has been deprecated and will be removed in the next major release. These APIs rely on reopening `Ember.Component` (which is itself [now deprecated](https://github.com/emberjs/rfcs/pull/671)) and can be replaced by several alternative patterns. See the Upgrade Notes section below for migration suggestions.
 
