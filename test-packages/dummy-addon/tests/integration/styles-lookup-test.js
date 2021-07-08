@@ -8,6 +8,7 @@ module('Integration | component styles lookup', function(hooks) {
 
   const components = [
     'addon-component',
+    'classic-colocated-component',
     'component-with-addon-value',
     'component-with-addon-composition'
   ];
