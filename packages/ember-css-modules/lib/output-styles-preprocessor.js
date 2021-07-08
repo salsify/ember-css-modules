@@ -4,7 +4,7 @@ const debug = require('debug')('ember-css-modules:output-styles-preprocessor');
 const Concat = require('broccoli-concat');
 const MergeTrees = require('broccoli-merge-trees');
 const PostCSS = require('broccoli-postcss');
-const Funnel = require('broccoli-funnel');
+const { Funnel } = require('broccoli-funnel');
 
 module.exports = class OutputStylesPreprocessor {
   constructor(options) {
