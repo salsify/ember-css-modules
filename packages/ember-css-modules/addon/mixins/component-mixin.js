@@ -4,7 +4,7 @@ import { computed, defineProperty } from '@ember/object';
 import Mixin from '@ember/object/mixin';
 import { dasherize } from '@ember/string';
 import { getOwner } from '@ember/application';
-import { assert } from '@ember/debug';
+import { assert, deprecate } from '@ember/debug';
 
 export default Mixin.create({
   localClassNames: null,
@@ -40,6 +40,22 @@ export default Mixin.create({
       `layout. You can fix this by either creating an empty template for your component or importing and ` +
       `using the styles hash directly instead, e.g. \`classNames: styles['my-class']\`.`,
       layout
+    );
+
+    deprecate(
+      'Support for `localClassNames`, `localClassNameBindings` and the `@localClassName` and `@localClassNames` ' +
+      'decorators will be removed in the next major release of ember-css-modules. The `' + name + '` component ' +
+      'uses one or more of these APIs. See the ECM 1.5.0 release notes for further details and migration options: ' +
+      'https://github.com/salsify/ember-css-modules/releases/tag/v1.5.0',
+      false,
+      {
+        id: 'ember-css-modules.classic-component-apis',
+        for: 'ember-css-modules',
+        until: '2.0.0',
+        since: {
+          enabled: '1.5.0'
+        }
+      }
     );
 
     // Since https://github.com/emberjs/ember.js/pull/18096
