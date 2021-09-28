@@ -43,7 +43,13 @@ module.exports = {
 
   treeForAddon() {
     let addonTree = this._super.treeForAddon.apply(this, arguments);
-    return new MergeTrees([addonTree, `${__dirname}/vendor`]);
+
+    // Allow to opt-out from automatic Component.reopen()
+    if (this.cssModulesOptions.patchClassicComponent !== false) {
+      return new MergeTrees([addonTree, `${__dirname}/vendor`]);
+    } else {
+      return addonTree;
+    }
   },
 
   cacheKeyForTree(treeType) {
