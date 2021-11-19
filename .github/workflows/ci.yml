@@ -32,12 +32,8 @@ jobs:
           node-version: 12
       - name: Install Dependencies
         run: yarn install --frozen-lockfile
-      - name: Lint
-        run: yarn workspace ember-css-modules lint:js
-      - name: Browser Tests
+      - name: Run Tests
         run: yarn workspace ember-css-modules test
-      - name: Node Tests
-        run: yarn workspace ember-css-modules test:node
 
   test-old-dependencies:
     name: Oldest Supported Env
