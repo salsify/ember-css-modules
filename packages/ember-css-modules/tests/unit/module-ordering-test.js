@@ -5,9 +5,6 @@ import bStyles from 'dummy/styles/testing/ordering/b';
 import cStyles from 'dummy/styles/testing/ordering/c';
 import gStyles from 'dummy/styles/testing/ordering/g';
 import hStyles from 'dummy/styles/testing/ordering/h';
-import pStyles from 'dummy/styles/testing/ordering/p';
-import qStyles from 'dummy/styles/testing/ordering/q';
-import rStyles from 'dummy/styles/testing/ordering/r';
 import tStyles from 'dummy/styles/testing/ordering/t';
 import uStyles from 'dummy/styles/testing/ordering/u';
 import xStyles from 'dummy/styles/testing/ordering/x';
@@ -20,11 +17,6 @@ module('Unit | Module Ordering', function () {
       // headerFiles
       hStyles.h,
       gStyles.g,
-
-      // @after-module files
-      rStyles.r,
-      pStyles.p,
-      qStyles.q,
 
       // composes: files
       cStyles.c,
