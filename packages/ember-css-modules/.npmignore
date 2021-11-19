@@ -5,9 +5,15 @@
 # misc
 /.editorconfig
 /.ember-cli
+/.env*
+/.eslintcache
 /.eslintignore
+/.eslintrc.js
+/.git/
 /.gitignore
-/.watchmanconfig
+/.prettierignore
+/.prettierrc.js
+/.template-lintrc.js
 /.travis.yml
 /config/ember-try.js
 /dist
