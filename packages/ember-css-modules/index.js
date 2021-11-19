@@ -14,11 +14,6 @@ const PluginRegistry = require('./lib/plugin/registry');
 module.exports = {
   name: require('./package.json').name,
 
-  shouldIncludeChildAddon(addon) {
-    // Don't infinitely recurse – it's the dummy test app that depends on dummy-addon, not this addon itself
-    return addon.name.indexOf('dummy') === -1;
-  },
-
   init() {
     this._super.init && this._super.init.apply(this, arguments);
     this.modulesPreprocessor = new ModulesPreprocessor({ owner: this });
