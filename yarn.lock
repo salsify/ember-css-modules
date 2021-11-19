@@ -6621,7 +6621,7 @@ ember-compatibility-helpers@^1.0.2, ember-compatibility-helpers@^1.1.1, ember-co
     semver "^5.4.1"
 
 "ember-css-modules@link:packages/ember-css-modules":
-  version "1.4.0"
+  version "1.5.0"
   dependencies:
     broccoli-bridge "^1.0.0"
     broccoli-concat "^3.2.2"

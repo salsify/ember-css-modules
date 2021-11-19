@@ -44,18 +44,16 @@ function resolveRelativePath(importPath, fromFile, options) {
 
 // Resolve absolute paths pointing to the same app/addon as the importer
 function resolveLocalPath(importPath, fromFile, options) {
-  let appOrAddonDirIndex = fromFile.indexOf(options.ownerName, options.root.length);
+  const fromFileStartsWithOwnerName = fromFile.substring(options.root.length + 1).startsWith(options.ownerName);
 
   // Depending on the exact version of Ember CLI and/or Embroider in play, the
   // app/addon name may or may not be included in `fromFile`'s path. If not, we
   // need to strip that prefix from the import path.
-  if (appOrAddonDirIndex === -1) {
-    appOrAddonDirIndex = options.root.length;
-    importPath = ensurePosixPath(importPath).replace(new RegExp('^' + options.ownerName + '/?'), '');
+  if (!fromFileStartsWithOwnerName) {
+    importPath = importPath.substring(options.ownerName.length + 1);
   }
 
-  let prefix = fromFile.substring(0, appOrAddonDirIndex);
-  let absolutePath = ensurePosixPath(path.resolve(prefix, importPath));
+  let absolutePath = ensurePosixPath(path.resolve(options.root, importPath));
   return internalDep(absolutePath, options);
 }
 
