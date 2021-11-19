@@ -24,11 +24,11 @@ export default function registerStyles(styles) {
     const { plugin } = ClassTransformPlugin.instantiate({
       emberVersion: VERSION,
       options: {
-        includeExtensionInModulePath: false
-      }
+        includeExtensionInModulePath: false,
+      },
     });
 
     const plugins = { ast: [plugin] };
     return compile(template, { plugins, moduleName: TEST_TEMPLATE });
-  }
+  };
 }

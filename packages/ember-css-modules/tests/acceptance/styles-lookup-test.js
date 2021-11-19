@@ -3,7 +3,7 @@ import { setupApplicationTest, setupRenderingTest } from 'ember-qunit';
 import { visit, render } from '@ember/test-helpers';
 import { hbs } from 'ember-cli-htmlbars';
 
-module('Acceptance | styles lookup', function() {
+module('Acceptance | styles lookup', function () {
   const components = [
     'root-pod-component',
     'root-pod-template-only-component',
@@ -17,21 +17,21 @@ module('Acceptance | styles lookup', function() {
     'component-with-global-class-and-dynamic-local-class',
     'component-with-local-class-helper',
     'component-with-global-class-composition',
-    'component-with-container-class'
+    'component-with-container-class',
   ];
 
   const routes = [
     'classic-route',
     'classic-template-only-route',
     'pod-route',
-    'pod-template-only-route'
+    'pod-template-only-route',
   ];
 
-  module('components', function(hooks) {
+  module('components', function (hooks) {
     setupRenderingTest(hooks);
 
     for (let component of components) {
-      test(component, async function(assert) {
+      test(component, async function (assert) {
         this.component = component;
         await render(hbs`{{component (concat 'testing/' this.component)}}`);
 
@@ -42,11 +42,11 @@ module('Acceptance | styles lookup', function() {
     }
   });
 
-  module('route templates', function(hooks) {
+  module('route templates', function (hooks) {
     setupApplicationTest(hooks);
 
     for (let route of routes) {
-      test(route, async function(assert) {
+      test(route, async function (assert) {
         await visit(`testing/${route}`);
 
         let testElement = this.element.querySelector('[data-test-element]');

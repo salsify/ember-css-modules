@@ -3,10 +3,10 @@ import { setupRenderingTest } from 'ember-qunit';
 import { render } from '@ember/test-helpers';
 import { hbs } from 'ember-cli-htmlbars';
 
-module('Integration | "postprocess" Plugins', function(hooks) {
+module('Integration | "postprocess" Plugins', function (hooks) {
   setupRenderingTest(hooks);
 
-  test('executes postprocess plugins', async function(assert) {
+  test('executes postprocess plugins', async function (assert) {
     await render(hbs`{{testing/component-using-postprocess-plugin}}`);
 
     let testElement = this.element.querySelector('[data-test-element]');

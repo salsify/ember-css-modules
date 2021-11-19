@@ -13,19 +13,19 @@ module.exports = {
 
     this.import('node_modules/ember-source/dist/ember-template-compiler.js');
     this.import('vendor/ecm-template-transform.js', {
-      using: [{ transformation: 'amd', as: 'ecm-template-transform' }]
+      using: [{ transformation: 'amd', as: 'ecm-template-transform' }],
     });
   },
 
   treeForVendor() {
     return new HTMLBarsPluginTree(this.project);
-  }
+  },
 };
 
 class HTMLBarsPluginTree extends Plugin {
   constructor(project) {
     super([], {
-      persistentOutput: true
+      persistentOutput: true,
     });
 
     this.project = project;
@@ -44,10 +44,10 @@ class HTMLBarsPluginTree extends Plugin {
             path: this.outputPath,
             filename: 'ecm-template-transform.js',
             library: 'ecm-template-transform',
-            libraryTarget: 'umd'
-          }
+            libraryTarget: 'umd',
+          },
         },
-        err => {
+        (err) => {
           if (err) {
             reject(err);
           } else {

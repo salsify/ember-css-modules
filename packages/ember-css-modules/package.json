@@ -11,7 +11,7 @@
     "lint:js": "eslint . --cache",
     "lint:js:fix": "eslint . --fix",
     "start": "ember server",
-    "test": "npm-run-all lint test:*",
+    "test": "npm-run-all lint test:node test:ember",
     "test:ember": "ember test",
     "test:ember-compatibility": "ember try:each",
     "test:node": "qunit tests-node/**/*-test.js"

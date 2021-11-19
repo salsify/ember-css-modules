@@ -14,8 +14,8 @@ import xStyles from 'dummy/styles/testing/ordering/x';
 import yStyles from 'dummy/styles/testing/ordering/y';
 import zStyles from 'dummy/styles/testing/ordering/z';
 
-module('Unit | Module Ordering', function() {
-  test('modules are ordered according to composition and explicit directives', function(assert) {
+module('Unit | Module Ordering', function () {
+  test('modules are ordered according to composition and explicit directives', function (assert) {
     let orderedClassNames = [
       // headerFiles
       hStyles.h,
@@ -38,23 +38,33 @@ module('Unit | Module Ordering', function() {
 
       // fooderFiles
       tStyles.t,
-      uStyles.u
+      uStyles.u,
     ];
 
-    let orderedSelectors = orderedClassNames.map(name => `.${name.split(' ')[0]}`);
+    let orderedSelectors = orderedClassNames.map(
+      (name) => `.${name.split(' ')[0]}`
+    );
     let rules = findTestRules(findAppStylesheet(), orderedSelectors);
 
-    assert.deepEqual(rules.map(rule => rule.selectorText), orderedSelectors);
+    assert.deepEqual(
+      rules.map((rule) => rule.selectorText),
+      orderedSelectors
+    );
   });
 
   function findAppStylesheet() {
     for (let i = 0, len = document.styleSheets.length; i < len; i++) {
       let sheet = document.styleSheets[i];
-      if (/dummy\.css$/.test(sheet.href)) { return sheet; }
+      if (/dummy\.css$/.test(sheet.href)) {
+        return sheet;
+      }
     }
   }
 
   function findTestRules(stylesheet, selectors) {
-    return Array.prototype.filter.call(stylesheet.cssRules, rule => selectors.indexOf(rule.selectorText) > -1);
+    return Array.prototype.filter.call(
+      stylesheet.cssRules,
+      (rule) => selectors.indexOf(rule.selectorText) > -1
+    );
   }
 });

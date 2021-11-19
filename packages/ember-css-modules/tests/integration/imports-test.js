@@ -3,17 +3,17 @@ import { setupRenderingTest } from 'ember-qunit';
 import { render } from '@ember/test-helpers';
 import { hbs } from 'ember-cli-htmlbars';
 
-module('Integration | style imports', function(hooks) {
+module('Integration | style imports', function (hooks) {
   setupRenderingTest(hooks);
 
   const components = [
     'component-with-relative-imports',
     'component-with-absolute-imports',
-    'component-with-virtual-imports'
+    'component-with-virtual-imports',
   ];
 
   for (let component of components) {
-    test(component, async function(assert) {
+    test(component, async function (assert) {
       this.component = component;
       await render(hbs`{{component (concat 'testing/' this.component)}}`);
 
