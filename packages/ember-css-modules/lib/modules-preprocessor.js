@@ -1,6 +1,6 @@
 'use strict';
 
-const Funnel = require('broccoli-funnel');
+const { Funnel } = require('broccoli-funnel');
 const MergeTrees = require('broccoli-merge-trees');
 const Bridge = require('broccoli-bridge');
 const ensurePosixPath = require('ensure-posix-path');

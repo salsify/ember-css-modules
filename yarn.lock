@@ -5896,10 +5896,10 @@ ember-compatibility-helpers@^1.1.2, ember-compatibility-helpers@^1.2.0, ember-co
     broccoli-bridge "^1.0.0"
     broccoli-concat "^3.2.2"
     broccoli-css-modules "^0.8.0"
-    broccoli-funnel "^2.0.1"
-    broccoli-merge-trees "^2.0.0"
+    broccoli-funnel "^3.0.8"
+    broccoli-merge-trees "^4.2.0"
     broccoli-postcss "^6.0.0"
-    debug "^3.1.0"
+    debug "^4.3.2"
     ember-cli-babel "^7.26.6"
     ember-cli-htmlbars "^6.0.0"
     ember-cli-version-checker "^2.1.0"
@@ -5907,8 +5907,8 @@ ember-compatibility-helpers@^1.1.2, ember-compatibility-helpers@^1.2.0, ember-co
     hash-string "^1.0.0"
     lodash.merge "^4.6.1"
     postcss "^8.0.0"
-    semver "^5.5.0"
-    toposort "^1.0.6"
+    semver "^7.3.5"
+    toposort "^2.0.2"
 
 ember-data@~3.28.0:
   version "3.28.3"
@@ -12455,10 +12455,10 @@ toidentifier@1.0.0:
   resolved "https://registry.yarnpkg.com/toidentifier/-/toidentifier-1.0.0.tgz#7e1be3470f1e77948bc43d94a3c8f4d7752ba553"
   integrity sha512-yaOH/Pk/VEhBWWTlhI+qXxDFXlejDGcQipMlyxda9nthulaxLZUNcUqFxokp0vcYnvteJln5FNQDRrxj3YcbVw==
 
-toposort@^1.0.6:
-  version "1.0.7"
-  resolved "https://registry.yarnpkg.com/toposort/-/toposort-1.0.7.tgz#2e68442d9f64ec720b8cc89e6443ac6caa950029"
-  integrity sha1-LmhELZ9k7HILjMieZEOsbKqVACk=
+toposort@^2.0.2:
+  version "2.0.2"
+  resolved "https://registry.yarnpkg.com/toposort/-/toposort-2.0.2.tgz#ae21768175d1559d48bef35420b2f4962f09c330"
+  integrity sha1-riF2gXXRVZ1IvvNUILL0li8JwzA=
 
 tough-cookie@^4.0.0:
   version "4.0.0"

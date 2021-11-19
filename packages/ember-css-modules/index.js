@@ -66,7 +66,7 @@ module.exports = {
     this.parentPreprocessorRegistry.add(
       'htmlbars-ast-plugin',
       HtmlbarsPlugin.instantiate({
-        emberVersion: this.checker.forEmber().version,
+        emberVersion: this.checker.for('ember-source').version,
         options: {
           fileExtension: this.getFileExtension(),
           includeExtensionInModulePath: this.includeExtensionInModulePath(),
