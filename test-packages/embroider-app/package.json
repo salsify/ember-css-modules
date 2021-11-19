@@ -26,7 +26,7 @@
     "@glimmer/component": "^1.0.0",
     "@glimmer/tracking": "^1.0.0",
     "babel-eslint": "^10.1.0",
-    "ember-auto-import": "^1.11.2",
+    "ember-auto-import": "^2.2.4",
     "ember-cli": "~3.17.0",
     "ember-cli-babel": "^7.18.0",
     "ember-cli-dependency-checker": "^3.2.0",
@@ -46,7 +46,8 @@
     "eslint-plugin-node": "^11.0.0",
     "loader.js": "^4.7.0",
     "npm-run-all": "^4.1.5",
-    "qunit-dom": "^1.1.0"
+    "qunit-dom": "^1.1.0",
+    "webpack": "^5.64.1"
   },
   "engines": {
     "node": "10.* || >= 12"
