@@ -85,7 +85,7 @@ jobs:
       - name: Install Dependencies
         run: yarn install --frozen-lockfile
       - name: Run Tests
-        run: yarn workspace ember-css-modules test
+        run: yarn workspace ember-css-modules test:ember
 
   test-try:
     name: Ember Try
