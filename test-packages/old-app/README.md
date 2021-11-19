@@ -1,13 +1,58 @@
 # old-app
 
-This test package contains an app set up with the oldest ecosystem components we support:
- - `ember-cli@2.16`
- - `ember-cli-babel@6`
- - `ember-source@2.16`
- - `@ember-decorators/babel-transforms@2`
- - `broccoli-css-modules@0.7`
- - `broccoli-postcss@4`
- - `postcss@7`
+This README outlines the details of collaborating on this Ember application.
+A short introduction of this app could easily go here.
 
-Additionally, the test suite for this app is run under Node 6, as that's the oldest Node version we currently support.
-Because of that, it's not part of the yarn workspaces setup at the root of this repo, as many other transitive (development) dependencies have dropped support for older Node versions.
+## Prerequisites
+
+You will need the following things properly installed on your computer.
+
+* [Git](https://git-scm.com/)
+* [Node.js](https://nodejs.org/)
+* [Yarn](https://yarnpkg.com/)
+* [Ember CLI](https://ember-cli.com/)
+* [Google Chrome](https://google.com/chrome/)
+
+## Installation
+
+* `git clone <repository-url>` this repository
+* `cd old-app`
+* `yarn install`
+
+## Running / Development
+
+* `ember serve`
+* Visit your app at [http://localhost:4200](http://localhost:4200).
+* Visit your tests at [http://localhost:4200/tests](http://localhost:4200/tests).
+
+### Code Generators
+
+Make use of the many generators for code, try `ember help generate` for more details
+
+### Running Tests
+
+* `ember test`
+* `ember test --server`
+
+### Linting
+
+* `yarn lint:hbs`
+* `yarn lint:js`
+* `yarn lint:js --fix`
+
+### Building
+
+* `ember build` (development)
+* `ember build --environment production` (production)
+
+### Deploying
+
+Specify what it takes to deploy your app.
+
+## Further Reading / Useful Links
+
+* [ember.js](https://emberjs.com/)
+* [ember-cli](https://ember-cli.com/)
+* Development Browser Extensions
+  * [ember inspector for chrome](https://chrome.google.com/webstore/detail/ember-inspector/bmdblncegkenkacieihfhpjfppoconhi)
+  * [ember inspector for firefox](https://addons.mozilla.org/en-US/firefox/addon/ember-inspector/)

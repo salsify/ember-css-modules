@@ -1,15 +1,17 @@
-import { moduleForComponent, test } from 'ember-qunit';
-import hbs from 'htmlbars-inline-precompile';
+import { module, test } from 'qunit';
+import { setupRenderingTest } from 'ember-qunit';
+import { render } from '@ember/test-helpers';
+import { hbs } from 'ember-cli-htmlbars';
 
-moduleForComponent('test-component', 'Integration | Component | test component', {
-  integration: true
-});
+module('Integration | Component | test-component', function (hooks) {
+  setupRenderingTest(hooks);
 
-test('it renders with the correct styles', function(assert) {
-  this.render(hbs`{{test-component}}`);
+  test('it renders', async function (assert) {
+    await render(hbs`<TestComponent />`);
 
-  let testElement = this.$('[data-test-element]')[0];
-  let styles = getComputedStyle(testElement);
+    let element = this.element.querySelector('[data-test-element]');
+    let styles = getComputedStyle(element);
 
-  assert.equal(styles.color, 'rgb(0, 128, 0)');
+    assert.equal(styles.color, 'rgb(0, 128, 0)');
+  });
 });
