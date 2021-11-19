@@ -2,7 +2,7 @@ import { helper } from '@ember/component/helper';
 import Component from '@ember/component';
 import { module, test } from 'qunit';
 import { setupRenderingTest } from 'ember-qunit';
-import hbs from 'htmlbars-inline-precompile';
+import { hbs } from 'ember-cli-htmlbars';
 import { render } from '@ember/test-helpers';
 import setupStyles from '../helpers/render-with-styles';
 

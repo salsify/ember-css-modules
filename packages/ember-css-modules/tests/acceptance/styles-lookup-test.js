@@ -1,7 +1,7 @@
 import { module, test } from 'qunit';
 import { setupApplicationTest, setupRenderingTest } from 'ember-qunit';
 import { visit, render } from '@ember/test-helpers';
-import hbs from 'htmlbars-inline-precompile';
+import { hbs } from 'ember-cli-htmlbars';
 
 module('Acceptance | styles lookup', function() {
   const components = [

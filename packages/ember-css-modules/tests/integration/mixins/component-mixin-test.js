@@ -1,6 +1,6 @@
 import { run } from '@ember/runloop';
 import Component from '@ember/component';
-import hbs from 'htmlbars-inline-precompile';
+import { hbs } from 'ember-cli-htmlbars';
 
 import ComponentMixin from 'ember-css-modules/mixins/component-mixin';
 import { module, test } from 'qunit';
