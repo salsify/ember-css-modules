@@ -123,11 +123,11 @@ jobs:
       - name: Install Dependencies
         run: yarn install --frozen-lockfile
       - name: Embroider App
-        run: yarn workspace embroider-app test
+        run: yarn workspace embroider-app test:ember
       - name: Sass App
-        run: yarn workspace sass-app test
+        run: yarn workspace sass-app test:ember
       - name: Plugin Addon
-        run: yarn workspace plugin-addon test
+        run: yarn workspace plugin-addon test:ember
       - name: Octane Addon
         run: yarn workspace octane-addon test
       - name: Octane Addon With Custom moduleName
