@@ -1,5 +1,12 @@
 ## Unreleased
 
+## 1.6.0 (November 19, 2021)
+### Added
+- You can now pass `patchClassicComponent: false` in your ECM config to opt out of the deprecated monkeypatching of `Ember.Component` that will be removed entirely in 2.0 (thanks @SergeAstapov!)
+
+### Fixed
+- Modules whose path includes the name of the package they're in no longer cause issues when resolving `@value` and `composes:` directives (thanks @eshirley and @maxfierke!)
+
 ## 1.5.0 (July 6, 2021)
 ### Deprecated
 - ECM's support for binding local class names on the root element of a classic `Ember.Compnent` (the `localClassNames` and `localClassNameBindings` properties and the `@localClassName` and `@localClassNames` decorators) has been deprecated and will be removed in the next major release. These APIs rely on reopening `Ember.Component` (which is itself [now deprecated](https://github.com/emberjs/rfcs/pull/671)) and can be replaced by several alternative patterns. See the Upgrade Notes section below for migration suggestions.
