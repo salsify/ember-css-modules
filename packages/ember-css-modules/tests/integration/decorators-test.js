@@ -16,12 +16,12 @@ const computed = require.has('@ember-decorators/object')
   ? require(['@ember-decorators', 'object'].join('/')).computed
   : nativeComputed;
 
-module('Integration | decorators', function(hooks) {
+module('Integration | decorators', function (hooks) {
   setupRenderingTest(hooks);
 
-  test('it honors a configured localClassName', async function(assert) {
+  test('it honors a configured localClassName', async function (assert) {
     let hbs = setupStyles({
-      foo: 'bar'
+      foo: 'bar',
     });
 
     @layout(hbs``)
@@ -34,13 +34,13 @@ module('Integration | decorators', function(hooks) {
     await render(hbs`{{test-component}}`);
 
     assert.dom('.test-component').hasClass('bar');
-    assert.dom('.test-component').doesNotHaveClass('foo')
+    assert.dom('.test-component').doesNotHaveClass('foo');
     assert.dom('.test-component').doesNotHaveClass('buzz');
   });
 
-  test('it honors a configured simple localClassNameBinding', async function(assert) {
+  test('it honors a configured simple localClassNameBinding', async function (assert) {
     let hbs = setupStyles({
-      'dynamic-value': 'foo'
+      'dynamic-value': 'foo',
     });
 
     this.set('flag', true);
@@ -60,10 +60,10 @@ module('Integration | decorators', function(hooks) {
     assert.dom('.test-component').doesNotHaveClass('foo');
   });
 
-  test('it honors a configured mapped localClassNameBinding', async function(assert) {
+  test('it honors a configured mapped localClassNameBinding', async function (assert) {
     let hbs = setupStyles({
       'dynamic-value': 'foo',
-      'other-class': 'bar'
+      'other-class': 'bar',
     });
 
     this.set('flag', true);
@@ -86,11 +86,11 @@ module('Integration | decorators', function(hooks) {
     assert.dom('.test-component').doesNotHaveClass('bar');
   });
 
-  test('it honors a configured mapped localClassNameBinding with an inverse', async function(assert) {
+  test('it honors a configured mapped localClassNameBinding with an inverse', async function (assert) {
     let hbs = setupStyles({
       'dynamic-value': 'foo',
       'other-class': 'bar',
-      'different-class': 'baz'
+      'different-class': 'baz',
     });
 
     this.set('flag', true);
@@ -98,7 +98,8 @@ module('Integration | decorators', function(hooks) {
     @layout(hbs``)
     @classNames('test-component')
     class TestComponent extends Component {
-      @localClassName('other-class', 'different-class') dynamicValue = this.dynamicValue;
+      @localClassName('other-class', 'different-class') dynamicValue =
+        this.dynamicValue;
     }
 
     this.owner.register('component:test-component', TestComponent);
@@ -115,15 +116,15 @@ module('Integration | decorators', function(hooks) {
     assert.dom('.test-component').hasClass('baz');
   });
 
-  test('it supports localClassNames with composition', async function(assert) {
+  test('it supports localClassNames with composition', async function (assert) {
     let hbs = setupStyles({
-      'some-class': 'foo bar baz'
+      'some-class': 'foo bar baz',
     });
 
     @layout(hbs``)
     @classNames('test-component')
     @localClassNames('some-class')
-    class TestComponent extends Component { }
+    class TestComponent extends Component {}
 
     this.owner.register('component:test-component', TestComponent);
 
@@ -134,10 +135,10 @@ module('Integration | decorators', function(hooks) {
     assert.dom('.test-component').hasClass('baz');
   });
 
-  test('it supports localClassNameBindings with composition in the positive class', async function(assert) {
+  test('it supports localClassNameBindings with composition in the positive class', async function (assert) {
     let hbs = setupStyles({
       'on-class': 'foo bar',
-      'off-class': 'baz'
+      'off-class': 'baz',
     });
 
     this.set('flag', true);
@@ -162,10 +163,10 @@ module('Integration | decorators', function(hooks) {
     assert.dom('.test-component').hasClass('baz');
   });
 
-  test('it supports localClassNameBindings with composition in the negative class', async function(assert) {
+  test('it supports localClassNameBindings with composition in the negative class', async function (assert) {
     let hbs = setupStyles({
       'on-class': 'foo',
-      'off-class': 'bar baz'
+      'off-class': 'bar baz',
     });
 
     this.set('flag', true);
@@ -190,7 +191,7 @@ module('Integration | decorators', function(hooks) {
     assert.dom('.test-component').hasClass('baz');
   });
 
-  test('it honors a configured mapped localClassNameBinding string', async function(assert) {
+  test('it honors a configured mapped localClassNameBinding string', async function (assert) {
     let hbs = setupStyles({
       'dynamic-class-name': 'foo',
       'other-dynamic-class-name': 'bar',
@@ -220,21 +221,21 @@ module('Integration | decorators', function(hooks) {
     assert.dom('.test-component').doesNotHaveClass('bar');
   });
 
-  test('it can decorate a simple ES5 getter', async function(assert) {
+  test('it can decorate a simple ES5 getter', async function (assert) {
     let hbs = setupStyles({
       'simple-bool-class': 'simple-bool--true',
 
       'bool-true': 'explicit-bool--true',
       'bool-false': 'explicit-bool--false',
 
-      'foo': 'string--foo',
-      'bar': 'string--bar'
+      foo: 'string--foo',
+      bar: 'string--bar',
     });
 
     this.setProperties({
       simpleBool: false,
       explicitBool: false,
-      string: null
+      string: null,
     });
 
     @layout(hbs``)
@@ -260,6 +261,7 @@ module('Integration | decorators', function(hooks) {
       }
 
       didReceiveAttrs() {
+        super.didReceiveAttrs();
         // Since these are just plain getter, which don't have a dependency
         // mapping and change tracking, we need to tell Ember that the world
         // has changed and a re-render is required.
@@ -301,21 +303,21 @@ module('Integration | decorators', function(hooks) {
     assert.dom('.test-component').hasClass('string--bar');
   });
 
-  test('it can decorate a computed property', async function(assert) {
+  test('it can decorate a computed property', async function (assert) {
     let hbs = setupStyles({
       'simple-bool-class': 'simple-bool--true',
 
       'bool-true': 'explicit-bool--true',
       'bool-false': 'explicit-bool--false',
 
-      'foo': 'string--foo',
-      'bar': 'string--bar'
+      foo: 'string--foo',
+      bar: 'string--bar',
     });
 
     this.setProperties({
       simpleBool: false,
       explicitBool: false,
-      string: null
+      string: null,
     });
 
     @layout(hbs``)

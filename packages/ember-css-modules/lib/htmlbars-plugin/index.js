@@ -21,7 +21,7 @@ module.exports = class ClassTransformPlugin {
       name: 'ember-css-modules',
       plugin: semver.lt(emberVersion, '2.15.0-alpha')
         ? LegacyAdapter.bind(null, this, options)
-        : env => new this(env, options),
+        : (env) => new this(env, options),
       parallelBabel: {
         requireFile: __filename,
         buildUsing: 'instantiate',
@@ -29,7 +29,7 @@ module.exports = class ClassTransformPlugin {
       },
       baseDir() {
         return `${__dirname}/../..`;
-      }
+      },
     };
   }
 
@@ -55,7 +55,9 @@ module.exports = class ClassTransformPlugin {
   }
 
   detectGlimmer() {
-    if (!this.syntax.parse) { return false; }
+    if (!this.syntax.parse) {
+      return false;
+    }
 
     // HTMLBars builds ConcatStatements with StringLiterals + raw PathExpressions
     // Glimmer builds ConcatStatements with TextNodes + MustacheStatements
@@ -70,10 +72,10 @@ module.exports = class ClassTransformPlugin {
     }
 
     return {
-      ElementNode: node => this.transformElementNode(node),
-      MustacheStatement: node => this.transformStatement(node),
-      BlockStatement: node => this.transformStatement(node),
-      SubExpression: node => this.transformSubexpression(node)
+      ElementNode: (node) => this.transformElementNode(node),
+      MustacheStatement: (node) => this.transformStatement(node),
+      BlockStatement: (node) => this.transformStatement(node),
+      SubExpression: (node) => this.transformSubexpression(node),
     };
   }
 
@@ -93,14 +95,18 @@ module.exports = class ClassTransformPlugin {
 
   // Transform {{local-class 'foo'}} into {{local-class 'foo' from='path/to/styles-module'}}
   transformLocalClassHelperInvocation(node) {
-    if (utils.getPair(node, 'from')) { return; }
+    if (utils.getPair(node, 'from')) {
+      return;
+    }
 
     node.hash.pairs.push(this.builders.pair('from', this.stylesModuleNode()));
   }
 
   transformPossibleComponentInvocation(node) {
     let localClassPair = utils.getPair(node, 'local-class');
-    if (!localClassPair) { return; }
+    if (!localClassPair) {
+      return;
+    }
 
     utils.removePair(node, localClassPair);
 
@@ -121,14 +127,16 @@ module.exports = class ClassTransformPlugin {
 
   transformElementNode(node) {
     let localClassAttr = utils.getAttr(node, 'local-class');
-    if (!localClassAttr) { return; }
+    if (!localClassAttr) {
+      return;
+    }
 
     utils.removeAttr(node, localClassAttr);
 
     let stringBuilder = this.isGlimmer ? 'text' : 'string';
     let classAttr = utils.getAttr(node, 'class');
     let parts = [];
-    let classAttrValue
+    let classAttrValue;
 
     if (classAttr) {
       utils.removeAttr(node, classAttr);
@@ -138,7 +146,16 @@ module.exports = class ClassTransformPlugin {
       // the attr value into parts that make up the ConcatStatement
       // that is returned from this method
       if (classAttrValue.type === 'ConcatStatement') {
-        parts.push(this.builders.mustache(this.builders.path('concat'), utils.concatStatementToParams(this.builders, classAttrValue, this.isGlimmer)));
+        parts.push(
+          this.builders.mustache(
+            this.builders.path('concat'),
+            utils.concatStatementToParams(
+              this.builders,
+              classAttrValue,
+              this.isGlimmer
+            )
+          )
+        );
       } else if (classAttrValue.type === 'TextNode') {
         parts.push(this.builders[stringBuilder](classAttrValue.chars));
       } else if (classAttrValue.type === 'MustacheStatement') {
@@ -152,7 +169,9 @@ module.exports = class ClassTransformPlugin {
 
     utils.pushAll(parts, this.localToPath(localClassAttr.value));
     this.divide(parts, this.isGlimmer ? 'text' : 'string');
-    node.attributes.unshift(this.builders.attr('class', this.builders.concat(parts)));
+    node.attributes.unshift(
+      this.builders.attr('class', this.builders.concat(parts))
+    );
   }
 
   localToPath(node) {
@@ -163,7 +182,11 @@ module.exports = class ClassTransformPlugin {
     } else if (~['TextNode', 'StringLiteral'].indexOf(node.type)) {
       return this.staticLocalPath(node);
     } else {
-      throw new TypeError('ember-css-modules - invalid type, ' + node.type + ', passed to local-class attribute.');
+      throw new TypeError(
+        'ember-css-modules - invalid type, ' +
+          node.type +
+          ', passed to local-class attribute.'
+      );
     }
   }
 
@@ -178,15 +201,23 @@ module.exports = class ClassTransformPlugin {
       builder = 'mustache';
     }
 
-    let hash = this.builders.hash([this.builders.pair('from', this.stylesModuleNode())]);
-    let localClassInvocation = this.builders[builder](localClassPath, [node], hash);
+    let hash = this.builders.hash([
+      this.builders.pair('from', this.stylesModuleNode()),
+    ]);
+    let localClassInvocation = this.builders[builder](
+      localClassPath,
+      [node],
+      hash
+    );
 
     return [localClassInvocation];
   }
 
   stylesModuleNode() {
     if (!this.stylesModule) {
-      throw new Error('Unable to bind a local class in a template with an unknown moduleName');
+      throw new Error(
+        'Unable to bind a local class in a template with an unknown moduleName'
+      );
     }
 
     return this.builders.string(this.stylesModule);
@@ -194,7 +225,11 @@ module.exports = class ClassTransformPlugin {
 
   concatLocalPath(node) {
     let concatPath = this.builders.path('concat');
-    let concatParts = utils.concatStatementToParams(this.builders, node, this.isGlimmer);
+    let concatParts = utils.concatStatementToParams(
+      this.builders,
+      node,
+      this.isGlimmer
+    );
     let concatStatement = this.builders.mustache(concatPath, concatParts);
     return this.dynamicLocalPath(concatStatement);
   }
@@ -203,28 +238,36 @@ module.exports = class ClassTransformPlugin {
     let locals = typeof node.chars === 'string' ? node.chars : node.value;
     let exprBuilder = typeof node.chars === 'string' ? 'mustache' : 'sexpr';
 
-    return [this.builders[exprBuilder](
-      'local-class',
-      [this.builders.string(locals)],
-      this.builders.hash([this.builders.pair('from', this.stylesModuleNode())])
-    )];
+    return [
+      this.builders[exprBuilder](
+        'local-class',
+        [this.builders.string(locals)],
+        this.builders.hash([
+          this.builders.pair('from', this.stylesModuleNode()),
+        ])
+      ),
+    ];
   }
 
   divide(parts, builder) {
     for (let i = 0; i < parts.length - 1; i++) {
       if (~['StringLiteral', 'TextNode'].indexOf(parts[i].type)) {
-        utils.updateStringValue(parts[i], function(str) { return str + ' '; });
+        utils.updateStringValue(parts[i], function (str) {
+          return str + ' ';
+        });
       } else if (~['StringLiteral', 'TextNode'].indexOf(parts[i + 1].type)) {
-        utils.updateStringValue(parts[i + 1], function(str) { return ' ' + str; });
+        utils.updateStringValue(parts[i + 1], function (str) {
+          return ' ' + str;
+        });
       } else {
         parts.splice(i + 1, 0, this.builders[builder](' '));
-        i++
+        i++;
       }
     }
 
     return parts;
   }
-}
+};
 
 // For Ember < 2.15
 class LegacyAdapter {
@@ -236,7 +279,10 @@ class LegacyAdapter {
   }
 
   transform(ast) {
-    let plugin = new this.plugin(Object.assign({ syntax: this.syntax }, this.meta), this.options);
+    let plugin = new this.plugin(
+      Object.assign({ syntax: this.syntax }, this.meta),
+      this.options
+    );
     this.syntax.traverse(ast, plugin.visitor);
     return ast;
   }

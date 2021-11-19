@@ -8,25 +8,28 @@ module.exports = {
   name: require('./package').name,
 
   createCssModulesPlugin(parent) {
-    return this.plugin = new LoggingPlugin(parent);
+    return (this.plugin = new LoggingPlugin(parent));
   },
 
   postprocessTree(type, tree) {
     if (type === 'all') {
       tree = new MergeTrees([
         tree,
-        new FileCreator('assets/plugin-log.json', () => this.plugin.buildPromise)
+        new FileCreator(
+          'assets/plugin-log.json',
+          () => this.plugin.buildPromise
+        ),
       ]);
     }
     return tree;
-  }
+  },
 };
 
 class LoggingPlugin extends Plugin {
   constructor(parent) {
     super(parent);
     this.logItems = [];
-    this.buildPromise = new Promise(r => this.resolve = r);
+    this.buildPromise = new Promise((r) => (this.resolve = r));
   }
 
   config() {
@@ -42,7 +45,7 @@ class LoggingPlugin extends Plugin {
   }
 
   buildError() {
-    this.logItems.push('buildError')
+    this.logItems.push('buildError');
   }
 
   buildEnd() {

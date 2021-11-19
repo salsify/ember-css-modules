@@ -8,10 +8,13 @@
 
 # dependencies
 /bower_components/
+/node_modules/
 
 # misc
 /coverage/
-/tests/dummy*/node_modules
+!.*
+.*/
+.eslintcache
 
 # ember-try
 /.node_modules.ember-try/

@@ -28,7 +28,9 @@ function updateStringValue(node, updater) {
 }
 
 function mustacheToSexpr(builders, node) {
-  if (node.type !== 'MustacheStatement') { return node; }
+  if (node.type !== 'MustacheStatement') {
+    return node;
+  }
 
   var params = node.params.map(textToString.bind(null, builders));
   return builders.sexpr(node.path, params, node.hash);
@@ -43,9 +45,11 @@ function textToString(builders, node) {
 }
 
 function concatStatementToParams(builders, node, isGlimmer) {
-  if (!isGlimmer) { return node.parts; }
+  if (!isGlimmer) {
+    return node.parts;
+  }
 
-  return node.parts.map(function(part) {
+  return node.parts.map(function (part) {
     if (part.type === 'MustacheStatement') {
       if (!part.params.length && !part.hash.pairs.length) {
         return part.path;
@@ -69,7 +73,7 @@ function findBy(target, key, path) {
 }
 
 function pushAll(target, arr) {
-  for (var i=0;i<arr.length;i++) {
+  for (var i = 0; i < arr.length; i++) {
     target.push(arr[i]);
   }
 
@@ -84,5 +88,5 @@ module.exports = {
   removeAttr: removeAttr,
   mustacheToSexpr: mustacheToSexpr,
   updateStringValue: updateStringValue,
-  concatStatementToParams: concatStatementToParams
+  concatStatementToParams: concatStatementToParams,
 };

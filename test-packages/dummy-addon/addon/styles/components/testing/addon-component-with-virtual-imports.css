@@ -1,6 +1,0 @@
-@value superbold, important-background from 'virtual-addon-constants';
-
-.component-class {
-  background-color: important-background;
-  font-weight: superbold;
-}

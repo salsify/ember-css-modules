@@ -14,15 +14,12 @@ const PluginRegistry = require('./lib/plugin/registry');
 module.exports = {
   name: require('./package.json').name,
 
-  shouldIncludeChildAddon(addon) {
-    // Don't infinitely recurse – it's the dummy test app that depends on dummy-addon, not this addon itself
-    return addon.name.indexOf('dummy') === -1;
-  },
-
   init() {
     this._super.init && this._super.init.apply(this, arguments);
     this.modulesPreprocessor = new ModulesPreprocessor({ owner: this });
-    this.outputStylesPreprocessor = new OutputStylesPreprocessor({ owner: this });
+    this.outputStylesPreprocessor = new OutputStylesPreprocessor({
+      owner: this,
+    });
     this.checker = new VersionChecker(this.project);
     this.plugins = new PluginRegistry(this.parent);
   },
@@ -37,7 +34,9 @@ module.exports = {
 
     this._super.included.apply(this, arguments);
 
-    this.cssModulesOptions = this.plugins.computeOptions(includer.options && includer.options.cssModules);
+    this.cssModulesOptions = this.plugins.computeOptions(
+      includer.options && includer.options.cssModules
+    );
     this.setupTemplateTransform();
   },
 
@@ -63,7 +62,9 @@ module.exports = {
 
   setupPreprocessorRegistry(type, registry) {
     // Skip if we're setting up this addon's own registry
-    if (type !== 'parent') { return; }
+    if (type !== 'parent') {
+      return;
+    }
 
     this.parentPreprocessorRegistry = registry;
 
@@ -78,24 +79,35 @@ module.exports = {
     // options until our own `included()` hook, and we need those options in order
     // to configure the template transform.
     if (!this.parentPreprocessorRegistry) {
-      throw new Error('[ember-css-modules] internal error: unable to locate parent preprocessor registry');
+      throw new Error(
+        '[ember-css-modules] internal error: unable to locate parent preprocessor registry'
+      );
     }
 
-    this.parentPreprocessorRegistry.add('htmlbars-ast-plugin', HtmlbarsPlugin.instantiate({
-      emberVersion: this.checker.forEmber().version,
-      options: {
-        fileExtension: this.getFileExtension(),
-        includeExtensionInModulePath: this.includeExtensionInModulePath(),
-      },
-    }));
+    this.parentPreprocessorRegistry.add(
+      'htmlbars-ast-plugin',
+      HtmlbarsPlugin.instantiate({
+        emberVersion: this.checker.forEmber().version,
+        options: {
+          fileExtension: this.getFileExtension(),
+          includeExtensionInModulePath: this.includeExtensionInModulePath(),
+        },
+      })
+    );
   },
 
   verifyStylesDirectory() {
-    if (!fs.existsSync(path.join(this.parent.root, this.parent.treePaths['addon-styles']))) {
+    if (
+      !fs.existsSync(
+        path.join(this.parent.root, this.parent.treePaths['addon-styles'])
+      )
+    ) {
       this.ui.writeWarnLine(
-        'The addon ' + this.getParentName() + ' has ember-css-modules installed, but no addon styles directory. ' +
-        'You must have at least a placeholder file in this directory (e.g. `addon/styles/.placeholder`) in ' +
-        'the published addon in order for ember-cli to process its CSS modules.'
+        'The addon ' +
+          this.getParentName() +
+          ' has ember-css-modules installed, but no addon styles directory. ' +
+          'You must have at least a placeholder file in this directory (e.g. `addon/styles/.placeholder`) in ' +
+          'the published addon in order for ember-cli to process its CSS modules.'
       );
     }
   },
@@ -117,15 +129,24 @@ module.exports = {
   },
 
   getPassthroughFileExtensions() {
-    return this.cssModulesOptions.passthroughFileExtensions || ['css', 'scss', 'sass', 'less', 'styl'];
+    return (
+      this.cssModulesOptions.passthroughFileExtensions || [
+        'css',
+        'scss',
+        'sass',
+        'less',
+        'styl',
+      ]
+    );
   },
 
   getScopedNameGenerator() {
     if (!this._scopedNameGenerator) {
       let rootOptions = this._findRootApp().options.cssModules || {};
-      this._scopedNameGenerator = this.cssModulesOptions.generateScopedName
-        || rootOptions.generateScopedName
-        || require('./lib/generate-scoped-name');
+      this._scopedNameGenerator =
+        this.cssModulesOptions.generateScopedName ||
+        rootOptions.generateScopedName ||
+        require('./lib/generate-scoped-name');
     }
 
     return this._scopedNameGenerator;
@@ -156,7 +177,9 @@ module.exports = {
   },
 
   getFileExtension() {
-    return this.cssModulesOptions && this.cssModulesOptions.extension || 'css';
+    return (
+      (this.cssModulesOptions && this.cssModulesOptions.extension) || 'css'
+    );
   },
 
   includeExtensionInModulePath() {
@@ -183,13 +206,16 @@ module.exports = {
   getFixedModules(type) {
     let modules = this.cssModulesOptions[`${type}Modules`] || [];
     let extension = this.getFileExtension();
-    return modules.map(file => file.endsWith(`.${extension}`) ? file : `${file}.${extension}`);
+    return modules.map((file) =>
+      file.endsWith(`.${extension}`) ? file : `${file}.${extension}`
+    );
   },
 
   enableSourceMaps() {
     if (this._enableSourceMaps === undefined) {
       var mapOptions = this._findRootApp().options.sourcemaps;
-      this._enableSourceMaps = mapOptions.enabled && mapOptions.extensions.indexOf('css') !== -1;
+      this._enableSourceMaps =
+        mapOptions.enabled && mapOptions.extensions.indexOf('css') !== -1;
     }
 
     return this._enableSourceMaps;
@@ -205,5 +231,5 @@ module.exports = {
       current = current.parent;
     }
     return current.app;
-  }
+  },
 };

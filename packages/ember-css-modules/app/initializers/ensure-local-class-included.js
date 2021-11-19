@@ -8,5 +8,5 @@ export default {
     // Instead, we reference it in our own template, and then import that
     // template from a file (an initializer) that we know must always
     // be loaded in order to boot the app and/or run tests.
-  }
-}
+  },
+};

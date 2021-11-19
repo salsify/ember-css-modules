@@ -31,18 +31,28 @@ module.exports = class ModulesPreprocessor {
   }
 
   toTree(inputTree, path) {
-    if (path !== '/') { return inputTree; }
+    if (path !== '/') {
+      return inputTree;
+    }
 
-    let merged = new MergeTrees([inputTree, this.buildModulesTree(inputTree)], { overwrite: true });
+    let merged = new MergeTrees([inputTree, this.buildModulesTree(inputTree)], {
+      overwrite: true,
+    });
 
     // Exclude the individual CSS files – those will be concatenated into the styles tree later
-    return new Funnel(merged, { exclude: ['**/*.' + this.owner.getFileExtension()] });
+    return new Funnel(merged, {
+      exclude: ['**/*.' + this.owner.getFileExtension()],
+    });
   }
 
   buildModulesTree(modulesInput) {
     if (!this._modulesTree) {
-      let inputRoot = this.owner.belongsToAddon() ? this.owner.getParentAddonTree() : this.owner.app.trees.app;
-      let outputRoot = (this.owner.belongsToAddon() ? this.owner.getAddonModulesRoot() : '');
+      let inputRoot = this.owner.belongsToAddon()
+        ? this.owner.getParentAddonTree()
+        : this.owner.app.trees.app;
+      let outputRoot = this.owner.belongsToAddon()
+        ? this.owner.getAddonModulesRoot()
+        : '';
 
       if (outputRoot) {
         inputRoot = new Funnel(inputRoot, {
@@ -54,7 +64,9 @@ module.exports = class ModulesPreprocessor {
       // Otherwise, the template and generated module will disagree as to what the path should be.
       let ownerParent = this.owner.getParent();
       this._parentName = this.owner.getParentName();
-      let ownerName = ownerParent.moduleName ? ownerParent.moduleName() : this._parentName;
+      let ownerName = ownerParent.moduleName
+        ? ownerParent.moduleName()
+        : this._parentName;
       this._ownerName = ownerName;
 
       let modulesSources = new ModuleSourceFunnel(inputRoot, modulesInput, {
@@ -67,12 +79,14 @@ module.exports = class ModulesPreprocessor {
         extension: this.owner.getFileExtension(),
         plugins: this.getPostcssPlugins(),
         enableSourceMaps: this.owner.enableSourceMaps(),
-        sourceMapBaseDir: this.owner.belongsToAddon() ? this.owner.getAddonModulesRoot() : '',
+        sourceMapBaseDir: this.owner.belongsToAddon()
+          ? this.owner.getAddonModulesRoot()
+          : '',
         postcssOptions: this.owner.getPostcssOptions(),
         virtualModules: this.owner.getVirtualModules(),
         generateScopedName: this.scopedNameGenerator(),
         resolvePath: this.resolveAndRecordPath.bind(this),
-        getJSFilePath: cssPath => this.getJSFilePath(cssPath, modulesSources),
+        getJSFilePath: (cssPath) => this.getJSFilePath(cssPath, modulesSources),
         onBuildStart: () => this.owner.notifyPlugins('buildStart'),
         onBuildEnd: () => this.owner.notifyPlugins('buildEnd'),
         onBuildSuccess: () => this.owner.notifyPlugins('buildSuccess'),
@@ -80,7 +94,7 @@ module.exports = class ModulesPreprocessor {
         onProcessFile: this.resetFileDependencies.bind(this),
         onModuleResolutionFailure: this.onModuleResolutionFailure.bind(this),
         onImportResolutionFailure: this.onImportResolutionFailure.bind(this),
-        formatJS: formatJS
+        formatJS: formatJS,
       });
 
       this._modulesTree = modulesTree;
@@ -108,7 +122,10 @@ module.exports = class ModulesPreprocessor {
     }
 
     let extensionRegex = new RegExp(`\\.${this.owner.getFileExtension()}$`);
-    let cssPathWithoutExtension = cssPathWithExtension.replace(extensionRegex, '');
+    let cssPathWithoutExtension = cssPathWithExtension.replace(
+      extensionRegex,
+      ''
+    );
 
     if (modulesSource.has(`${cssPathWithoutExtension}.hbs`)) {
       return `${cssPathWithExtension}.js`;
@@ -119,7 +136,7 @@ module.exports = class ModulesPreprocessor {
 
   scopedNameGenerator() {
     let generator = this.owner.getScopedNameGenerator();
-    return function(className, modulePath, fullRule, dependency) {
+    return function (className, modulePath, fullRule, dependency) {
       let realPath = '/' + (dependency.keyPath || modulePath);
       return generator(className, realPath, fullRule);
     };
@@ -142,7 +159,7 @@ module.exports = class ModulesPreprocessor {
 
       this._plugins = {
         before: [this.rootPathPlugin()].concat(plugins.before || []),
-        after: [this.dependenciesPlugin()].concat(plugins.after || [])
+        after: [this.dependenciesPlugin()].concat(plugins.after || []),
       };
     }
 
@@ -150,7 +167,9 @@ module.exports = class ModulesPreprocessor {
   }
 
   onModuleResolutionFailure(failure, modulePath, fromFile) {
-    throw new Error('Unable to locate module "' + modulePath + '" imported from ' + fromFile);
+    throw new Error(
+      'Unable to locate module "' + modulePath + '" imported from ' + fromFile
+    );
   }
 
   onImportResolutionFailure(symbol, modulePath, fromFile) {
@@ -161,11 +180,18 @@ module.exports = class ModulesPreprocessor {
       absolutePath = this.resolvePath(modulePath, fromFile);
     }
 
-    throw new Error(`No class or value named '${symbol}' was found in ${absolutePath}, imported from ${ fromFile}.`);
+    throw new Error(
+      `No class or value named '${symbol}' was found in ${absolutePath}, imported from ${fromFile}.`
+    );
   }
 
   recordDependencies(fromFile, type, resolvedPaths) {
-    debug('recording %s dependencies from %s to %o', type, fromFile, resolvedPaths);
+    debug(
+      'recording %s dependencies from %s to %o',
+      type,
+      fromFile,
+      resolvedPaths
+    );
     let deps = this.getDependencies();
     let fileDeps = deps[fromFile] || (deps[fromFile] = {});
     fileDeps[type] = (fileDeps[type] || []).concat(resolvedPaths);
@@ -184,12 +210,17 @@ module.exports = class ModulesPreprocessor {
     let resolve = this.resolvePath.bind(this);
     return require('./postcss-module-order-directive')({
       ui: this.owner.ui,
-      emitDeprecationWarning: !this.owner.cssModulesOptions._silenceAfterModuleDeprecation,
-      updateDependencies: function(fromFile, relativePaths) {
-        recordDependencies(fromFile, 'explicit', relativePaths.map(function(relativePath) {
-          return resolve(relativePath, fromFile);
-        }));
-      }
+      emitDeprecationWarning:
+        !this.owner.cssModulesOptions._silenceAfterModuleDeprecation,
+      updateDependencies: function (fromFile, relativePaths) {
+        recordDependencies(
+          fromFile,
+          'explicit',
+          relativePaths.map(function (relativePath) {
+            return resolve(relativePath, fromFile);
+          })
+        );
+      },
     });
   }
 
@@ -209,7 +240,7 @@ module.exports = class ModulesPreprocessor {
       addonModulesRoot: this.owner.getAddonModulesRoot(),
       root: ensurePosixPath(this._modulesTree.inputPaths[0]),
       parent: this.owner.getParent(),
-      ui: this.owner.ui
+      ui: this.owner.ui,
     });
   }
 };
@@ -231,15 +262,21 @@ class ModuleSourceFunnel extends Funnel {
   }
 
   has(filePath) {
-    let relativePath = this.inputHasParentName ? filePath : filePath.replace(`${this.parentName}/`, '');
+    let relativePath = this.inputHasParentName
+      ? filePath
+      : filePath.replace(`${this.parentName}/`, '');
     return fs.existsSync(`${this.inputPaths[0]}/${relativePath}`);
   }
 
   build() {
     if (this.inputHasParentName === null) {
-      this.inputHasParentName = fs.existsSync(`${this.inputPaths[0]}/${this.parentName}`);
+      this.inputHasParentName = fs.existsSync(
+        `${this.inputPaths[0]}/${this.parentName}`
+      );
 
-      let stylesTreeHasParentName = fs.existsSync(`${this.stylesTree.outputPath}/${this.parentName}`);
+      let stylesTreeHasParentName = fs.existsSync(
+        `${this.stylesTree.outputPath}/${this.parentName}`
+      );
       if (stylesTreeHasParentName && !this.inputHasParentName) {
         this.destDir += `/${this.parentName}`;
       }

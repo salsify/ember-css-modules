@@ -3,6 +3,6 @@
 module.exports = {
   extends: 'recommended',
   rules: {
-    quotes: false
-  }
+    quotes: false,
+  },
 };

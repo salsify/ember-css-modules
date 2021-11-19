@@ -38,13 +38,25 @@ module.exports = class PluginRegistry {
   }
 
   _instantiatePlugins() {
-    let plugins = this._discoverPlugins(this.parent.addons, 'ember-css-modules-plugin');
+    let plugins = this._discoverPlugins(
+      this.parent.addons,
+      'ember-css-modules-plugin'
+    );
 
     // For addons under development, crawl the host app's available plugins for linting tools so they can be devDependencies
-    if (typeof this.parent.isDevelopingAddon === 'function' && this.parent.isDevelopingAddon()) {
-      let parentAddonNames = new Set(this.parent.addons.map(addon => addon.name));
-      let hostAddons = this.parent.project.addons.filter(addon => !parentAddonNames.has(addon.name));
-      plugins = plugins.concat(this._discoverPlugins(hostAddons, 'ember-css-modules-lint-plugin'));
+    if (
+      typeof this.parent.isDevelopingAddon === 'function' &&
+      this.parent.isDevelopingAddon()
+    ) {
+      let parentAddonNames = new Set(
+        this.parent.addons.map((addon) => addon.name)
+      );
+      let hostAddons = this.parent.project.addons.filter(
+        (addon) => !parentAddonNames.has(addon.name)
+      );
+      plugins = plugins.concat(
+        this._discoverPlugins(hostAddons, 'ember-css-modules-lint-plugin')
+      );
     }
 
     return plugins;
@@ -52,14 +64,16 @@ module.exports = class PluginRegistry {
 
   _discoverPlugins(addons, keyword) {
     return addons
-      .filter(addon => this._isPlugin(addon, keyword))
-      .map(addon => this._instantiatePluginFor(addon));
+      .filter((addon) => this._isPlugin(addon, keyword))
+      .map((addon) => this._instantiatePluginFor(addon));
   }
 
   _isPlugin(addon, keyword) {
-    return addon.pkg
-      && addon.pkg.keywords
-      && addon.pkg.keywords.indexOf(keyword) >= 0;
+    return (
+      addon.pkg &&
+      addon.pkg.keywords &&
+      addon.pkg.keywords.indexOf(keyword) >= 0
+    );
   }
 
   _instantiatePluginFor(addon) {
@@ -83,4 +97,4 @@ module.exports = class PluginRegistry {
     }
     return options;
   }
-}
+};

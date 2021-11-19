@@ -4,24 +4,39 @@ const path = require('path');
 const ensurePosixPath = require('ensure-posix-path');
 
 module.exports = function resolvePath(importPath, fromFile, options) {
-  let pathWithExtension = path.extname(importPath) ? importPath : (importPath + '.' + options.defaultExtension);
+  let pathWithExtension = path.extname(importPath)
+    ? importPath
+    : importPath + '.' + options.defaultExtension;
 
   if (isRelativePath(pathWithExtension)) {
     return resolveRelativePath(pathWithExtension, fromFile, options);
   } else if (isLocalPath(pathWithExtension, options)) {
     return resolveLocalPath(pathWithExtension, fromFile, options);
   } else if (isLocalPathWithOldPackageNameRef(pathWithExtension, options)) {
-    const amendedPathWithExtension = pathWithExtension.replace(options.parentName, options.ownerName);
+    const amendedPathWithExtension = pathWithExtension.replace(
+      options.parentName,
+      options.ownerName
+    );
     options.ui.writeWarnLine(
       'For addons that define a moduleName, you should reference any CSS Modules provided by that addon ' +
-      'using its moduleName instead of the package name.\n' +
-      'Current path: ' + importPath + '\n' +
-      'Replace with: ' + importPath.replace(options.parentName, options.ownerName) + '\n' +
-      'File: ' + fromFile
+        'using its moduleName instead of the package name.\n' +
+        'Current path: ' +
+        importPath +
+        '\n' +
+        'Replace with: ' +
+        importPath.replace(options.parentName, options.ownerName) +
+        '\n' +
+        'File: ' +
+        fromFile
     );
     return resolveLocalPath(amendedPathWithExtension, fromFile, options);
   } else {
-    return resolveExternalPath(pathWithExtension, importPath, fromFile, options);
+    return resolveExternalPath(
+      pathWithExtension,
+      importPath,
+      fromFile,
+      options
+    );
   }
 };
 
@@ -34,17 +49,24 @@ function isLocalPath(importPath, options) {
 }
 
 function isLocalPathWithOldPackageNameRef(importPath, options) {
-  return (options.ownerName !== options.parentName) && importPath.indexOf(options.parentName + '/') === 0;
+  return (
+    options.ownerName !== options.parentName &&
+    importPath.indexOf(options.parentName + '/') === 0
+  );
 }
 
 function resolveRelativePath(importPath, fromFile, options) {
-  let absolutePath = ensurePosixPath(path.resolve(path.dirname(fromFile), importPath));
+  let absolutePath = ensurePosixPath(
+    path.resolve(path.dirname(fromFile), importPath)
+  );
   return internalDep(absolutePath, options);
 }
 
 // Resolve absolute paths pointing to the same app/addon as the importer
 function resolveLocalPath(importPath, fromFile, options) {
-  const fromFileStartsWithOwnerName = fromFile.substring(options.root.length + 1).startsWith(options.ownerName);
+  const fromFileStartsWithOwnerName = fromFile
+    .substring(options.root.length + 1)
+    .startsWith(options.ownerName);
 
   // Depending on the exact version of Ember CLI and/or Embroider in play, the
   // app/addon name may or may not be included in `fromFile`'s path. If not, we
@@ -71,14 +93,16 @@ function resolveExternalPath(importPath, originalPath, fromFile, options) {
   if (!addon) {
     throw new Error(
       `Unable to resolve styles module '${originalPath}' imported from '${fromFile}'. ` +
-      `No virtual module with that name was defined and no corresponding addon was found.`
+        `No virtual module with that name was defined and no corresponding addon was found.`
     );
   }
 
   let pathWithinAddon = importPath.substring(addonName.length + 1);
   let addonTreePath = path.join(addon.root, addon.treePaths.addon);
 
-  let absolutePath = ensurePosixPath(path.resolve(addonTreePath, pathWithinAddon));
+  let absolutePath = ensurePosixPath(
+    path.resolve(addonTreePath, pathWithinAddon)
+  );
   let keyPath = options.addonModulesRoot + addonName + '/' + pathWithinAddon;
   return new DependencyPath('external', absolutePath, keyPath);
 }

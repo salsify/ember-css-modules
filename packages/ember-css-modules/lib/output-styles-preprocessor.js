@@ -12,12 +12,14 @@ module.exports = class OutputStylesPreprocessor {
   }
 
   toTree(inputNode, inputPath, outputDirectory, options) {
-    let outputFile = this.owner.getIntermediateOutputPath() || options.outputPaths[this.owner.belongsToAddon() ? 'addon' : 'app'];
+    let outputFile =
+      this.owner.getIntermediateOutputPath() ||
+      options.outputPaths[this.owner.belongsToAddon() ? 'addon' : 'app'];
     let concatOptions = {
       inputFiles: ['**/*.' + this.owner.getFileExtension()],
       outputFile: outputFile,
       allowNone: true,
-      sourceMapConfig: this.sourceMapConfig()
+      sourceMapConfig: this.sourceMapConfig(),
     };
 
     debug('concatenating module stylesheets: %o', concatOptions);
@@ -32,7 +34,7 @@ module.exports = class OutputStylesPreprocessor {
 
       concat = new PostCSS(concat, {
         plugins: postprocessPlugins,
-        exclude: ['**/*.map']
+        exclude: ['**/*.map'],
       });
     }
 
@@ -41,7 +43,9 @@ module.exports = class OutputStylesPreprocessor {
     if (this.owner.getIntermediateOutputPath()) {
       let passthroughExtensions = this.owner.getPassthroughFileExtensions();
       if (passthroughExtensions.length) {
-        inputNode = new Funnel(inputNode, { include: passthroughExtensions.map(ext => `**/*.${ext}`) });
+        inputNode = new Funnel(inputNode, {
+          include: passthroughExtensions.map((ext) => `**/*.${ext}`),
+        });
       }
       return new MergeTrees([inputNode, concat], { overwrite: true });
     } else {
@@ -56,14 +60,20 @@ module.exports = class OutputStylesPreprocessor {
     let modulesTree = this.owner.getModulesTree();
     let fixedHeaders = this.owner.getFixedModules('header');
     let fixedFooters = this.owner.getFixedModules('footer');
-    let getHeaderFiles = this.getHeaderFiles.bind(this, new Set(fixedHeaders.concat(fixedFooters)));
+    let getHeaderFiles = this.getHeaderFiles.bind(
+      this,
+      new Set(fixedHeaders.concat(fixedFooters))
+    );
 
     let concat = new Concat(modulesTree, options);
     let build = concat.build;
-    concat.build = function() {
+    concat.build = function () {
       this.footerFiles = fixedFooters;
       this.headerFiles = fixedHeaders.concat(getHeaderFiles());
-      this._headerFooterFilesIndex = makeIndex(this.headerFiles, this.footerFiles);
+      this._headerFooterFilesIndex = makeIndex(
+        this.headerFiles,
+        this.footerFiles
+      );
       return build.apply(this, arguments);
     };
 
@@ -79,18 +89,21 @@ module.exports = class OutputStylesPreprocessor {
     let implicitDeps = this.implicitDependencies(fixedModules);
     let sorted = require('toposort')(explicitDeps.concat(implicitDeps));
     debug('sorted dependencies %o', sorted);
-    return sorted.filter(file => !fixedModules.has(file));
+    return sorted.filter((file) => !fixedModules.has(file));
   }
 
   // Dependencies due to explicit `@after-module` declarations
   explicitDependencies(fixedModules) {
     let edges = [];
 
-    this.eachFileWithDependencies('explicit', function(file, deps) {
-      let currentFile = file, dep;
+    this.eachFileWithDependencies('explicit', function (file, deps) {
+      let currentFile = file,
+        dep;
 
       if (fixedModules.has(currentFile)) {
-        throw new Error(`Configured headerFiles and footerFiles can't use @after-module`);
+        throw new Error(
+          `Configured headerFiles and footerFiles can't use @after-module`
+        );
       }
 
       // For each file with explicit dependencies, create a chain of edges in the reverse order they appear in source
@@ -98,7 +111,9 @@ module.exports = class OutputStylesPreprocessor {
         dep = deps[i];
 
         if (fixedModules.has(dep)) {
-          throw new Error(`Configured headerFiles and footerFiles can't be the target of @after-module`);
+          throw new Error(
+            `Configured headerFiles and footerFiles can't be the target of @after-module`
+          );
         }
 
         edges.push([dep, currentFile]);
@@ -114,11 +129,13 @@ module.exports = class OutputStylesPreprocessor {
   implicitDependencies(fixedModules) {
     let edges = [];
 
-    this.eachFileWithDependencies('implicit', function(file, deps) {
+    this.eachFileWithDependencies('implicit', function (file, deps) {
       // headerFiles and footerFiles ignore implicit ordering constraints
-      if (fixedModules.has(file)) { return; }
+      if (fixedModules.has(file)) {
+        return;
+      }
 
-      deps.forEach(function(dep) {
+      deps.forEach(function (dep) {
         if (!fixedModules.has(dep)) {
           edges.push([dep, file]);
         }
@@ -134,14 +151,21 @@ module.exports = class OutputStylesPreprocessor {
 
     Object.keys(depMap).forEach((file) => {
       let deps = depMap[file] && depMap[file][type];
-      if (!deps || !deps.length) { return; }
+      if (!deps || !deps.length) {
+        return;
+      }
 
       let relativeFile = this.owner.getModuleRelativePath(file);
-      callback(relativeFile, deps.filter(function(dep) {
-        return dep.type === 'internal';
-      }).map(function(dep) {
-        return dep.keyPath;
-      }));
+      callback(
+        relativeFile,
+        deps
+          .filter(function (dep) {
+            return dep.type === 'internal';
+          })
+          .map(function (dep) {
+            return dep.keyPath;
+          })
+      );
     });
   }
 
@@ -149,7 +173,7 @@ module.exports = class OutputStylesPreprocessor {
     if (this.owner.enableSourceMaps()) {
       return {
         extensions: ['css'],
-        mapCommentType: 'block'
+        mapCommentType: 'block',
       };
     }
   }
@@ -159,7 +183,7 @@ module.exports = class OutputStylesPreprocessor {
 function makeIndex(a, b) {
   let index = Object.create(null);
 
-  ((a || []).concat(b ||[])).forEach(function(a) {
+  (a || []).concat(b || []).forEach(function (a) {
     index[a] = true;
   });
 

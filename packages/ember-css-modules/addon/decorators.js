@@ -20,20 +20,22 @@ import { assert } from '@ember/debug';
 
   @param {...string} classNames - The list of local classes to be applied to the component
 */
-export const localClassNames = (...classNames) => (...desc) => {
-  assert(
-    `The @localClassNames decorator must be provided strings, received: ${classNames}`,
-    classNames.every(className => typeof className === 'string')
-  );
+export const localClassNames =
+  (...classNames) =>
+  (...desc) => {
+    assert(
+      `The @localClassNames decorator must be provided strings, received: ${classNames}`,
+      classNames.every((className) => typeof className === 'string')
+    );
 
-  if (isStage1ClassDescriptor(desc)) {
-    collapseAndMerge(desc[0].prototype, 'localClassNames', ...classNames);
-  } else {
-    desc[0].finisher = target => {
-      collapseAndMerge(target.prototype, 'localClassNames', ...classNames);
-    };
-  }
-};
+    if (isStage1ClassDescriptor(desc)) {
+      collapseAndMerge(desc[0].prototype, 'localClassNames', ...classNames);
+    } else {
+      desc[0].finisher = (target) => {
+        collapseAndMerge(target.prototype, 'localClassNames', ...classNames);
+      };
+    }
+  };
 
 /**
   Decorator which indicates that the field or computed should be bound to the
@@ -64,14 +66,14 @@ export const localClassName = (...params) => {
   return (...desc) => {
     assert(
       `The @localClassName decorator may only receive strings as parameters. Received: ${params}`,
-      params.every(className => typeof className === 'string')
+      params.every((className) => typeof className === 'string')
     );
 
     if (isStage1FieldDescriptor(desc)) {
       let [prototype, key, descriptor] = desc;
       setUpLocalClassField(params, prototype, key, descriptor);
     } else if (isStage2FieldDescriptor(desc)) {
-      desc[0].finisher = target => {
+      desc[0].finisher = (target) => {
         const { key, descriptor } = desc[0];
         setUpLocalClassField(params, target.prototype, key, descriptor);
       };
@@ -93,7 +95,9 @@ function setUpLocalClassField(params, prototype, key, descriptor) {
     // explicit `writable` flag, default to not being writable in Babel. Since
     // by default fields _are_ writable and this decorator should not change
     // that, we enable the `writable` flag in this specific case.
-    if (!('get' in descriptor || 'set' in descriptor || 'writable' in descriptor)) {
+    if (
+      !('get' in descriptor || 'set' in descriptor || 'writable' in descriptor)
+    ) {
       descriptor.writable = true;
     }
 
@@ -102,7 +106,7 @@ function setUpLocalClassField(params, prototype, key, descriptor) {
     // This is a no-op in Babel 7 (since `initializer` isn't part of the property descriptor)
     // and can be dropped when we remove support for Babel 6
     if (descriptor.initializer === null) {
-      descriptor.initializer = function() {
+      descriptor.initializer = function () {
         return get(this, key);
       };
     }
@@ -114,7 +118,7 @@ function collapseAndMerge(prototype, property, ...items) {
 
   if (property in prototype) {
     const parentElements = prototype[property];
-    items.unshift(...parentElements)
+    items.unshift(...parentElements);
   }
 
   prototype[property] = items;
@@ -135,7 +139,10 @@ function isStage1ClassDescriptor(possibleDesc) {
 }
 
 function isFieldDescriptor(possibleDesc) {
-  return isStage1FieldDescriptor(possibleDesc) || isStage2FieldDescriptor(possibleDesc);
+  return (
+    isStage1FieldDescriptor(possibleDesc) ||
+    isStage2FieldDescriptor(possibleDesc)
+  );
 }
 
 function isStage2FieldDescriptor(possibleDesc) {

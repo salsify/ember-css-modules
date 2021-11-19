@@ -1,6 +1,0 @@
-@value superbold from '../../testing/constants';
-
-.component-class {
-  composes: important-message from '../../testing/constants';
-  font-weight: superbold;
-}

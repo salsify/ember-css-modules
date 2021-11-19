@@ -11,11 +11,16 @@ module.exports = makePostCSSPlugin('ember-css-modules-ordering', (options) => {
     let filePath = input.file.replace(input.rootPath + '/', '');
 
     css.walkAtRules((rule) => {
-      if (rule.name !== 'after-module') { return; }
+      if (rule.name !== 'after-module') {
+        return;
+      }
 
       if (options.emitDeprecationWarning) {
-        let warning = '@after-module is deprecated; use `headerFiles` and `footerFiles` instead';
-        options.ui.writeDeprecateLine(`${filePath}:${rule.source.start.line} - ${warning}`);
+        let warning =
+          '@after-module is deprecated; use `headerFiles` and `footerFiles` instead';
+        options.ui.writeDeprecateLine(
+          `${filePath}:${rule.source.start.line} - ${warning}`
+        );
       }
 
       dependencies.push(rule.params.replace(/^['"]|["']$/g, ''));
@@ -23,7 +28,10 @@ module.exports = makePostCSSPlugin('ember-css-modules-ordering', (options) => {
     });
 
     if (dependencies.length) {
-      options.updateDependencies(ensurePosixPath(css.source.input.file), dependencies);
+      options.updateDependencies(
+        ensurePosixPath(css.source.input.file),
+        dependencies
+      );
     }
   };
 });

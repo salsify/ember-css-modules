@@ -1,7 +1,5 @@
-import Component from '@ember/component';
+import Component from '@glimmer/component';
 
-export default Component.extend({
-  localClassNames: ['test-component'],
-  localClassNameBindings: ['prop'],
-  prop: 'test-component-bound',
-});
+export default class TestComponent extends Component {
+  boundClassName = 'test-component-bound';
+}

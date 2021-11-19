@@ -24,37 +24,45 @@ export default Mixin.create({
     ];
 
     if (this.localClassNameBindings.length) {
-      let value = localClassNamesCP(this.localClassNameBindings, this.get('__styles__'));
+      let value = localClassNamesCP(
+        this.localClassNameBindings,
+        this.__styles__
+      );
       defineProperty(this, LOCAL_CLASS_NAMES_CP, value);
     }
   },
 
-  __styles__: computed(function() {
+  __styles__: computed('_debugContainerKey', 'layout', function () {
     let key = this._debugContainerKey;
-    if (!key) { return; }
+    if (!key) {
+      return;
+    }
 
     let name = key.replace(/^component:/, '');
-    let layout = this.layout || getOwner(this).lookup(`template:components/${name}`);
+    let layout =
+      this.layout || getOwner(this).lookup(`template:components/${name}`);
     assert(
       `Unable to resolve localClassNames or localClassNameBindings for component ${name}, which has no ` +
-      `layout. You can fix this by either creating an empty template for your component or importing and ` +
-      `using the styles hash directly instead, e.g. \`classNames: styles['my-class']\`.`,
+        `layout. You can fix this by either creating an empty template for your component or importing and ` +
+        `using the styles hash directly instead, e.g. \`classNames: styles['my-class']\`.`,
       layout
     );
 
     deprecate(
       'Support for `localClassNames`, `localClassNameBindings` and the `@localClassName` and `@localClassNames` ' +
-      'decorators will be removed in the next major release of ember-css-modules. The `' + name + '` component ' +
-      'uses one or more of these APIs. See the ECM 1.5.0 release notes for further details and migration options: ' +
-      'https://github.com/salsify/ember-css-modules/releases/tag/v1.5.0',
+        'decorators will be removed in the next major release of ember-css-modules. The `' +
+        name +
+        '` component ' +
+        'uses one or more of these APIs. See the ECM 1.5.0 release notes for further details and migration options: ' +
+        'https://github.com/salsify/ember-css-modules/releases/tag/v1.5.0',
       false,
       {
         id: 'ember-css-modules.classic-component-apis',
         for: 'ember-css-modules',
         until: '2.0.0',
         since: {
-          enabled: '1.5.0'
-        }
+          enabled: '1.5.0',
+        },
       }
     );
 
@@ -62,7 +70,10 @@ export default Mixin.create({
     if (typeof layout === 'function') layout = layout(getOwner(this));
 
     // This is not public API and might break at any time...
-    let moduleName = (layout.meta || layout.referrer).moduleName.replace(/\.hbs$/, '');
+    let moduleName = (layout.meta || layout.referrer).moduleName.replace(
+      /\.hbs$/,
+      ''
+    );
     if (/\/template$/.test(moduleName)) {
       return tryLoad(moduleName.replace(/template$/, 'styles'));
     } else if (/\/templates\//.test(moduleName)) {
@@ -70,7 +81,7 @@ export default Mixin.create({
     }
 
     return;
-  })
+  }),
 });
 
 function tryLoad(path) {
@@ -82,7 +93,9 @@ function tryLoad(path) {
 const LOCAL_CLASS_NAMES_CP = '__ecm_local_class_names__';
 
 function localClassNames(component) {
-  return component.localClassNames.map(className => `__styles__.${className}`);
+  return component.localClassNames.map(
+    (className) => `__styles__.${className}`
+  );
 }
 
 function localClassNamesCP(localClassNameBindings, styles) {
@@ -94,7 +107,7 @@ function localClassNamesCP(localClassNameBindings, styles) {
     return { property, trueClasses, falseClasses, isBoolean };
   });
 
-  return computed(...bindings.map(binding => binding.property), function() {
+  return computed(...bindings.map((binding) => binding.property), function () {
     let classes = [];
 
     bindings.forEach((binding) => {
@@ -102,7 +115,12 @@ function localClassNamesCP(localClassNameBindings, styles) {
       if (binding.isBoolean || typeof value !== 'string') {
         classes.push(value ? binding.trueClasses : binding.falseClasses);
       } else {
-        classes.push(value.split(/\s+/).map(key => styles[key]).join(' '));
+        classes.push(
+          value
+            .split(/\s+/)
+            .map((key) => styles[key])
+            .join(' ')
+        );
       }
     });
 

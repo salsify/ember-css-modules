@@ -1,5 +1,0 @@
-@value addon-value from 'dummy-addon/styles/testing/constants';
-
-.component-class {
-  font-family: addon-value;
-}

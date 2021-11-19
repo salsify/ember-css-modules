@@ -1,25 +1,27 @@
 'use strict';
 
-const QUnit = require('qunitjs'), test = QUnit.test, testModule = QUnit.module;
+const QUnit = require('qunit'),
+  test = QUnit.test,
+  testModule = QUnit.module;
 const Plugin = require('../../../lib/plugin');
 
 testModule('Unit | Plugin');
 
-test('Addon parent', function(assert) {
+test('Addon parent', function (assert) {
   let parent = { parent: {} };
   let plugin = new Plugin(parent);
   assert.ok(plugin.isForAddon());
   assert.notOk(plugin.isForApp());
 });
 
-test('App parent', function(assert) {
+test('App parent', function (assert) {
   let parent = {};
   let plugin = new Plugin(parent);
   assert.ok(plugin.isForApp());
   assert.notOk(plugin.isForAddon());
 });
 
-test('addPostcssPlugin() with no existing config', function(assert) {
+test('addPostcssPlugin() with no existing config', function (assert) {
   let config = {};
   let plugin = new Plugin();
   plugin.addPostcssPlugin(config, 'before', 'x', 'y', 'z');
@@ -28,12 +30,12 @@ test('addPostcssPlugin() with no existing config', function(assert) {
     plugins: {
       before: ['x', 'y', 'z'],
       after: ['X', 'Y', 'Z'],
-      postprocess: []
-    }
+      postprocess: [],
+    },
   });
 });
 
-test('addPostcssPlugin() with existing array config', function(assert) {
+test('addPostcssPlugin() with existing array config', function (assert) {
   let config = { plugins: ['a'] };
   let plugin = new Plugin();
   plugin.addPostcssPlugin(config, 'before', 'x', 'y', 'z');
@@ -42,12 +44,12 @@ test('addPostcssPlugin() with existing array config', function(assert) {
     plugins: {
       before: ['x', 'y', 'z'],
       after: ['a', 'X', 'Y', 'Z'],
-      postprocess: []
-    }
+      postprocess: [],
+    },
   });
 });
 
-test('addPostcssPlugin() with existing full config', function(assert) {
+test('addPostcssPlugin() with existing full config', function (assert) {
   let config = { plugins: { after: ['a'], before: ['b'], postprocess: ['z'] } };
   let plugin = new Plugin();
   plugin.addPostcssPlugin(config, 'before', 'x', 'y', 'z');
@@ -56,8 +58,8 @@ test('addPostcssPlugin() with existing full config', function(assert) {
     plugins: {
       before: ['x', 'y', 'z', 'b'],
       after: ['a', 'X', 'Y', 'Z'],
-      postprocess: ['z']
-    }
+      postprocess: ['z'],
+    },
   });
 
   plugin.addPostcssPlugin(config, 'before', 'w');
@@ -67,13 +69,16 @@ test('addPostcssPlugin() with existing full config', function(assert) {
       before: ['w', 'x', 'y', 'z', 'b'],
       after: ['a', 'X', 'Y', 'Z', 'W'],
       postprocess: ['z'],
-    }
+    },
   });
 });
 
-test('addPostcssPlugin() with invalid type', function(assert) {
+test('addPostcssPlugin() with invalid type', function (assert) {
   let config = {};
   let plugin = new Plugin();
 
-  assert.throws(() => plugin.addPostcssPlugin(config, 'foo', 'x'), /Unknown plugin type/);
+  assert.throws(
+    () => plugin.addPostcssPlugin(config, 'foo', 'x'),
+    /Unknown plugin type/
+  );
 });

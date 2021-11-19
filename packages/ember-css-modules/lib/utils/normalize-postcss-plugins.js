@@ -10,4 +10,4 @@ module.exports = function normalizePostcssPlugins(plugins) {
   }
 
   return result;
-}
+};
