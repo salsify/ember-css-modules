@@ -3,10 +3,10 @@ import { setupRenderingTest } from 'ember-qunit';
 import { render } from '@ember/test-helpers';
 import { hbs } from 'ember-cli-htmlbars';
 
-module('Integration | Component | TestComponent', function(hooks) {
+module('Integration | Component | TestComponent', function (hooks) {
   setupRenderingTest(hooks);
 
-  test('it renders with the correct styles', async function(assert) {
+  test('it renders with the correct styles', async function (assert) {
     await render(hbs`
       <TestComponent>
         <span data-test>hello</span>
