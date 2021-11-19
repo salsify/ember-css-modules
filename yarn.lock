@@ -1099,21 +1099,6 @@
     ember-cli-path-utils "^1.0.0"
     ember-cli-typescript "^4.1.0"
 
-"@ember-decorators/component@^6.0.0":
-  version "6.1.1"
-  resolved "https://registry.yarnpkg.com/@ember-decorators/component/-/component-6.1.1.tgz#b360dc4fa8e576ee1c840879399ef1745fd96e06"
-  integrity sha512-Cj8tY/c0MC/rsipqsiWLh3YVN72DK92edPYamD/HzvftwzC6oDwawWk8RmStiBnG9PG/vntAt41l3S7HSSA+1Q==
-  dependencies:
-    "@ember-decorators/utils" "^6.1.1"
-    ember-cli-babel "^7.1.3"
-
-"@ember-decorators/utils@^6.1.1":
-  version "6.1.1"
-  resolved "https://registry.yarnpkg.com/@ember-decorators/utils/-/utils-6.1.1.tgz#6b619814942b4fb3747cfa9f540c9f05283d7c5e"
-  integrity sha512-0KqnoeoLKb6AyoSU65TRF5T85wmS4uDn06oARddwNPxxf/lt5jQlh41uX3W7V/fWL9tPu8x1L1Vvpc80MN1+YA==
-  dependencies:
-    ember-cli-babel "^7.1.3"
-
 "@ember-template-lint/todo-utils@^10.0.0":
   version "10.0.0"
   resolved "https://registry.yarnpkg.com/@ember-template-lint/todo-utils/-/todo-utils-10.0.0.tgz#085aafcf31ca04ba4d3a9460f088aed752b90ea8"
@@ -3625,7 +3610,7 @@ broccoli-config-replace@^1.1.2:
     debug "^2.2.0"
     fs-extra "^0.24.0"
 
-"broccoli-css-modules@^0.7.0 || ^0.8.0":
+broccoli-css-modules@^0.8.0:
   version "0.8.0"
   resolved "https://registry.yarnpkg.com/broccoli-css-modules/-/broccoli-css-modules-0.8.0.tgz#a4d38bbe4c35122502bd1472fec5d40958f6af68"
   integrity sha512-ThOk7RZtD1nIn/TPnyA7pXaR7V62/oI9WPL2Ub6so/Ms7IGU4iGcftMPcF+XWWlgf8I43id+Or8IHHhQRBRw2g==
@@ -3920,7 +3905,7 @@ broccoli-plugin@^4.0.0, broccoli-plugin@^4.0.1, broccoli-plugin@^4.0.2, broccoli
     rimraf "^3.0.2"
     symlink-or-copy "^1.3.1"
 
-"broccoli-postcss@^4.0.1 || ^5.0.0 || ^6.0.0":
+broccoli-postcss@^6.0.0:
   version "6.0.0"
   resolved "https://registry.yarnpkg.com/broccoli-postcss/-/broccoli-postcss-6.0.0.tgz#79337302398a3b8f19bcfc3691def46b3951fcf9"
   integrity sha512-XldlgbRag80S5MTkA63PpCzTrjiEh3P1wkuVT0e9HzLK9hgD7VQLucShGoy3a7O1PkCjr2g+1Awg8xJoSqgKCA==
@@ -4283,13 +4268,6 @@ cacheable-request@^2.1.1:
     lowercase-keys "1.0.0"
     normalize-url "2.0.1"
     responselike "1.0.2"
-
-calculate-cache-key-for-tree@^1.1.0:
-  version "1.2.3"
-  resolved "https://registry.yarnpkg.com/calculate-cache-key-for-tree/-/calculate-cache-key-for-tree-1.2.3.tgz#5a5e4fcfa2d374a63e47fe967593f179e8282825"
-  integrity sha512-PPQorvdNw8K8k7UftCeradwOmKDSDJs8wcqYTtJPEt3fHbZyK8QsorybJA+lOmk0dgE61vX6R+5Kd3W9h4EMGg==
-  dependencies:
-    json-stable-stringify "^1.0.1"
 
 calculate-cache-key-for-tree@^2.0.0:
   version "2.0.0"
@@ -5448,7 +5426,7 @@ ember-cli-babel@^6.0.0-beta.4:
     ember-cli-version-checker "^2.1.2"
     semver "^5.5.0"
 
-ember-cli-babel@^7.0.0, ember-cli-babel@^7.1.2, ember-cli-babel@^7.1.3, ember-cli-babel@^7.13.0, ember-cli-babel@^7.13.2, ember-cli-babel@^7.21.0, ember-cli-babel@^7.22.1, ember-cli-babel@^7.23.0, ember-cli-babel@^7.23.1, ember-cli-babel@^7.26.5, ember-cli-babel@^7.26.6, ember-cli-babel@^7.7.3:
+ember-cli-babel@^7.0.0, ember-cli-babel@^7.13.0, ember-cli-babel@^7.13.2, ember-cli-babel@^7.21.0, ember-cli-babel@^7.22.1, ember-cli-babel@^7.23.0, ember-cli-babel@^7.23.1, ember-cli-babel@^7.26.5, ember-cli-babel@^7.26.6, ember-cli-babel@^7.7.3:
   version "7.26.6"
   resolved "https://registry.yarnpkg.com/ember-cli-babel/-/ember-cli-babel-7.26.6.tgz#322fbbd3baad9dd99e3276ff05bc6faef5e54b39"
   integrity sha512-040svtfj2RC35j/WMwdWJFusZaXmNoytLAMyBDGLMSlRvznudTxZjGlPV6UupmtTBApy58cEF8Fq4a+COWoEmQ==
@@ -5902,7 +5880,7 @@ ember-cli@~3.28.4:
     workerpool "^6.1.4"
     yam "^1.0.0"
 
-ember-compatibility-helpers@^1.0.2, ember-compatibility-helpers@^1.1.2, ember-compatibility-helpers@^1.2.0, ember-compatibility-helpers@^1.2.1, ember-compatibility-helpers@^1.2.2:
+ember-compatibility-helpers@^1.1.2, ember-compatibility-helpers@^1.2.0, ember-compatibility-helpers@^1.2.1, ember-compatibility-helpers@^1.2.2:
   version "1.2.5"
   resolved "https://registry.yarnpkg.com/ember-compatibility-helpers/-/ember-compatibility-helpers-1.2.5.tgz#b8363b1d5b8725afa9a4fe2b2986ac28626c6f23"
   integrity sha512-7cddkQQp8Rs2Mqrj0xqZ0uO7eC9tBCKyZNcP2iE1RxQqOGPv8fiPkj1TUeidUB/Qe80lstoVXWMEuqqhW7Yy9A==
@@ -5917,11 +5895,10 @@ ember-compatibility-helpers@^1.0.2, ember-compatibility-helpers@^1.1.2, ember-co
   dependencies:
     broccoli-bridge "^1.0.0"
     broccoli-concat "^3.2.2"
-    broccoli-css-modules "^0.7.0 || ^0.8.0"
+    broccoli-css-modules "^0.8.0"
     broccoli-funnel "^2.0.1"
     broccoli-merge-trees "^2.0.0"
-    broccoli-postcss "^4.0.1 || ^5.0.0 || ^6.0.0"
-    calculate-cache-key-for-tree "^1.1.0"
+    broccoli-postcss "^6.0.0"
     debug "^3.1.0"
     ember-cli-babel "^7.26.6"
     ember-cli-htmlbars "^6.0.0"
@@ -5929,7 +5906,7 @@ ember-compatibility-helpers@^1.0.2, ember-compatibility-helpers@^1.1.2, ember-co
     ensure-posix-path "^1.0.2"
     hash-string "^1.0.0"
     lodash.merge "^4.6.1"
-    postcss "^7.0.35 || ^8.0.0"
+    postcss "^8.0.0"
     semver "^5.5.0"
     toposort "^1.0.6"
 
@@ -5952,15 +5929,6 @@ ember-data@~3.28.0:
     ember-cli-babel "^7.26.6"
     ember-cli-typescript "^4.1.0"
     ember-inflector "^4.0.1"
-
-ember-decorators-polyfill@^1.0.3:
-  version "1.1.5"
-  resolved "https://registry.yarnpkg.com/ember-decorators-polyfill/-/ember-decorators-polyfill-1.1.5.tgz#49203c302ea4486618ba4866923ec657cf2c9f3d"
-  integrity sha512-O154i8sLoVjsiKzSqxGRfHGr+N+drT6mRrLDbNgJCnW/V5uLg/ppZFpUsrdxuXnp5Q9us3OfXV1nX2CH+7bUpA==
-  dependencies:
-    ember-cli-babel "^7.1.2"
-    ember-cli-version-checker "^3.1.3"
-    ember-compatibility-helpers "^1.2.0"
 
 ember-destroyable-polyfill@^2.0.3:
   version "2.0.3"
@@ -10554,7 +10522,7 @@ postcss@^7.0.27, postcss@^7.0.5, postcss@^7.0.6:
     picocolors "^0.2.1"
     source-map "^0.6.1"
 
-"postcss@^7.0.35 || ^8.0.0", postcss@^8.1.4, postcss@^8.2.15:
+postcss@^8.0.0, postcss@^8.1.4, postcss@^8.2.15:
   version "8.3.11"
   resolved "https://registry.yarnpkg.com/postcss/-/postcss-8.3.11.tgz#c3beca7ea811cd5e1c4a3ec6d2e7599ef1f8f858"
   integrity sha512-hCmlUAIlUiav8Xdqw3Io4LcpA1DOt7h3LSTAC4G6JGHFFaWzI6qvFt9oilvl8BmkbBRX1IhM90ZAmpk68zccQA==
