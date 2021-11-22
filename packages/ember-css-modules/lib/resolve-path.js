@@ -103,7 +103,7 @@ function resolveExternalPath(importPath, originalPath, fromFile, options) {
   let absolutePath = ensurePosixPath(
     path.resolve(addonTreePath, pathWithinAddon)
   );
-  let keyPath = options.addonModulesRoot + addonName + '/' + pathWithinAddon;
+  let keyPath = addonName + '/' + pathWithinAddon;
   return new DependencyPath('external', absolutePath, keyPath);
 }
 

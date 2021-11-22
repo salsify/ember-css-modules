@@ -3,7 +3,6 @@
 const path = require('path');
 const fs = require('fs');
 const debug = require('debug')('ember-css-modules:addon');
-const VersionChecker = require('ember-cli-version-checker');
 
 const HtmlbarsPlugin = require('./lib/htmlbars-plugin');
 const ModulesPreprocessor = require('./lib/modules-preprocessor');
@@ -19,7 +18,6 @@ module.exports = {
     this.outputStylesPreprocessor = new OutputStylesPreprocessor({
       owner: this,
     });
-    this.checker = new VersionChecker(this.project);
     this.plugins = new PluginRegistry(this.parent);
   },
 
@@ -164,15 +162,6 @@ module.exports = {
 
   getPostcssOptions() {
     return this.cssModulesOptions.postcssOptions;
-  },
-
-  getAddonModulesRoot() {
-    // CLI 2.12 stopped exposing addon stuff nested under `modules/`
-    if (this.checker.for('ember-cli', 'npm').satisfies('< 2.12')) {
-      return 'modules/';
-    } else {
-      return '';
-    }
   },
 
   getParentAddonTree() {
