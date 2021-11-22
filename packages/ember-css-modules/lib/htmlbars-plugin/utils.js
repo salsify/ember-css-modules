@@ -44,11 +44,7 @@ function textToString(builders, node) {
   }
 }
 
-function concatStatementToParams(builders, node, isGlimmer) {
-  if (!isGlimmer) {
-    return node.parts;
-  }
-
+function concatStatementToParams(builders, node) {
   return node.parts.map(function (part) {
     if (part.type === 'MustacheStatement') {
       if (!part.params.length && !part.hash.pairs.length) {
