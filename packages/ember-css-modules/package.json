@@ -1,6 +1,6 @@
 {
   "name": "ember-css-modules",
-  "version": "1.6.0",
+  "version": "2.0.0",
   "description": "CSS Modules for ambitious applications",
   "scripts": {
     "build": "ember build --environment=production",

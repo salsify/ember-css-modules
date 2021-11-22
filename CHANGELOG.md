@@ -1,5 +1,28 @@
 ## Unreleased
 
+## 2.0.0 (November 22, 2021)
+
+This major release of Ember CSS Modules primarily removes support for deprecated patterns and updates our minimum support for other elements of the ecosystem.
+
+### Compatibility
+
+Ember CSS Modules is now tested against the following as _minimum_ supported versions:
+ - Ember 3.24
+ - Ember CLI 3.24
+ - Node 12
+
+Older Ember and Node versions may incidentally work, but are no longer officially supported.
+
+### Removed
+
+While ECM will still work for templates backed by `Ember.Component` classes, all special handling for such components' implicit root element has been removed, in line with the broader ecosystem shift to template-only and `@glimmer/component` components. This includes the following removals:
+
+ - the `@localClassNames` and `@localClassName` decorators
+ - support for `localClassNames` and `localClassNameBindings` properties
+ - the `patchClassicComponent` configuration flag
+
+Special support for `Ember.Component` was deprecated in v1.5.0 of `ember-css-modules`; see the changelog for that release for further advice on migrating to newer Octane-based component APIs.
+
 ## 1.6.0 (November 19, 2021)
 ### Added
 - You can now pass `patchClassicComponent: false` in your ECM config to opt out of the deprecated monkeypatching of `Ember.Component` that will be removed entirely in 2.0 (thanks @SergeAstapov!)
