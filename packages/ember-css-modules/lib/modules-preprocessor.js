@@ -1,6 +1,6 @@
 'use strict';
 
-const Funnel = require('broccoli-funnel');
+const { Funnel } = require('broccoli-funnel');
 const MergeTrees = require('broccoli-merge-trees');
 const Bridge = require('broccoli-bridge');
 const ensurePosixPath = require('ensure-posix-path');
@@ -159,7 +159,7 @@ module.exports = class ModulesPreprocessor {
 
       this._plugins = {
         before: [this.rootPathPlugin()].concat(plugins.before || []),
-        after: [this.dependenciesPlugin()].concat(plugins.after || []),
+        after: plugins.after || [],
       };
     }
 
@@ -185,43 +185,17 @@ module.exports = class ModulesPreprocessor {
     );
   }
 
-  recordDependencies(fromFile, type, resolvedPaths) {
-    debug(
-      'recording %s dependencies from %s to %o',
-      type,
-      fromFile,
-      resolvedPaths
-    );
-    let deps = this.getDependencies();
-    let fileDeps = deps[fromFile] || (deps[fromFile] = {});
-    fileDeps[type] = (fileDeps[type] || []).concat(resolvedPaths);
-  }
-
   // Records dependencies from `composes` and `@value` imports
   resolveAndRecordPath(importPath, fromFile) {
-    let resolved = this.resolvePath(importPath, fromFile);
-    this.recordDependencies(fromFile, 'implicit', [resolved]);
-    return resolved;
-  }
+    let resolvedPath = this.resolvePath(importPath, fromFile);
+    let allDependencies = this.getDependencies();
+    let fileDependencies =
+      allDependencies[fromFile] || (allDependencies[fromFile] = []);
 
-  // Records explicit `@after-module` dependency declarations
-  dependenciesPlugin() {
-    let recordDependencies = this.recordDependencies.bind(this);
-    let resolve = this.resolvePath.bind(this);
-    return require('./postcss-module-order-directive')({
-      ui: this.owner.ui,
-      emitDeprecationWarning:
-        !this.owner.cssModulesOptions._silenceAfterModuleDeprecation,
-      updateDependencies: function (fromFile, relativePaths) {
-        recordDependencies(
-          fromFile,
-          'explicit',
-          relativePaths.map(function (relativePath) {
-            return resolve(relativePath, fromFile);
-          })
-        );
-      },
-    });
+    debug('recording dependency from %s to %s', fromFile, resolvedPath);
+    fileDependencies.push(resolvedPath);
+
+    return resolvedPath;
   }
 
   rootPathPlugin() {

@@ -4,22 +4,24 @@ Ember-flavored support for [CSS Modules](https://github.com/css-modules/css-modu
 
 If you have ideas or questions that aren't addressed here, try [#topic-css](https://discordapp.com/channels/480462759797063690/486013244667068436) on the Ember Discord Server.
 
-* [Installation](#installation)
-* [What and Why?](#what-and-why)
-* [Usage](#usage)
-  * [Simple Example](#simple-example)
-  * ["Classic" Structure Applications](#classic-structure-applications)
-  * [Styling Reuse](#styling-reuse)
-  * [Programmatic Styles Access](#programmatic-styles-access)
-  * [Global Classes](#global-classes)
-  * [Values](#values)
-* [Usage in Addons](#usage-in-addons)
-* [Plugins](#plugins)
-* [Advanced Configuration](#advanced-configuration)
-  * [Where to Specify Options](#where-to-specify-options)
-  * [Scoped Name Generation](#scoped-name-generation)
-  * [Source Maps](#source-maps)
-* [Ember Support](#ember-support)
+- [Installation](#installation)
+- [What and Why?](#what-and-why)
+- [Usage](#usage)
+  - [Simple Example](#simple-example)
+  - [Component Colocation Example](#component-colocation-example)
+  - [Styling Reuse](#styling-reuse)
+  - [Programmatic Styles Access](#programmatic-styles-access)
+  - [Global Classes](#global-classes)
+  - [Values](#values)
+- [Usage in Addons](#usage-in-addons)
+- [Plugins](#plugins)
+- [Advanced Configuration](#advanced-configuration)
+  - [Where to Specify Options](#where-to-specify-options)
+  - [Extensions in Module Paths](#extensions-in-module-paths)
+  - [Scoped Name Generation](#scoped-name-generation)
+  - [Source Maps](#source-maps)
+    - [Notes](#notes)
+- [Ember Support](#ember-support)
 
 ## Installation
 
@@ -53,27 +55,7 @@ With ember-css-modules, you define styles on a per-component (or -controller) ba
 
 Similarly, if you were styling e.g. your application controller, you would place your styles alongside `controller.js` in `<podModulePrefix>/application/styles.css`.
 
-### "Classic" Structure Applications
-
-In classic structure, all your modules are grouped by type rather than related functionality. Just like all your templates live in `app/templates` and all your routes live in `app/routes`, all your styles will live in `app/styles`. When determining where to put your CSS for a given controller or component, you should mirror the location of the corresponding template.
-
-For example, the component given above in pod structure would look like this in classic structure:
-
-```hbs
-{{! app/templates/components/my-component.hbs }}
-<div local-class="hello-class">Hello, world!</div>
-```
-
-```css
-/* app/styles/components/my-component.css */
-.hello-class {
-  font-weight: bold;
-}
-```
-
-Similarly, if you were styling e.g. your application controller, you would mirror the template at `app/templates/application.hbs` and put your CSS at `app/styles/application.css`.
-
-### Component Colocation in Octane Applications
+### Component Colocation Example
 
 In Octane apps, where component templates can be colocated with their backing class, your styles module for a component takes the same name as the backing class and template files:
 
@@ -164,154 +146,6 @@ import styles from 'my-app-name/components/my-component/styles.css';
 ```
 
 Note that the extension is **always** included for styles modules that are part of an Octane "colocated" component, to avoid a conflict with the import path for the component itself.
-
-### Applying Classes to a Component's Root Element
-
-There is no root element, if you are using either of the following:
-
-- [Glimmer components (`@glimmer/component`)](https://octane-guides-preview.emberjs.com/release/components/component-basics/)
-- [template-only components](https://github.com/emberjs/rfcs/blob/master/text/0278-template-only-components.md)
-- [tag-less components](https://api.emberjs.com/ember/3.9/classes/Component/properties/tagName?anchor=tagName)
-
-In this case, you can ignore this complete section and just use the `local-class` attribute or helper.
-
-#### Ember Object Model
-
-Just like using [`classNames`](http://emberjs.com/api/classes/Ember.ClassNamesSupport.html#property_classNames) and [`classNameBindings`](http://emberjs.com/api/classes/Ember.ClassNamesSupport.html#property_classNameBindings) to set global classes on a component's root element, the `localClassNames` and `localClassNameBindings` properties allow you to set local classes on the root element.
-
-For instance, to statically set a local `my-component` class on your component:
-
-```js
-export default Ember.Component.extend({
-  localClassNames: 'my-component'
-});
-```
-
-To dynamically set one or more classes on your component based on the boolean value of a given property:
-
-```js
-export default Ember.Component.extend({
-  localClassNameBindings: ['propA', 'propB:special', 'propC:yes:no'],
-  propA: true,
-  propB: true,
-  propC: true
-});
-```
-
-- If `propA` is true, a local `prop-a` class will be applied. If it's false, no additional classes will be applied.
-- If `propB` is true, a local `special` class will be applied. If it's false, no additional classes will be applied.
-- If `propC` is true, a local `yes` class will be applied. If it's false, a local `no` class will be applied.
-
-#### Native ES6 Class Syntax
-
-The trusty Ember Object Model, that predates native ES6 class syntax, has served the community well over the years. But it's on its way out and you can already use the new native syntax in your apps today!
-
-Instead of setting [`classNames`](http://emberjs.com/api/classes/Ember.ClassNamesSupport.html#property_classNames) and [`classNameBindings`](http://emberjs.com/api/classes/Ember.ClassNamesSupport.html#property_classNameBindings) properties, you would use [`@classNames`](http://ember-decorators.github.io/ember-decorators/latest/docs/api/modules/@ember-decorators/component#classNames) and [`@className`](http://ember-decorators.github.io/ember-decorators/latest/docs/api/modules/@ember-decorators/component#className) decorators from the amazing [ember-decorators addon](http://ember-decorators.github.io/ember-decorators/latest/). ember-css-modules provides the exact same decorators, but for local classes.
-
-For instance, to statically set a local `my-component` class on your component, you use the `@localClassNames` decorator:
-
-```js
-import Component from '@ember/component';
-import { localClassNames } from 'ember-css-modules';
-
-@localClassNames('my-component')
-export default class ExampleComponent extends Component {
-  // your kickass code here
-}
-```
-
-Just as with [`@classNames`](http://ember-decorators.github.io/ember-decorators/latest/docs/api/modules/@ember-decorators/component#classNames) you can pass as many classes as you like:
-
-```js
-import Component from '@ember/component';
-import { localClassNames } from 'ember-css-modules';
-
-@localClassNames('my-component', 'make-it-pop', 'vibrant-colors')
-export default class ExampleComponent extends Component {
-  // your sensational code here
-}
-```
-
-And just like you'd use [`@className`](http://ember-decorators.github.io/ember-decorators/latest/docs/api/modules/@ember-decorators/component#className) to dynamically toggle classes on your component based on the boolean value of a given property, you use `@localClassName` for local classes:
-
-```js
-import Component from '@ember/component';
-import { localClassName } from 'ember-css-modules';
-
-export default class ExampleComponent extends Component {
-  @localClassName propA;
-  @localClassName('special') propB;
-  @localClassName('yes', 'no') propC;
-}
-```
-
-- If `propA` is true, a local `prop-a` class will be applied. If it's false, no additional classes will be applied.
-- If `propB` is true, a local `special` class will be applied. If it's false, no additional classes will be applied.
-- If `propC` is true, a local `yes` class will be applied. If it's false, a local `no` class will be applied.
-
-This is especially beautiful when combined with other decorators or computed properties:
-
-```js
-import Component from '@ember/component';
-import { computed } from '@ember-decorators/object';
-import { notEmpty } from '@ember-decorators/object/computed';
-import { localClassName } from 'ember-css-modules';
-
-export default class ExampleComponent extends Component {
-  user; // provided as an attr to the component
-
-  @localClassName
-  @notEmpty('user.lastName')
-  hasLastName;
-
-  @localClassName('the-good-stuff', 'soda-pop')
-  @computed('user.age')
-  get isOldEnoughToDrink() {
-    return this.user.age >= 21;
-  }
-}
-```
-
-- If the property `user.lastName` is not empty, a local `has-last-name` class will be applied.
-- If the user is at least of age `21`, a local `the-good-stuff` class is applied, otherwise a local `soda-pop` class is applied.
-
-You can even return strings from computed properties or decorate string properties in order to set local classes in a fully dynamic fashion:
-
-```js
-import Component from '@ember/component';
-import { computed } from '@ember-decorators/object';
-import { reads } from '@ember-decorators/object/computed';
-import { localClassName } from 'ember-css-modules';
-
-export default class ExampleComponent extends Component {
-  user; // provided as an attr to the component
-
-  @localClass somethingDynamic = 'hello-world';
-
-  @localClass
-  @reads('user.favoriteColor')
-  favoriteColor;
-
-  @localClass
-  @computed('user.usedTechnologies.[]')
-  get coolness() {
-    const { usedTechnologies } = this.user;
-    const coolTech = ['TypeScript', 'Ember.js', 'ember-css-modules'];
-    const coolUsedTech = coolTech.filter(t => usedTechnologies.includes(t));
-
-    switch (coolUsedTech.length) {
-      case 1: return 'cool';
-      case 2: return 'pretty-rad'
-      case 3: return 'rockstar';
-    }
-
-    return null;
-  }
-}
-```
-- The local `hello-world` class will be applied.
-- If the property `user.favoriteColor` is `'red'`, a local `red` class will be applied.
-- If the user uses all the cool technologies, the local `rockstar` class will be applied. If the user uses no cool technoloy, no further local class will be applied.
 
 ### Global Classes
 
@@ -461,9 +295,3 @@ sourcemaps: {
 ## Ember Support
 
 This addon is tested against and expected to work with Ember's active [LTS releases](http://emberjs.com/blog/2016/02/25/announcing-embers-first-lts.html) as well as the current [release, beta, and canary](http://emberjs.com/builds/) builds.
-
-Note that if you're using ember-css-modules with a version of Ember CLI prior to 2.13, you'll need to add the following to your `app.js`:
-
-```js
-import 'ember-css-modules/extensions';
-```

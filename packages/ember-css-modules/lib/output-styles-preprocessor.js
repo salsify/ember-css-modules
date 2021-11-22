@@ -4,7 +4,7 @@ const debug = require('debug')('ember-css-modules:output-styles-preprocessor');
 const Concat = require('broccoli-concat');
 const MergeTrees = require('broccoli-merge-trees');
 const PostCSS = require('broccoli-postcss');
-const Funnel = require('broccoli-funnel');
+const { Funnel } = require('broccoli-funnel');
 
 module.exports = class OutputStylesPreprocessor {
   constructor(options) {
@@ -54,13 +54,14 @@ module.exports = class OutputStylesPreprocessor {
   }
 
   /*
-   * A broccoli-concat tree that will dynamically order header files based on our @after-module directives.
+   * A broccoli-concat tree that will dynamically order header files based on dependencies
+   * between modules and declared header files.
    */
   dynamicHeaderConcat(options) {
     let modulesTree = this.owner.getModulesTree();
     let fixedHeaders = this.owner.getFixedModules('header');
     let fixedFooters = this.owner.getFixedModules('footer');
-    let getHeaderFiles = this.getHeaderFiles.bind(
+    let getDependentFiles = this.getDependentFiles.bind(
       this,
       new Set(fixedHeaders.concat(fixedFooters))
     );
@@ -69,7 +70,7 @@ module.exports = class OutputStylesPreprocessor {
     let build = concat.build;
     concat.build = function () {
       this.footerFiles = fixedFooters;
-      this.headerFiles = fixedHeaders.concat(getHeaderFiles());
+      this.headerFiles = fixedHeaders.concat(getDependentFiles());
       this._headerFooterFilesIndex = makeIndex(
         this.headerFiles,
         this.footerFiles
@@ -81,55 +82,21 @@ module.exports = class OutputStylesPreprocessor {
   }
 
   /*
-   * Based on the @after-module directives in the source files, produces an ordered list of files that should be
-   * boosted to the top of the concatenated output.
+   * Based on dependencies between modules, produce an ordered list of modules that
+   * should be boosted to the top of output, just below
    */
-  getHeaderFiles(fixedModules) {
-    let explicitDeps = this.explicitDependencies(fixedModules);
+  getDependentFiles(fixedModules) {
     let implicitDeps = this.implicitDependencies(fixedModules);
-    let sorted = require('toposort')(explicitDeps.concat(implicitDeps));
+    let sorted = require('toposort')(implicitDeps);
     debug('sorted dependencies %o', sorted);
     return sorted.filter((file) => !fixedModules.has(file));
-  }
-
-  // Dependencies due to explicit `@after-module` declarations
-  explicitDependencies(fixedModules) {
-    let edges = [];
-
-    this.eachFileWithDependencies('explicit', function (file, deps) {
-      let currentFile = file,
-        dep;
-
-      if (fixedModules.has(currentFile)) {
-        throw new Error(
-          `Configured headerFiles and footerFiles can't use @after-module`
-        );
-      }
-
-      // For each file with explicit dependencies, create a chain of edges in the reverse order they appear in source
-      for (let i = deps.length - 1; i >= 0; i--) {
-        dep = deps[i];
-
-        if (fixedModules.has(dep)) {
-          throw new Error(
-            `Configured headerFiles and footerFiles can't be the target of @after-module`
-          );
-        }
-
-        edges.push([dep, currentFile]);
-        currentFile = dep;
-      }
-    });
-
-    debug('explicit dependencies: %o', edges);
-    return edges;
   }
 
   // Dependencies stemming from `composes:` and `@value` directives
   implicitDependencies(fixedModules) {
     let edges = [];
 
-    this.eachFileWithDependencies('implicit', function (file, deps) {
+    this.eachFileWithDependencies(function (file, deps) {
       // headerFiles and footerFiles ignore implicit ordering constraints
       if (fixedModules.has(file)) {
         return;
@@ -146,11 +113,11 @@ module.exports = class OutputStylesPreprocessor {
     return edges;
   }
 
-  eachFileWithDependencies(type, callback) {
+  eachFileWithDependencies(callback) {
     let depMap = this.owner.getModuleDependencies();
 
     Object.keys(depMap).forEach((file) => {
-      let deps = depMap[file] && depMap[file][type];
+      let deps = depMap[file] && depMap[file];
       if (!deps || !deps.length) {
         return;
       }

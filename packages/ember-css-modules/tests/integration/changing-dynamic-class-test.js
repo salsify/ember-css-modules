@@ -17,7 +17,7 @@ module('Integration | Changing local classes', function (hooks) {
     this.set('extraClass', 'bar');
 
     await render(
-      hbs`<div data-test-element class="global" local-class="foo {{extraClass}}"></div>`
+      hbs`<div data-test-element class="global" local-class="foo {{this.extraClass}}"></div>`
     );
     assert
       .dom('[data-test-element]')

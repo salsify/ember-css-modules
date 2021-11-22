@@ -86,9 +86,4 @@ new EmberApp(defaults, {
 }
 ```
 
-```css
-/* app/styles/app.css */
-@after-module './third-party';
-```
-
 Note that any plugins that run _after_ postcss-import will be applied to the imported files, which is why setting the `--h1` variable above affects the Basscss output.

@@ -36,8 +36,9 @@ module('Integration | Template AST Plugin', function (hooks) {
   });
 
   testTransformation('local-class helper with a source specified', {
-    elementInput: 'data-test-value="{{local-class "foo" from=otherStyles}}"',
-    statementInput: 'data-test-value=(local-class "foo" from=otherStyles)',
+    elementInput:
+      'data-test-value="{{local-class "foo" from=this.otherStyles}}"',
+    statementInput: 'data-test-value=(local-class "foo" from=this.otherStyles)',
     output: 'data-test-value="baz"',
 
     selector: '[data-test-value=baz]',
@@ -121,7 +122,7 @@ module('Integration | Template AST Plugin', function (hooks) {
   );
 
   testTransformation('appending a ConcatStatement class', {
-    input: 'class="x {{y}}" local-class="foo"',
+    input: 'class="x {{this.y}}" local-class="foo"',
     elementOutput: 'class="x --y --foo"',
 
     selector: '.x.--y.--foo',
@@ -136,7 +137,7 @@ module('Integration | Template AST Plugin', function (hooks) {
   testTransformation(
     'appending a static class with a ConcatStatement local-class',
     {
-      input: 'class="x" local-class="foo {{variable}}"',
+      input: 'class="x" local-class="foo {{this.variable}}"',
       elementOutput: 'class="x --foo --bar"',
 
       selector: '.x.--foo.--bar',
@@ -155,9 +156,9 @@ module('Integration | Template AST Plugin', function (hooks) {
     'creating a class attribute with dynamic local-class value',
     {
       statementInput:
-        'local-class=(custom-helper positional "bar" keyA=named keyB="qux")',
+        'local-class=(custom-helper this.positional "bar" keyA=this.named keyB="qux")',
       elementInput:
-        'local-class={{custom-helper positional "bar" keyA=named keyB="qux"}}',
+        'local-class={{custom-helper this.positional "bar" keyA=this.named keyB="qux"}}',
       output: 'class="--foo --bar --baz --qux"',
 
       selector: '.--foo.--bar.--baz.--qux',
@@ -178,9 +179,9 @@ module('Integration | Template AST Plugin', function (hooks) {
     'creating a class attribute with mixed local-class value',
     {
       statementInput:
-        'local-class=(concat "foo " (custom-helper positional "bar" keyA=named keyB="qux"))',
+        'local-class=(concat "foo " (custom-helper this.positional "bar" keyA=this.named keyB="qux"))',
       elementInput:
-        'local-class="foo {{custom-helper positional "bar" keyA=named keyB="qux"}}"',
+        'local-class="foo {{custom-helper this.positional "bar" keyA=this.named keyB="qux"}}"',
       output: 'class="--foo --fizz --bar --baz --qux"',
 
       selector: '.--foo.--fizz.--bar.--baz.--qux',
@@ -202,9 +203,9 @@ module('Integration | Template AST Plugin', function (hooks) {
     'appending a class attribute with dynamic local-class value',
     {
       statementInput:
-        'class="x" local-class=(custom-helper positional "bar" keyA=named keyB="qux")',
+        'class="x" local-class=(custom-helper this.positional "bar" keyA=this.named keyB="qux")',
       elementInput:
-        'class="x" local-class={{custom-helper positional "bar" keyA=named keyB="qux"}}',
+        'class="x" local-class={{custom-helper this.positional "bar" keyA=this.named keyB="qux"}}',
       output: 'class="x --foo --bar --baz --qux"',
 
       selector: '.x.--foo.--bar.--baz.--qux',
@@ -225,9 +226,9 @@ module('Integration | Template AST Plugin', function (hooks) {
     'appending a class attribute with mixed local-class value',
     {
       statementInput:
-        'class="x" local-class=(concat "foo " (custom-helper positional "bar" keyA=named keyB="qux"))',
+        'class="x" local-class=(concat "foo " (custom-helper this.positional "bar" keyA=this.named keyB="qux"))',
       elementInput:
-        'class="x" local-class="foo {{custom-helper positional "bar" keyA=named keyB="qux"}}"',
+        'class="x" local-class="foo {{custom-helper this.positional "bar" keyA=this.named keyB="qux"}}"',
       output: 'class="x --foo --fizz --bar --baz --qux"',
 
       selector: '.x.--foo.--bar.--baz.--qux',
@@ -246,8 +247,8 @@ module('Integration | Template AST Plugin', function (hooks) {
   );
 
   testTransformation('appending a path class attribute', {
-    statementInput: 'class=x local-class="foo"',
-    elementInput: 'class={{x}} local-class="foo"',
+    statementInput: 'class=this.x local-class="foo"',
+    elementInput: 'class={{this.x}} local-class="foo"',
     output: 'class="--x --foo"',
 
     selector: '.--x.--foo',
