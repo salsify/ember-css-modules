@@ -228,8 +228,7 @@ function formatJS(classMapping) {
 
 class ModuleSourceFunnel extends Funnel {
   constructor(input, stylesTree, options) {
-    super(input, options);
-    this.stylesTree = stylesTree;
+    super([input, stylesTree], options);
     this.parentName = options.parentName;
     this.destDir = options.outputRoot;
     this.inputHasParentName = null;
@@ -248,8 +247,9 @@ class ModuleSourceFunnel extends Funnel {
         `${this.inputPaths[0]}/${this.parentName}`
       );
 
+      let stylesTreePath = this.inputPaths[1];
       let stylesTreeHasParentName = fs.existsSync(
-        `${this.stylesTree.outputPath}/${this.parentName}`
+        `${stylesTreePath}/${this.parentName}`
       );
       if (stylesTreeHasParentName && !this.inputHasParentName) {
         this.destDir += `/${this.parentName}`;
