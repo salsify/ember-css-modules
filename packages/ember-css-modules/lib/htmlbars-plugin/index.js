@@ -1,7 +1,6 @@
 'use strict';
 
 const utils = require('./utils');
-const semver = require('semver');
 
 module.exports = class ClassTransformPlugin {
   constructor(env, options) {
@@ -9,23 +8,17 @@ module.exports = class ClassTransformPlugin {
     this.builders = env.syntax.builders;
     this.options = options;
     this.stylesModule = this.determineStylesModule(env);
-    this.isGlimmer = this.detectGlimmer();
     this.visitor = this.buildVisitor(env);
-
-    // Alias for 2.15 <= Ember < 3.1
-    this.visitors = this.visitor;
   }
 
-  static instantiate({ emberVersion, options }) {
+  static instantiate(options) {
     return {
       name: 'ember-css-modules',
-      plugin: semver.lt(emberVersion, '2.15.0-alpha')
-        ? LegacyAdapter.bind(null, this, options)
-        : (env) => new this(env, options),
+      plugin: (env) => new this(env, options),
       parallelBabel: {
         requireFile: __filename,
         buildUsing: 'instantiate',
-        params: { emberVersion, options },
+        params: options,
       },
       baseDir() {
         return `${__dirname}/../..`;
@@ -52,17 +45,6 @@ module.exports = class ClassTransformPlugin {
     }
 
     return name;
-  }
-
-  detectGlimmer() {
-    if (!this.syntax.parse) {
-      return false;
-    }
-
-    // HTMLBars builds ConcatStatements with StringLiterals + raw PathExpressions
-    // Glimmer builds ConcatStatements with TextNodes + MustacheStatements
-    let ast = this.syntax.parse('<div class="foo {{bar}}"></div>');
-    return ast.body[0].attributes[0].value.parts[0].type === 'TextNode';
   }
 
   buildVisitor(env) {
@@ -133,7 +115,6 @@ module.exports = class ClassTransformPlugin {
 
     utils.removeAttr(node, localClassAttr);
 
-    let stringBuilder = this.isGlimmer ? 'text' : 'string';
     let classAttr = utils.getAttr(node, 'class');
     let parts = [];
     let classAttrValue;
@@ -149,26 +130,18 @@ module.exports = class ClassTransformPlugin {
         parts.push(
           this.builders.mustache(
             this.builders.path('concat'),
-            utils.concatStatementToParams(
-              this.builders,
-              classAttrValue,
-              this.isGlimmer
-            )
+            utils.concatStatementToParams(this.builders, classAttrValue)
           )
         );
       } else if (classAttrValue.type === 'TextNode') {
-        parts.push(this.builders[stringBuilder](classAttrValue.chars));
+        parts.push(this.builders.text(classAttrValue.chars));
       } else if (classAttrValue.type === 'MustacheStatement') {
-        if (classAttrValue.params.length || this.isGlimmer) {
-          parts.push(classAttrValue);
-        } else {
-          parts.push(this.builders.path(classAttrValue.path.original));
-        }
+        parts.push(classAttrValue);
       }
     }
 
     utils.pushAll(parts, this.localToPath(localClassAttr.value));
-    this.divide(parts, this.isGlimmer ? 'text' : 'string');
+    this.divide(parts, 'text');
     node.attributes.unshift(
       this.builders.attr('class', this.builders.concat(parts))
     );
@@ -225,11 +198,7 @@ module.exports = class ClassTransformPlugin {
 
   concatLocalPath(node) {
     let concatPath = this.builders.path('concat');
-    let concatParts = utils.concatStatementToParams(
-      this.builders,
-      node,
-      this.isGlimmer
-    );
+    let concatParts = utils.concatStatementToParams(this.builders, node);
     let concatStatement = this.builders.mustache(concatPath, concatParts);
     return this.dynamicLocalPath(concatStatement);
   }
@@ -268,22 +237,3 @@ module.exports = class ClassTransformPlugin {
     return parts;
   }
 };
-
-// For Ember < 2.15
-class LegacyAdapter {
-  constructor(plugin, options, env) {
-    this.plugin = plugin;
-    this.options = options;
-    this.meta = env.meta;
-    this.syntax = null;
-  }
-
-  transform(ast) {
-    let plugin = new this.plugin(
-      Object.assign({ syntax: this.syntax }, this.meta),
-      this.options
-    );
-    this.syntax.traverse(ast, plugin.visitor);
-    return ast;
-  }
-}

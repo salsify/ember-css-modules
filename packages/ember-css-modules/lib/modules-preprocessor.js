@@ -50,15 +50,6 @@ module.exports = class ModulesPreprocessor {
       let inputRoot = this.owner.belongsToAddon()
         ? this.owner.getParentAddonTree()
         : this.owner.app.trees.app;
-      let outputRoot = this.owner.belongsToAddon()
-        ? this.owner.getAddonModulesRoot()
-        : '';
-
-      if (outputRoot) {
-        inputRoot = new Funnel(inputRoot, {
-          destDir: outputRoot,
-        });
-      }
 
       // If moduleName is defined, that should override the parent's name.
       // Otherwise, the template and generated module will disagree as to what the path should be.
@@ -71,7 +62,6 @@ module.exports = class ModulesPreprocessor {
 
       let modulesSources = new ModuleSourceFunnel(inputRoot, modulesInput, {
         include: ['**/*.' + this.owner.getFileExtension()],
-        outputRoot,
         parentName: ownerName,
       });
 
@@ -79,9 +69,7 @@ module.exports = class ModulesPreprocessor {
         extension: this.owner.getFileExtension(),
         plugins: this.getPostcssPlugins(),
         enableSourceMaps: this.owner.enableSourceMaps(),
-        sourceMapBaseDir: this.owner.belongsToAddon()
-          ? this.owner.getAddonModulesRoot()
-          : '',
+        sourceMapBaseDir: '',
         postcssOptions: this.owner.getPostcssOptions(),
         virtualModules: this.owner.getVirtualModules(),
         generateScopedName: this.scopedNameGenerator(),
@@ -199,9 +187,15 @@ module.exports = class ModulesPreprocessor {
   }
 
   rootPathPlugin() {
-    return require('./make-postcss-plugin')('root-path-tag', () => (css) => {
-      css.source.input.rootPath = this._modulesTree.inputPaths[0];
-    });
+    return Object.assign(
+      () => ({
+        postcssPlugin: 'root-path-tag',
+        Once: (css) => {
+          css.source.input.rootPath = this._modulesTree.inputPaths[0];
+        },
+      }),
+      { postcss: true }
+    );
   }
 
   resolvePath(importPath, fromFile) {
@@ -211,7 +205,6 @@ module.exports = class ModulesPreprocessor {
       defaultExtension: this.owner.getFileExtension(),
       ownerName: this._ownerName,
       parentName: this._parentName,
-      addonModulesRoot: this.owner.getAddonModulesRoot(),
       root: ensurePosixPath(this._modulesTree.inputPaths[0]),
       parent: this.owner.getParent(),
       ui: this.owner.ui,
@@ -230,7 +223,6 @@ class ModuleSourceFunnel extends Funnel {
   constructor(input, stylesTree, options) {
     super([input, stylesTree], options);
     this.parentName = options.parentName;
-    this.destDir = options.outputRoot;
     this.inputHasParentName = null;
   }
 

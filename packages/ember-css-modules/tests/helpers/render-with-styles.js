@@ -1,7 +1,6 @@
 /* global require, define */
 
 import Ember from 'ember';
-import { VERSION } from '@ember/version';
 import ClassTransformPlugin from 'ecm-template-transform';
 
 const { compile } = Ember.__loader.require('ember-template-compiler');
@@ -22,10 +21,7 @@ export default function registerStyles(styles) {
     }
 
     const { plugin } = ClassTransformPlugin.instantiate({
-      emberVersion: VERSION,
-      options: {
-        includeExtensionInModulePath: false,
-      },
+      includeExtensionInModulePath: false,
     });
 
     const plugins = { ast: [plugin] };
