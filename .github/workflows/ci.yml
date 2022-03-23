@@ -74,7 +74,6 @@ jobs:
       - name: Run Tests
         run: yarn workspace ember-css-modules test
 
-
   test-windows:
     name: Windows
     runs-on: windows-latest
@@ -90,28 +89,6 @@ jobs:
         run: yarn install --frozen-lockfile
       - name: Run Tests
         run: yarn workspace ember-css-modules test
-
-  test-try:
-    name: Ember Try
-    runs-on: ubuntu-latest
-    needs: [test-locked-deps]
-    strategy:
-      matrix:
-        scenario:
-         - ember-release
-         - ember-beta
-         - ember-canary
-    steps:
-      - name: Checkout Code
-        uses: actions/checkout@v1
-      - name: Install Node
-        uses: actions/setup-node@v1
-        with:
-          node-version: 12
-      - name: Install Dependencies
-        run: yarn install --frozen-lockfile
-      - name: Try Scenario
-        run: yarn workspace ember-css-modules ember try:one ${{ matrix.scenario }}
 
   test-packages:
     name: Test Packages
