@@ -1,5 +1,9 @@
 ## Unreleased
 
+## 1.6.2 (March 23, 2021)
+### Fixed
+- Avoid triggering (ember.js#19392)[https://github.com/emberjs/ember.js/issues/19392] when we produce synthetic class `AttrNode`s.
+
 ## 1.6.0 (November 19, 2021)
 ### Added
 - You can now pass `patchClassicComponent: false` in your ECM config to opt out of the deprecated monkeypatching of `Ember.Component` that will be removed entirely in 2.0 (thanks @SergeAstapov!)

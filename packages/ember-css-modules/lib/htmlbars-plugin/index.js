@@ -152,7 +152,18 @@ module.exports = class ClassTransformPlugin {
 
     utils.pushAll(parts, this.localToPath(localClassAttr.value));
     this.divide(parts, this.isGlimmer ? 'text' : 'string');
-    node.attributes.unshift(this.builders.attr('class', this.builders.concat(parts)));
+
+    let newClassAttr = this.builders.attr('class', this.builders.concat(parts));
+    node.attributes.unshift(newClassAttr);
+
+    // In new-enough versions of Ember (>= 3.25 or so), we need to create a
+    // fake good-enough `loc` whose content will start with `class=` to avoid
+    // triggering https://github.com/emberjs/ember.js/issues/19392
+    if (typeof localClassAttr.loc.slice === 'function') {
+      newClassAttr.loc = localClassAttr.loc.slice({
+        skipStart: 'local-'.length,
+      });
+    }
   }
 
   localToPath(node) {
