@@ -6,6 +6,11 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/).
 
 ## Unreleased
 
+## 2.0.1 (March 23, 2022)
+
+### Fixed
+- Avoid triggering (ember.js#19392)[https://github.com/emberjs/ember.js/issues/19392] when we produce synthetic class `AttrNode`s.
+
 ## 2.0.0 (November 22, 2021)
 
 This major release of Ember CSS Modules primarily removes support for deprecated patterns and updates our minimum support for other elements of the ecosystem.
