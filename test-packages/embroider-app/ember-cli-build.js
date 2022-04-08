@@ -11,8 +11,12 @@ module.exports = function (defaults) {
 
   return compatBuild(app, Webpack, {
     staticAddonTestSupportTrees: true,
-    staticAddonTrees: true,
     staticHelpers: true,
-    // staticComponents: true,
+
+    // Due to runtime use of dynamic require(), we need staticAddonsTrees:false
+    // to preserve style modules in addons and staticComponents:false to
+    // preserve style modules in apps.
+    staticAddonTrees: false,
+    staticComponents: false,
   });
 };
