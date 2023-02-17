@@ -192,6 +192,27 @@ export default Ember.Controller.extend({
 });
 ```
 
+### Glint usage
+
+Helper `{{local-class}}` has proper [Glint](https://github.com/typed-ember/glint) types,
+which allow you when using TypeScript to get strict type checking in your templates.
+
+Unless you are using [strict mode](http://emberjs.github.io/rfcs/0496-handlebars-strict-mode.html) templates
+(via [first class component templates](http://emberjs.github.io/rfcs/0779-first-class-component-templates.html)),
+you need to import the addon's Glint template registry and extend your app's registry declaration
+as described in the [Using Addons](https://typed-ember.gitbook.io/glint/using-glint/ember/using-addons#using-glint-enabled-addons) documentation:
+
+```ts
+import '@glint/environment-ember-loose';
+import type EmberCssModulesRegistry from 'ember-css-modules/template-registry';
+
+declare module '@glint/environment-ember-loose/registry' {
+  export default interface Registry extends EmberCssModulesRegistry, /* other addon registries */ {
+    // local entries
+  }
+}
+```
+
 ## Usage in Addons
 
 You can also use ember-css-modules in addons that expose components to their consuming application. To do this you'll need to move `ember-css-modules` out of `devDependencies` and into `dependencies` in your addon's `package.json` ([see issue #8](https://github.com/salsify/ember-css-modules/issues/8)).
