@@ -59,7 +59,7 @@
     "qunit-dom": "^2.0.0",
     "sinon": "^4.3.0",
     "template-stuff": "link:tests/dummy/lib/template-stuff",
-    "webpack": "^5.64.1"
+    "webpack": "^5.76.0"
   },
   "keywords": [
     "ember-addon",
