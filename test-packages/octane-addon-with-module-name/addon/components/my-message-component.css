@@ -3,5 +3,9 @@
 }
 
 .message.error {
-  color: #C00;
+  color: #c00;
+}
+
+.message-container {
+  background-color: #00f;
 }

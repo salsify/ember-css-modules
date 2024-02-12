@@ -30,6 +30,7 @@
     "@embroider/webpack": "^0.47.2",
     "@glimmer/component": "^1.0.4",
     "@glimmer/tracking": "^1.0.4",
+    "@my-namespace/octane-addon-with-module-name": "0.0.0",
     "babel-eslint": "^10.1.0",
     "ember-auto-import": "^2.2.4",
     "ember-cli": "~3.28.4",

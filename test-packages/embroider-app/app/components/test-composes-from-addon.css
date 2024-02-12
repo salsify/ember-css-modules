@@ -1,0 +1,3 @@
+.test-composes-from-addon {
+  composes: message-container from 'octane-addon-with-module-name/components/my-message-component.css';
+}

@@ -8,6 +8,8 @@ const normalizePostcssPlugins = require('./utils/normalize-postcss-plugins');
 const debug = require('debug')('ember-css-modules:modules-preprocessor');
 const fs = require('fs');
 
+const normalizer = require('./utils/module-path-normalizer');
+
 module.exports = class ModulesPreprocessor {
   constructor(options) {
     this.name = 'ember-css-modules';
@@ -47,7 +49,8 @@ module.exports = class ModulesPreprocessor {
 
   buildModulesTree(modulesInput) {
     if (!this._modulesTree) {
-      let inputRoot = this.owner.belongsToAddon()
+      const isAddon = this.owner.belongsToAddon();
+      let inputRoot = isAddon
         ? this.owner.getParentAddonTree()
         : this.owner.app.trees.app;
 
@@ -60,7 +63,19 @@ module.exports = class ModulesPreprocessor {
         : this._parentName;
       this._ownerName = ownerName;
 
-      let modulesSources = new ModuleSourceFunnel(inputRoot, modulesInput, {
+      let input = inputRoot;
+      let stylesTree = modulesInput;
+
+      // The tree of files from an embroider build does not contain the moduleName
+      // at the root.
+      // This addresses issue https://github.com/salsify/ember-css-modules/issues/278
+      if (isAddon) {
+        input = normalizer(input, {
+          moduleName: ownerName,
+        });
+      }
+
+      let modulesSources = new ModuleSourceFunnel(input, stylesTree, {
         include: ['**/*.' + this.owner.getFileExtension()],
         parentName: ownerName,
       });
