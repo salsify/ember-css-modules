@@ -6,6 +6,11 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/).
 
 ## Unreleased
 
+## 2.1.0 (April 2, 2024)
+
+### Added
+- Glint types for `{{local-class}}` [#301](https://github.com/salsify/ember-css-modules/pull/301) (thanks, [@SergeAstapov](https://github.com/SergeAstapov)!)
+
 ## 2.0.1 (March 23, 2022)
 
 ### Fixed
