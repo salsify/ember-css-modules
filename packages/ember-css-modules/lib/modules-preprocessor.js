@@ -71,6 +71,7 @@ module.exports = class ModulesPreprocessor {
         enableSourceMaps: this.owner.enableSourceMaps(),
         sourceMapBaseDir: '',
         postcssOptions: this.owner.getPostcssOptions(),
+        scopeBehaviour: this.owner.getScopeBehaviour(),
         virtualModules: this.owner.getVirtualModules(),
         generateScopedName: this.scopedNameGenerator(),
         resolvePath: this.resolveAndRecordPath.bind(this),

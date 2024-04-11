@@ -164,6 +164,10 @@ module.exports = {
     return this.cssModulesOptions.postcssOptions;
   },
 
+  getScopeBehaviour() {
+    return this.cssModulesOptions.scopeBehaviour;
+  },
+
   getParentAddonTree() {
     return path.join(this.parentAddon.root, this.parentAddon.treePaths.addon);
   },
