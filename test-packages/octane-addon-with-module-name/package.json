@@ -1,5 +1,5 @@
 {
-  "name": "@my-namespace/octane-addon",
+  "name": "@my-namespace/octane-addon-with-module-name",
   "version": "0.0.0",
   "description": "The default blueprint for ember-cli addons.",
   "keywords": [
