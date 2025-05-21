@@ -7,7 +7,7 @@ const debug = require('debug')('ember-css-modules:addon');
 const { localClassRegistryPlugin } = require('glimmer-local-class-transform');
 const ModulesPreprocessor = require('./lib/modules-preprocessor');
 const OutputStylesPreprocessor = require('./lib/output-styles-preprocessor');
-const PluginRegistry = require('./lib/plugin/registry');
+const normalizePostcssPlugins = require('./lib/utils/normalize-postcss-plugins');
 
 module.exports = {
   name: require('./package.json').name,
@@ -18,7 +18,6 @@ module.exports = {
     this.outputStylesPreprocessor = new OutputStylesPreprocessor({
       owner: this,
     });
-    this.plugins = new PluginRegistry(this.parent);
   },
 
   included(includer) {
@@ -31,9 +30,11 @@ module.exports = {
 
     this._super.included.apply(this, arguments);
 
-    this.cssModulesOptions = this.plugins.computeOptions(
-      includer.options && includer.options.cssModules
+    this.cssModulesOptions = includer.options?.cssModules ?? {};
+    this.cssModulesOptions.plugins = normalizePostcssPlugins(
+      this.cssModulesOptions.plugins
     );
+
     this.setupTemplateTransform();
   },
 
@@ -92,10 +93,6 @@ module.exports = {
           'the published addon in order for ember-cli to process its CSS modules.'
       );
     }
-  },
-
-  notifyPlugins(event) {
-    this.plugins.notify(event);
   },
 
   getParentName() {
