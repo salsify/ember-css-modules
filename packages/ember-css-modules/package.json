@@ -1,6 +1,6 @@
 {
   "name": "ember-css-modules",
-  "version": "2.1.1",
+  "version": "3.0.0-alpha.1",
   "description": "CSS Modules for ambitious applications",
   "scripts": {
     "build": "ember build --environment=production",
@@ -17,14 +17,20 @@
     "test:node": "qunit tests-node/**/*-test.js"
   },
   "engines": {
-    "node": "12.* || 14.* || >= 16"
+    "node": ">= 22.15.0"
   },
   "bugs": {
     "url": "https://github.com/salsify/ember-css-modules/issues"
   },
-  "homepage": "https://github.com/salsify/ember-css-modules#readme",
+  "homepage": "https://github.com/salsify/ember-css-modules/tree/master/packages/ember-css-modules",
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com/salsify/ember-css-modules.git",
+    "directory": "packages/ember-css-modules"
+  },
   "devDependencies": {
     "@ember/optional-features": "^2.0.0",
+    "@ember/string": "^3.1.1",
     "@ember/test-helpers": "^2.4.2",
     "@embroider/test-setup": "^0.43.5",
     "@glimmer/component": "^1.0.4",
@@ -33,15 +39,15 @@
     "broccoli-plugin": "^1.3.1",
     "console-ui": "^2.2.2",
     "ember-auto-import": "^2.2.4",
-    "ember-cli": "~3.28.4",
-    "ember-cli-dependency-checker": "^3.2.0",
+    "ember-cli": "~5.8.0",
+    "ember-cli-htmlbars": "^6.3.0",
     "ember-cli-inject-live-reload": "^2.1.0",
     "ember-disable-prototype-extensions": "^1.1.3",
     "ember-load-initializers": "^2.1.2",
     "ember-page-title": "^6.2.2",
     "ember-qunit": "^5.1.4",
     "ember-resolver": "^8.0.3",
-    "ember-source": "~3.28.0",
+    "ember-source": "~5.8.0",
     "ember-source-channel-url": "^3.0.0",
     "ember-template-lint": "^3.6.0",
     "ember-try": "^1.4.0",
@@ -58,17 +64,12 @@
     "qunit": "^2.17.2",
     "qunit-dom": "^2.0.0",
     "sinon": "^4.3.0",
-    "template-stuff": "link:tests/dummy/lib/template-stuff",
     "webpack": "^5.64.1"
   },
   "keywords": [
     "ember-addon",
     "css-modules"
   ],
-  "repository": {
-    "type": "git",
-    "url": "git+ssh://git@github.com/salsify/ember-css-modules.git"
-  },
   "license": "MIT",
   "author": "Dan Freeman",
   "dependencies": {
@@ -79,13 +80,17 @@
     "broccoli-merge-trees": "^4.2.0",
     "broccoli-postcss": "^6.0.0",
     "debug": "^4.3.2",
-    "ember-cli-babel": "^7.26.6",
-    "ember-cli-htmlbars": "^6.0.0",
+    "ember-auto-import": "^2.7.3",
+    "ember-cli-babel": "^8.2.0",
     "ensure-posix-path": "^1.0.2",
+    "glimmer-local-class-transform": "^1.0.0-alpha.0",
     "hash-string": "^1.0.0",
     "lodash.merge": "^4.6.1",
     "postcss": "^8.0.0",
     "toposort": "^2.0.2"
+  },
+  "peerDependencies": {
+    "@babel/core": "^7.0.0"
   },
   "ember": {
     "edition": "octane"
@@ -105,6 +110,6 @@
     ]
   },
   "volta": {
-    "node": "16.13.0"
+    "extends": "../../package.json"
   }
 }

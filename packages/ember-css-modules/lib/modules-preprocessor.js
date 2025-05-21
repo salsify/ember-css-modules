@@ -115,7 +115,11 @@ module.exports = class ModulesPreprocessor {
       ''
     );
 
-    if (modulesSource.has(`${cssPathWithoutExtension}.hbs`)) {
+    if (
+      ['hbs', 'gjs', 'gts'].some((ext) =>
+        modulesSource.has(`${cssPathWithoutExtension}.${ext}`)
+      )
+    ) {
       return `${cssPathWithExtension}.js`;
     } else {
       return `${cssPathWithoutExtension}.js`;

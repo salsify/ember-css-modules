@@ -4,7 +4,7 @@ const path = require('path');
 const fs = require('fs');
 const debug = require('debug')('ember-css-modules:addon');
 
-const HtmlbarsPlugin = require('./lib/htmlbars-plugin');
+const { localClassRegistryPlugin } = require('glimmer-local-class-transform');
 const ModulesPreprocessor = require('./lib/modules-preprocessor');
 const OutputStylesPreprocessor = require('./lib/output-styles-preprocessor');
 const PluginRegistry = require('./lib/plugin/registry');
@@ -61,12 +61,20 @@ module.exports = {
       );
     }
 
+    let fileExtension = `.${this.getFileExtension()}`;
+    let defaultExtension = this.includeExtensionInModulePath()
+      ? fileExtension
+      : '';
+    let runtimeModule = 'ember-css-modules/-runtime';
+    let pathMapping = {
+      '/template\\.hbs$': `/styles${defaultExtension}`,
+      '/templates/(.*/)?(.*)\\.hbs$': `/styles/$1$2${defaultExtension}`,
+      '(\\.g?[tj]s|\\.hbs)+$': fileExtension,
+    };
+
     this.parentPreprocessorRegistry.add(
       'htmlbars-ast-plugin',
-      HtmlbarsPlugin.instantiate({
-        fileExtension: this.getFileExtension(),
-        includeExtensionInModulePath: this.includeExtensionInModulePath(),
-      })
+      localClassRegistryPlugin({ pathMapping, runtimeModule })
     );
   },
 
@@ -151,9 +159,7 @@ module.exports = {
   },
 
   getFileExtension() {
-    return (
-      (this.cssModulesOptions && this.cssModulesOptions.extension) || 'css'
-    );
+    return (this.cssModulesOptions.extension ?? 'css').replace(/^\./, '');
   },
 
   includeExtensionInModulePath() {
