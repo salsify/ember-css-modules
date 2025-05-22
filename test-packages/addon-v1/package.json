@@ -1,8 +1,10 @@
 {
-  "name": "old-app",
+  "name": "addon-v1",
   "version": "0.0.0",
-  "private": true,
-  "description": "Small description for old-app goes here",
+  "description": "The default blueprint for ember-cli addons.",
+  "keywords": [
+    "ember-addon"
+  ],
   "repository": "",
   "license": "MIT",
   "author": "",
@@ -19,8 +21,12 @@
     "lint:js": "eslint . --cache",
     "lint:js:fix": "eslint . --fix",
     "start": "ember serve",
-    "test": "npm-run-all lint test:*",
-    "test:ember": "ember test"
+    "test": "ember test"
+  },
+  "dependencies": {
+    "ember-cli-babel": "^8.2.0",
+    "ember-cli-htmlbars": "^6.3.0",
+    "ember-css-modules": "link:../../packages/ember-css-modules"
   },
   "devDependencies": {
     "@ember/optional-features": "^2.0.0",
@@ -28,19 +34,24 @@
     "@glimmer/component": "^1.0.3",
     "@glimmer/tracking": "^1.0.3",
     "babel-eslint": "^10.1.0",
-    "ember-auto-import": "^2.7.3",
-    "ember-cli": "~3.28.0",
-    "ember-cli-babel": "^7.23.0",
+    "broccoli-asset-rev": "^3.0.0",
+    "ember-auto-import": "^2.2.4",
+    "ember-cli": "~3.24.0",
     "ember-cli-dependency-checker": "^3.2.0",
-    "ember-cli-htmlbars": "^6.3.0",
     "ember-cli-inject-live-reload": "^2.0.2",
-    "ember-css-modules": "file:../../packages/ember-css-modules",
-    "ember-functions-as-helper-polyfill": "^2.1.2",
+    "ember-cli-sri": "^2.1.1",
+    "ember-cli-terser": "^4.0.1",
+    "ember-disable-prototype-extensions": "^1.1.3",
+    "ember-export-application-global": "^2.0.1",
     "ember-load-initializers": "^2.1.2",
+    "ember-maybe-import-regenerator": "^0.1.6",
+    "ember-page-title": "^6.0.3",
     "ember-qunit": "^5.1.1",
     "ember-resolver": "^8.0.2",
-    "ember-source": "~3.28.0",
+    "ember-source": "~3.24.0",
+    "ember-source-channel-url": "^3.0.0",
     "ember-template-lint": "^2.15.0",
+    "ember-try": "^1.4.0",
     "eslint": "^7.17.0",
     "eslint-config-prettier": "^7.1.0",
     "eslint-plugin-ember": "^10.1.1",
@@ -51,15 +62,15 @@
     "prettier": "^2.2.1",
     "qunit": "^2.13.0",
     "qunit-dom": "^1.6.0",
-    "webpack": "^5.91.0"
+    "webpack": "^5.64.1"
   },
-  "resolutions": {
-    "glimmer-local-class-transform": "file:../../packages/glimmer-local-class-transform"
+  "engines": {
+    "node": "10.* || >= 12"
   },
   "ember": {
     "edition": "octane"
   },
-  "volta": {
-    "extends": "../../package.json"
+  "ember-addon": {
+    "configPath": "tests/dummy/config"
   }
 }

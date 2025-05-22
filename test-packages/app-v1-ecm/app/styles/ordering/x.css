@@ -1,0 +1,4 @@
+@value zValue from './z';
+@value xValue: 'x';
+
+.x {}
