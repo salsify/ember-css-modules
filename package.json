@@ -1,11 +1,21 @@
 {
   "private": true,
   "workspaces": [
+    "packages/ember-local-class",
+    "packages/glimmer-local-class-transform",
+    "packages/rollup-plugin-preprocess-css-modules",
     "packages/ember-css-modules",
     "test-packages/embroider-app",
     "test-packages/octane-addon",
     "test-packages/octane-addon-with-module-name",
     "test-packages/plugin-addon",
     "test-packages/sass-app"
-  ]
+  ],
+  "scripts": {
+    "build": "yarn workspace glimmer-local-class-transform prepare && yarn workspace rollup-plugin-preprocess-css-modules prepare && yarn workspace addon-v2 build"
+  },
+  "volta": {
+    "node": "22.15.0",
+    "yarn": "1.22.22"
+  }
 }
