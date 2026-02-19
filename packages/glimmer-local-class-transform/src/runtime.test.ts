@@ -8,6 +8,12 @@ describe('Runtime helpers', () => {
     expect(classNames({ foo: 'bar' }, '  foo    baz ')).toBe('bar baz');
   });
 
+  test('classNames with undefined or empty classes', () => {
+    expect(classNames({}, undefined as unknown as string)).toBe('');
+    expect(classNames({}, null as unknown as string)).toBe('');
+    expect(classNames({}, '')).toBe('');
+  });
+
   test('join', () => {
     expect(join()).toBe('');
     expect(join('foo')).toBe('foo');
