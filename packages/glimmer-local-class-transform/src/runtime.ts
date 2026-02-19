@@ -1,4 +1,6 @@
 export function classNames(mapping: Record<string, string>, classes: string): string {
+  if (!classes) return '';
+
   return classes
     .trim()
     .split(/\s+/)
