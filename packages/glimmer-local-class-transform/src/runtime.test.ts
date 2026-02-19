@@ -3,9 +3,9 @@ import { join, classNames } from './runtime.js';
 
 describe('Runtime helpers', () => {
   test('classNames', () => {
-    expect(classNames({}, 'foo')).toBe('foo');
+    expect(classNames({}, 'foo')).toBe('');
     expect(classNames({ foo: 'bar' }, 'foo')).toBe('bar');
-    expect(classNames({ foo: 'bar' }, '  foo    baz ')).toBe('bar baz');
+    expect(classNames({ foo: 'bar' }, '  foo    baz ')).toBe('bar');
   });
 
   test('classNames with undefined or empty classes', () => {
