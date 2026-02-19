@@ -6,6 +6,10 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/).
 
 ## Unreleased
 
+### Fixed
+- Handle `undefined`/`null`/empty string passed to `classNames()` runtime helper [#335](https://github.com/salsify/ember-css-modules/pull/335)
+- Drop unmapped class names in `classNames()` instead of passing them through, matching v2 behavior [#335](https://github.com/salsify/ember-css-modules/pull/335)
+
 ## 2.1.1 (April 4, 2019)
 ### Fixed
 - Remove usage of .original in Ember 5.9+ to fix deprecation warnings.
