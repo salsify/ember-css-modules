@@ -2,6 +2,8 @@
 
 > [!IMPORTANT]
 > This package has been the core means of using CSS Modules in Ember projects for a long time, and it will continue to be maintained, but v3 is likely the final major version and this probably isn't what you want to use in new projects. See [the main README in this repository](https://github.com/salsify/ember-css-modules) for more details on the current state of CSS Modules in Ember.
+>
+> Ready to migrate? See the migration guides for [apps](../../docs/MIGRATING-V1-APP.md) and [addons](../../docs/MIGRATING-V1-ADDON.md).
 
 <details>
 <summary>Full documentation</summary>

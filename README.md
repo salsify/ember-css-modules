@@ -231,6 +231,11 @@ For details on developing your own, see the [plugins mini-guide](docs/PLUGINS.md
 
 You can find a list of all publicly available plugins by browsing [the npm `ember-css-modules-plugin` keyword](https://www.npmjs.com/browse/keyword/ember-css-modules-plugin).
 
+## Migration Guides
+
+- [Migrating an App from ember-css-modules (v1 → v2)](docs/MIGRATING-V1-APP.md)
+- [Migrating an Addon from ember-css-modules (v1 → v2)](docs/MIGRATING-V1-ADDON.md)
+
 ## Advanced Configuration
 
 Details about specific advanced configuration options are broken out into smaller mini-guides that each focus on a single topic:
