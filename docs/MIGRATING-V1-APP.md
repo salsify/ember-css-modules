@@ -2,7 +2,7 @@
 
 This guide covers migrating the CSS Modules portion of an Ember app from `ember-css-modules` (classic build) to native CSS Modules with `glimmer-local-class-transform` (Embroider + Vite).
 
-The migration can be done in stages, so you don't need to change everything at once. Each stage produces a working app.
+The migration can be done in stages, so you don't need to change everything at once. Each stage produces a working app, and several preparation steps can be done while you're still on `ember-css-modules`.
 
 ## Migration stages
 
@@ -14,9 +14,65 @@ The migration can be done in stages, so you don't need to change everything at o
 | **Stage 1** | Embroider + Webpack | `ember-css-modules` |
 | **Stage 2** | Embroider + Vite | `glimmer-local-class-transform` |
 
-`ember-css-modules` works with both the classic Broccoli build and Embroider + Webpack. It does **not** work with Vite. This means you can migrate your build pipeline first (stages 1), confirm everything works, and then swap the CSS Modules implementation when you move to Vite (stage 2).
+`ember-css-modules` works with both the classic Broccoli build and Embroider + Webpack. It does **not** work with Vite. This means you can migrate your build pipeline first (stage 1), confirm everything works, and then swap the CSS Modules implementation when you move to Vite (stage 2).
 
-### Stage 1: Migrate to Embroider + Webpack
+Several preparation steps can be done during stage 1 (or even at the starting point) to reduce the amount of change needed when you finally swap to Vite.
+
+## Preparation (can be done before stage 2)
+
+These steps work with `ember-css-modules` on either the classic build or Embroider + Webpack. Do them incrementally at any time — each produces a working app.
+
+### Consolidate to colocated file layout
+
+If you have components using pod layout (`component/styles.css`) or classic layout (`styles/components/foo.css`), move them to colocated files alongside the component's template/JS. `ember-css-modules` already supports colocated layout, so this is a safe change:
+
+**Pod layout → colocated:**
+
+```
+app/components/my-component/styles.css → app/components/my-component.css
+```
+
+**Classic layout → colocated:**
+
+```
+app/styles/components/my-component.css → app/components/my-component.css
+```
+
+This step can be done one component at a time. Once all components use colocated layout, the remaining migration steps are simpler.
+
+### Rename CSS files to `.module.css`
+
+`ember-css-modules` supports configuring the file extension it looks for. You can rename your CSS files to `.module.css` now — matching the convention Vite will expect later — by setting the `extension` option:
+
+```js
+// ember-cli-build.js
+cssModules: {
+  extension: 'module.css',
+},
+```
+
+Then rename your files:
+
+```
+app/components/my-component.css → app/components/my-component.module.css
+```
+
+This can be done across the whole app at once, since it's a single config change plus renames.
+
+Note: for colocated components, `ember-css-modules` always includes the extension in JS import paths. After this change, JS imports would look like `import styles from 'my-app/components/my-component.module.css'` — the `.module.css` part already matches the final v2 format.
+
+### Remove `headerModules`, `footerModules`, and `virtualModules`
+
+These `cssModules` options have no equivalent in the v2 setup (see [Config differences](#config-differences)). Removing them while still on `ember-css-modules` lets you verify replacements work before the final migration:
+
+- **`headerModules` / `footerModules`** — Replace with standard CSS `@import` rules or adjust your stylesheet ordering manually.
+- **`virtualModules`** — Replace with CSS custom properties, a shared `.module.css` file with `composes`, or build-time code generation.
+
+### Migrate PostCSS config to `postcss.config.js`
+
+If you have PostCSS plugins configured via `cssModules.plugins` or `cssModules.postcssOptions`, move them to a standalone `postcss.config.js` file. Both Webpack (with appropriate loader config) and Vite pick up `postcss.config.js` automatically, so this works across all stages.
+
+## Stage 1: Migrate to Embroider + Webpack
 
 In this stage, you migrate your build pipeline from classic Broccoli to Embroider + Webpack. `ember-css-modules` continues to work — no CSS Modules changes are needed.
 
@@ -38,13 +94,11 @@ return require('@embroider/compat').compatBuild(app, Webpack, {
 
 At this point your app is on Embroider + Webpack with `ember-css-modules` still handling CSS Modules. Verify everything works before continuing.
 
-### Stage 2: Swap to glimmer-local-class-transform + Vite
+## Stage 2: Swap to glimmer-local-class-transform + Vite
 
 This is where you swap out `ember-css-modules` for native CSS Modules. This stage coincides with moving from Webpack to Vite, since `ember-css-modules` doesn't work with Vite.
 
-Follow the steps below.
-
-## Steps (Stage 2)
+If you've completed the preparation steps above, the remaining changes are:
 
 ### 1. Swap dependencies
 
@@ -78,31 +132,36 @@ module.exports = {
 };
 ```
 
-### 3. Rename CSS files to `.module.css`
+### 3. Remove remaining `cssModules:` config
 
-Vite uses the `.module.css` extension to identify CSS Modules. Rename all your component CSS files:
+Remove the `cssModules` key from your `ember-cli-build.js` entirely. If you haven't already migrated individual options during preparation, see [Config differences](#config-differences) below.
 
-**Colocated components:**
+### 4. Update JS imports
 
-```
-app/components/my-component.css → app/components/my-component.module.css
-```
+If you import styles in JavaScript, update the import paths from absolute (module-prefix-based) to relative:
 
-**Pod components** — move from the pod's `styles.css` to a colocated `.module.css` file:
+**Before:**
 
-```
-app/components/my-component/styles.css → app/components/my-component.module.css
+```js
+import styles from 'my-app/components/my-component.module.css';
 ```
 
-**Classic layout** — move from the `styles/components/` directory to colocated:
+**After:**
 
+```js
+import styles from './my-component.module.css';
 ```
-app/styles/components/my-component.css → app/components/my-component.module.css
+
+If you haven't yet renamed to `.module.css` (skipped the preparation step), you'll also need to add the extension:
+
+```js
+// Before (no extension or .css):
+import styles from 'my-app/components/my-component/styles';
+import styles from 'my-app/components/my-component.css';
+
+// After:
+import styles from './my-component.module.css';
 ```
-
-### 4. Remove `cssModules:` config
-
-Remove the `cssModules` key from your `ember-cli-build.js`. The options no longer apply — see [Config differences](#config-differences) below for details on what replaces each option.
 
 ### 5. Template syntax
 
@@ -112,24 +171,6 @@ No changes needed. `local-class` works identically with `glimmer-local-class-tra
 <div local-class="my-class">Hello</div>
 <div local-class={{this.dynamicClass}}>Hello</div>
 <div class="global" local-class="scoped">Hello</div>
-```
-
-### 6. Update JS imports
-
-If you import styles in JavaScript, update the import paths from absolute (module-prefix-based) to relative, and add the `.module.css` extension:
-
-**Before:**
-
-```js
-import styles from 'my-app/components/my-component/styles';
-// or for colocated:
-import styles from 'my-app/components/my-component.css';
-```
-
-**After:**
-
-```js
-import styles from './my-component.module.css';
 ```
 
 ## Config differences
