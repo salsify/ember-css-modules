@@ -2,11 +2,49 @@
 
 This guide covers migrating the CSS Modules portion of an Ember app from `ember-css-modules` (classic build) to native CSS Modules with `glimmer-local-class-transform` (Embroider + Vite).
 
-## Prerequisites
+The migration can be done in stages, so you don't need to change everything at once. Each stage produces a working app.
 
-Your app should already be on Embroider + Vite. This guide covers only the CSS Modules migration, not the broader build pipeline migration. For help migrating to Embroider, see the [Embroider migration guide](https://github.com/embroider-build/embroider/blob/main/PORTING-ADDONS-TO-V2.md).
+## Migration stages
 
-## Steps
+### Overview
+
+| Stage | Build pipeline | CSS Modules provided by |
+| --- | --- | --- |
+| **Starting point** | Classic (Broccoli) | `ember-css-modules` |
+| **Stage 1** | Embroider + Webpack | `ember-css-modules` |
+| **Stage 2** | Embroider + Vite | `glimmer-local-class-transform` |
+
+`ember-css-modules` works with both the classic Broccoli build and Embroider + Webpack. It does **not** work with Vite. This means you can migrate your build pipeline first (stages 1), confirm everything works, and then swap the CSS Modules implementation when you move to Vite (stage 2).
+
+### Stage 1: Migrate to Embroider + Webpack
+
+In this stage, you migrate your build pipeline from classic Broccoli to Embroider + Webpack. `ember-css-modules` continues to work — no CSS Modules changes are needed.
+
+This stage is not covered in detail here. See the [Embroider migration guide](https://github.com/embroider-build/embroider/blob/main/PORTING-ADDONS-TO-V2.md) for instructions. The key addition for CSS Modules is to enable `css-loader` modules support in your Embroider config:
+
+```js
+// ember-cli-build.js
+const { Webpack } = require('@embroider/webpack');
+
+return require('@embroider/compat').compatBuild(app, Webpack, {
+  // ...embroider options
+  packagerOptions: {
+    cssLoaderOptions: {
+      modules: { auto: true },
+    },
+  },
+});
+```
+
+At this point your app is on Embroider + Webpack with `ember-css-modules` still handling CSS Modules. Verify everything works before continuing.
+
+### Stage 2: Swap to glimmer-local-class-transform + Vite
+
+This is where you swap out `ember-css-modules` for native CSS Modules. This stage coincides with moving from Webpack to Vite, since `ember-css-modules` doesn't work with Vite.
+
+Follow the steps below.
+
+## Steps (Stage 2)
 
 ### 1. Swap dependencies
 
