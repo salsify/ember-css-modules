@@ -2,11 +2,60 @@
 
 This guide covers migrating the CSS Modules portion of an Ember addon from v1 (with `ember-css-modules`) to v2 format (with `glimmer-local-class-transform` and `rollup-plugin-preprocess-css-modules`).
 
+The migration can be done in stages. Some preparation steps can be done while the addon is still in v1 format, reducing the amount of change needed in the final conversion.
+
 ## Prerequisites
 
 You should be familiar with the v2 addon format generally. This guide covers only the CSS Modules portion of the migration. For the broader v1-to-v2 addon migration, see the [Embroider v2 addon guide](https://github.com/embroider-build/embroider/blob/main/PORTING-ADDONS-TO-V2.md).
 
-## Steps
+## Preparation (can be done before converting to v2)
+
+These steps work with `ember-css-modules` while the addon is still in v1 format. Each produces a working addon.
+
+### Consolidate to colocated file layout
+
+If you have components using pod layout (`component/styles.css`) or classic layout (`styles/components/foo.css`), move them to colocated files alongside the component's template/JS. `ember-css-modules` already supports colocated layout:
+
+**Pod layout → colocated:**
+
+```
+addon/components/my-component/styles.css → addon/components/my-component.css
+```
+
+**Classic layout → colocated:**
+
+```
+addon/styles/components/my-component.css → addon/components/my-component.css
+```
+
+This step can be done one component at a time.
+
+### Rename CSS files to `.module.css`
+
+`ember-css-modules` supports configuring the file extension via the addon's `index.js`. You can rename your CSS files to `.module.css` now — matching the convention the v2 build will expect — by setting the `extension` option:
+
+```js
+// index.js
+module.exports = {
+  name: require('./package').name,
+
+  options: {
+    cssModules: {
+      extension: 'module.css',
+    },
+  },
+};
+```
+
+Then rename your files:
+
+```
+addon/components/my-component.css → addon/components/my-component.module.css
+```
+
+## Converting to v2
+
+When you're ready to convert to the v2 addon format, follow these steps. The broader structural changes (adding Rollup, `addon/` → `src/`, new `package.json` exports) are part of the general v2 addon migration — this guide covers the CSS Modules–specific parts.
 
 ### 1. Swap dependencies
 
@@ -105,11 +154,17 @@ export default {
 
 ### 4. Move and rename files
 
-Move your component files from `addon/` to `src/` (standard v2 addon layout) and rename CSS files to `.module.css`:
+Move your component files from `addon/` to `src/` (standard v2 addon layout). If you've already renamed to `.module.css` during preparation, just move the files:
 
 ```
-addon/components/my-component.hbs → src/components/my-component.hbs
-addon/components/my-component.js  → src/components/my-component.js
+addon/components/my-component.hbs        → src/components/my-component.hbs
+addon/components/my-component.js         → src/components/my-component.js
+addon/components/my-component.module.css → src/components/my-component.module.css
+```
+
+If you haven't renamed yet, rename as you move:
+
+```
 addon/components/my-component.css → src/components/my-component.module.css
 ```
 
