@@ -6,6 +6,9 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/).
 
 ## Unreleased
 
+### Added
+- Migration guides for apps and addons moving from `ember-css-modules` to the standalone packages [#338](https://github.com/salsify/ember-css-modules/pull/338)
+
 ### Fixed
 - Handle `undefined`/`null`/empty string passed to `classNames()` runtime helper [#335](https://github.com/salsify/ember-css-modules/pull/335)
 - Drop unmapped class names in `classNames()` instead of passing them through, matching v2 behavior [#335](https://github.com/salsify/ember-css-modules/pull/335)
