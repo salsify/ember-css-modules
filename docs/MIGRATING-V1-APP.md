@@ -183,12 +183,86 @@ No changes needed. `local-class` works identically with `glimmer-local-class-tra
 | `plugins` (PostCSS) | Configure PostCSS directly via `postcss.config.js` — Vite picks it up automatically. |
 | `generateScopedName` | Configure in `vite.config.mjs` under `css.modules.generateScopedName`. |
 | `intermediateOutputPath` | No equivalent (not needed with Vite). |
-| `extension` | No equivalent. Vite requires `.module.css`. |
+| `extension` | No equivalent. Vite uses the `.module.*` convention (e.g. `.module.css`, `.module.scss`). |
 | `includeExtensionInModulePath` | No equivalent (imports always use the full `.module.css` path). |
 | `postcssOptions` | Configure PostCSS directly via `postcss.config.js`. |
 | `sourceMap` | Configure via Vite's `css.devSourcemap` option. |
 | `composes` | Works natively with CSS Modules in Vite — no configuration needed. |
 | `@value` | Works natively with CSS Modules in Vite — no configuration needed. |
+
+## Apps using SCSS
+
+If your app uses SCSS with CSS Modules (via `@csstools/postcss-sass` and `postcss-scss`), the migration is straightforward because Vite has built-in Sass support and natively handles `.module.scss` files.
+
+### What changes
+
+With `ember-css-modules`, SCSS is typically processed via PostCSS plugins:
+
+```js
+// ember-cli-build.js (before)
+const sassPlugin = require('@csstools/postcss-sass')({
+  includePaths: ['app/styles', 'node_modules'],
+  silenceDeprecations: ['import', 'legacy-js-api'],
+});
+const cssParser = require('postcss-scss');
+
+cssModules: {
+  extension: 'module.scss',
+  plugins: {
+    before: [sassPlugin],
+  },
+  postcssOptions: {
+    syntax: cssParser,
+  },
+},
+```
+
+With Vite, Sass compilation is built in — you don't need PostCSS plugins for it. Configure Sass options directly in `vite.config.mjs`:
+
+```js
+// vite.config.mjs (after)
+export default defineConfig({
+  css: {
+    preprocessorOptions: {
+      scss: {
+        includePaths: ['app/styles', 'node_modules'],
+        silenceDeprecations: ['import', 'legacy-js-api'],
+      },
+    },
+  },
+  plugins: [
+    // ...ember plugins
+  ],
+});
+```
+
+Vite automatically applies CSS Modules scoping to any file with the `.module.scss` extension — no additional configuration is needed.
+
+### Config mapping
+
+| `ember-css-modules` SCSS config | Vite equivalent |
+| --- | --- |
+| `extension: 'module.scss'` | Native — Vite handles `.module.scss` out of the box |
+| `plugins.before: [sassPlugin]` | Not needed — Vite compiles Sass natively |
+| `postcssOptions.syntax: cssParser` | Not needed — Vite handles Sass→CSS before PostCSS |
+| `includePaths` | `css.preprocessorOptions.scss.includePaths` |
+| `silenceDeprecations` | `css.preprocessorOptions.scss.silenceDeprecations` |
+| `intermediateOutputPath` | No equivalent |
+
+### Transform `pathMapping`
+
+Configure `glimmer-local-class-transform` to look for `.module.scss` files instead of `.module.css`:
+
+```js
+// babel.config.cjs
+transforms: [
+  ['glimmer-local-class-transform', { pathMapping: { '(\\.g?[tj]s|\\.hbs)+$': '.module.scss' } }],
+],
+```
+
+### File naming
+
+If you're already using `.module.scss` files with `ember-css-modules` (via `extension: 'module.scss'`), no file renames are needed — the files are already in the format Vite expects.
 
 ## Custom `pathMapping`
 
