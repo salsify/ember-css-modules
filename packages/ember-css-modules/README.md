@@ -2,10 +2,11 @@
 
 > [!IMPORTANT]
 > This package has been the core means of using CSS Modules in Ember projects for a long time, and it will continue to be maintained, but v3 is likely the final major version and this probably isn't what you want to use in new projects. See [the main README in this repository](https://github.com/salsify/ember-css-modules) for more details on the current state of CSS Modules in Ember.
+>
+> Ready to migrate? See the migration guides for [apps](../../docs/MIGRATING-V1-APP.md) and [addons](../../docs/MIGRATING-V1-ADDON.md).
 
-<!--
-
-TODO: figure out how much of this content needs to be kept
+<details>
+<summary>Full documentation</summary>
 
 Ember-flavored support for [CSS Modules](https://github.com/css-modules/css-modules). For an overview of some of the motivations for the CSS Modules concept, see [this blog post](http://blog.salsify.com/engineering/good-fences-with-css-modules).
 
@@ -320,4 +321,4 @@ sourcemaps: {
 
 This addon supports Ember 3.28 and later, and is primarily for use in classic-build applications and v1 addons. See [the main README in this repository](https://github.com/salsify/ember-css-modules) for more details on more effective ways of using CSS Modules with Embroider and in v2 addons.
 
--->
+</details>
