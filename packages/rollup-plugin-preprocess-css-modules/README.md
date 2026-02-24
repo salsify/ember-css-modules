@@ -2,7 +2,7 @@
 
 A Rollup plugin that preprocesses [CSS Modules](https://github.com/css-modules/css-modules) at build time, replacing `.module.css` imports with plain CSS and a static JS mapping object.
 
-This is primarily useful for **v2 Ember addons** that want to use CSS Modules as an internal implementation detail while publishing standard CSS that doesn't require CSS Module support from consuming apps.
+This is primarily useful for component libraries that want to use CSS Modules as an internal implementation detail while publishing standard CSS that doesn't require CSS Module support from consuming apps.
 
 ## What It Does
 
