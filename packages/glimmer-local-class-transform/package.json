@@ -1,6 +1,6 @@
 {
   "name": "glimmer-local-class-transform",
-  "version": "1.0.0-alpha.0",
+  "version": "1.0.0",
   "description": "Support for `local-class` attributes in Glimmer templates",
   "license": "MIT",
   "author": "Dan Freeman",

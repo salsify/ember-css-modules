@@ -1,6 +1,6 @@
 {
   "name": "rollup-plugin-preprocess-css-modules",
-  "version": "1.0.0-alpha.0",
+  "version": "1.0.0",
   "description": "A Rollup plugin to preprocess CSS Modules into standard CSS for library distribution",
   "license": "MIT",
   "author": "Dan Freeman",
