@@ -20,7 +20,6 @@ Ember-flavored support for [CSS Modules](https://github.com/css-modules/css-modu
   - [Values](#values)
   - [Glint usage](#glint-usage)
 - [Usage in Addons](#usage-in-addons)
-- [Plugins](#plugins)
 - [Advanced Configuration](#advanced-configuration)
   - [Where to Specify Options](#where-to-specify-options)
   - [Extensions in Module Paths](#extensions-in-module-paths)
@@ -221,18 +220,6 @@ declare module '@glint/environment-ember-loose/registry' {
 You can also use ember-css-modules in addons that expose components to their consuming application. To do this you'll need to move `ember-css-modules` out of `devDependencies` and into `dependencies` in your addon's `package.json` ([see issue #8](https://github.com/salsify/ember-css-modules/issues/8)).
 
 Note also that **your addon must have an `addon/styles` directory** in order to trigger CSS processing in Ember CLI. In order for the directory to be preserved when you publish your addon, you can create an empty `.placeholder` file (`.gitkeep` won't work; by default, the `.npmignore` for your addon will prevent files with that name from being published).
-
-## Plugins
-
-Ember CSS Modules has a plugin ecosystem that allows for people to bundle up common configurations and extensions for easy reuse and distribution. For example, if your organization has a common set of PostCSS plugins you always use, you could package those as a plugin and then just drop that into any Ember project and have it automatically take effect.
-
-For details on developing your own, see the [plugins mini-guide](docs/PLUGINS.md). You can also look at the following examples of what plugin implementations can look like:
-
-- [ember-css-modules-sass](https://github.com/dfreeman/ember-css-modules-sass)
-- [ember-css-modules-stylelint](https://github.com/dfreeman/ember-css-modules-stylelint)
-- [ember-css-modules-reporter](https://github.com/dfreeman/ember-css-modules-reporter)
-
-You can find a list of all publicly available plugins by browsing [the npm `ember-css-modules-plugin` keyword](https://www.npmjs.com/browse/keyword/ember-css-modules-plugin).
 
 ## Advanced Configuration
 
