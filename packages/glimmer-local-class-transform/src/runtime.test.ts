@@ -6,6 +6,7 @@ describe('Runtime helpers', () => {
     expect(classNames({}, 'foo')).toBe('');
     expect(classNames({ foo: 'bar' }, 'foo')).toBe('bar');
     expect(classNames({ foo: 'bar' }, '  foo    baz ')).toBe('bar');
+    expect(classNames({ foo: 'bar', baz: 'qux' }, '  foo    baz ')).toBe('bar qux');
   });
 
   test('classNames with undefined or empty classes', () => {
