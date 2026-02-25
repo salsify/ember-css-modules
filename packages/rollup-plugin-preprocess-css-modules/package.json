@@ -1,0 +1,46 @@
+{
+  "name": "rollup-plugin-preprocess-css-modules",
+  "version": "1.0.0",
+  "description": "A Rollup plugin to preprocess CSS Modules into standard CSS for library distribution",
+  "license": "MIT",
+  "author": "Dan Freeman",
+  "homepage": "https://github.com/salsify/ember-css-modules/tree/master/packages/rollup-plugin-preprocess-css-modules",
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com/salsify/ember-css-modules.git",
+    "directory": "packages/rollup-plugin-preprocess-css-modules"
+  },
+  "type": "module",
+  "exports": {
+    ".": "./dist/rollup-plugin.js"
+  },
+  "scripts": {
+    "prepare": "tsc --project tsconfig.build.json",
+    "test": "vitest run"
+  },
+  "files": [
+    "README.md",
+    "dist/**/!(*.test.*)"
+  ],
+  "dependencies": {
+    "minimatch": "^10.0.3",
+    "postcss": "^8.5.6",
+    "postcss-modules": "^6.0.1"
+  },
+  "devDependencies": {
+    "@types/common-tags": "^1.8.4",
+    "common-tags": "^1.8.2",
+    "eslint": "^8.22.0",
+    "fixturify-project": "^7.1.3",
+    "prettier": "^3.2.5",
+    "rollup": "^4.43.0",
+    "typescript": "^5.4.5",
+    "vitest": "^1.6.0"
+  },
+  "peerDependencies": {
+    "rollup": "^4.43.0"
+  },
+  "volta": {
+    "extends": "../../package.json"
+  }
+}

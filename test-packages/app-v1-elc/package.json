@@ -1,0 +1,56 @@
+{
+  "name": "app-v1-elc",
+  "version": "0.0.0",
+  "private": true,
+  "description": "Small description for app-v1-elc goes here",
+  "repository": "",
+  "license": "MIT",
+  "author": "",
+  "directories": {
+    "doc": "doc",
+    "test": "tests"
+  },
+  "scripts": {
+    "start": "ember serve",
+    "test:ember": "ember test"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.24.4",
+    "@babel/plugin-proposal-decorators": "^7.24.1",
+    "@ember/optional-features": "^2.1.0",
+    "@ember/string": "^3.1.1",
+    "@ember/test-helpers": "^3.3.0",
+    "@embroider/compat": "^3.9.0",
+    "@embroider/core": "^3.5.6",
+    "@embroider/webpack": "^4.1.0",
+    "@glimmer/component": "^1.1.2",
+    "@glimmer/tracking": "^1.1.2",
+    "addon-v1": "link:../addon-v1",
+    "addon-v2": "link:../addon-v2",
+    "ember-auto-import": "^2.7.2",
+    "ember-cli": "~5.8.0",
+    "ember-cli-babel": "^8.2.0",
+    "ember-cli-htmlbars": "^6.3.0",
+    "ember-cli-inject-live-reload": "^2.1.0",
+    "ember-local-class": "link:../../packages/ember-local-class",
+    "ember-load-initializers": "^2.1.2",
+    "ember-qunit": "^8.0.2",
+    "ember-resolver": "^11.0.1",
+    "ember-source": "~5.8.0",
+    "loader.js": "^4.7.0",
+    "prettier": "^3.2.5",
+    "qunit": "^2.20.1",
+    "qunit-dom": "^2.0.0",
+    "tracked-built-ins": "^3.3.0",
+    "webpack": "^5.91.0"
+  },
+  "engines": {
+    "node": ">= 18"
+  },
+  "ember": {
+    "edition": "octane"
+  },
+  "volta": {
+    "extends": "../../package.json"
+  }
+}

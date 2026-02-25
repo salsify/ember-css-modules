@@ -1,0 +1,32 @@
+{
+  "name": "ember-local-class",
+  "version": "1.0.0",
+  "description": "An Ember addon to automatically configure `glimmer-local-class-transform`",
+  "keywords": [
+    "ember-addon"
+  ],
+  "homepage": "https://github.com/salsify/ember-css-modules/tree/master/packages/ember-local-class",
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com/salsify/ember-css-modules.git",
+    "directory": "packages/ember-local-class"
+  },
+  "license": "MIT",
+  "author": "Dan Freeman",
+  "dependencies": {
+    "ember-auto-import": "^2.10.0",
+    "ember-cli-babel": "^8.2.0",
+    "glimmer-local-class-transform": "^1.0.0-alpha.0"
+  },
+  "peerDependencies": {
+    "@babel/core": "^7.0.0"
+  },
+  "ember-addon": {
+    "before": [
+      "ember-cli-htmlbars"
+    ]
+  },
+  "volta": {
+    "extends": "../../package.json"
+  }
+}

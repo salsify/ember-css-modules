@@ -8,127 +8,58 @@ on:
     branches:
       - master
       - 'v*'
+      - standalone-template-transform
     # always run CI for tags
     tags:
       - '*'
-
-  # early issue detection: run CI weekly on Sundays
-  schedule:
-  - cron:  '0 6 * * 0'
 
 env:
   CI: true
 
 jobs:
-  test-locked-deps:
-    name: Locked Deps
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout Code
-        uses: actions/checkout@v1
-      - name: Install Node
-        uses: actions/setup-node@v1
-        with:
-          node-version: 16
-      - name: Install Dependencies
-        run: yarn install --frozen-lockfile
-      - name: Run Tests
-        run: yarn workspace ember-css-modules test
-
-  test-old-dependencies:
-    name: Oldest Supported Env
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout Code
-        uses: actions/checkout@v1
-      - name: Install Node
-        uses: actions/setup-node@v1
-        with:
-          node-version: 12
-      - name: Install Dependencies
-        run: yarn install --frozen-lockfile
-        working-directory: test-packages/old-app
-      - name: Run Tests
-        run: yarn test
-        working-directory: test-packages/old-app
-
-  test-latest-ember-cli:
-    name: Latest CLI
-    runs-on: ubuntu-latest
-    needs: [test-locked-deps]
-    steps:
-      - name: Checkout Code
-        uses: actions/checkout@v1
-      - name: Install Node
-        uses: actions/setup-node@v1
-        with:
-          node-version: 16
-      - name: Install Dependencies
-        run: yarn install --frozen-lockfile
-      - name: Install Latest `ember-cli`
-        run: yarn workspace ember-css-modules add --dev ember-cli@latest
-      - name: Run Tests
-        run: yarn workspace ember-css-modules test
-
-
-  test-windows:
-    name: Windows
-    runs-on: windows-latest
-    needs: [test-locked-deps]
-    steps:
-      - name: Checkout Code
-        uses: actions/checkout@v1
-      - name: Install Node
-        uses: actions/setup-node@v1
-        with:
-          node-version: 16
-      - name: Install Dependencies
-        run: yarn install --frozen-lockfile
-      - name: Run Tests
-        run: yarn workspace ember-css-modules test:ember
-
-  test-try:
-    name: Ember Try
-    runs-on: ubuntu-latest
-    needs: [test-locked-deps]
+  test:
+    name: Test
     strategy:
+      fail-fast: true
       matrix:
-        scenario:
-         - ember-release
-         - ember-beta
-         - ember-canary
+        os: [ubuntu-latest, windows-latest]
+    runs-on: ${{ matrix.os }}
     steps:
       - name: Checkout Code
-        uses: actions/checkout@v1
+        uses: actions/checkout@v4
       - name: Install Node
-        uses: actions/setup-node@v1
+        uses: actions/setup-node@v4
         with:
-          node-version: 16
+          node-version-file: package.json
+      - name: Load Cached Dependencies
+        uses: actions/cache@v4
+        with:
+          enableCrossOsArchive: true
+          path: |
+            node_modules
+            packages/*/node_modules
+            test-packages/*/node_modules
+          key: npm-${{ matrix.os }}-${{ hashFiles('yarn.lock') }}
+          restore-keys:
+            npm-${{ matrix.os }}-
+            npm-
       - name: Install Dependencies
         run: yarn install --frozen-lockfile
-      - name: Try Scenario
-        run: yarn workspace ember-css-modules ember try:one ${{ matrix.scenario }}
-
-  test-packages:
-    name: Test Packages
-    runs-on: ubuntu-latest
-    needs: [test-locked-deps]
-    steps:
-      - name: Checkout Code
-        uses: actions/checkout@v1
-      - name: Install Node
-        uses: actions/setup-node@v1
-        with:
-          node-version: 16
-      - name: Install Dependencies
-        run: yarn install --frozen-lockfile
-      - name: Embroider App
-        run: yarn workspace embroider-app test:ember
-      - name: Sass App
-        run: yarn workspace sass-app test:ember
-      - name: Plugin Addon
-        run: yarn workspace plugin-addon test:ember
-      - name: Octane Addon
-        run: yarn workspace octane-addon test
-      - name: Octane Addon With Custom moduleName
-        run: yarn workspace @my-namespace/octane-addon test
+      - name: Build
+        run: yarn build
+      - name: '`glimmer-local-class-transform` tests'
+        run: yarn workspace glimmer-local-class-transform test
+      - name: '`rollup-plugin-preprocess-css-modules` tests'
+        run: yarn workspace rollup-plugin-preprocess-css-modules test
+      - name: v1 app with `ember-css-modules` and classic build
+        run: yarn workspace app-v1-ecm test:ember
+      - name: v1 app with `ember-css-modules` and `@embroider/webpack`
+        env: { EMBROIDER: 'true' }
+        run: yarn workspace app-v1-ecm test:ember
+      - name: v1 app with `ember-local-class` and `ember-auto-import`
+        run: yarn workspace app-v1-elc test:ember
+      - name: v1 app with `ember-local-class` and `@embroider/webpack`
+        env: { EMBROIDER: 'true' }
+        run: yarn workspace app-v1-elc test:ember
+      - name: v2 app
+        run: yarn workspace app-v2 test:ember

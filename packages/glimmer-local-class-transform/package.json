@@ -1,0 +1,37 @@
+{
+  "name": "glimmer-local-class-transform",
+  "version": "1.0.0",
+  "description": "Support for `local-class` attributes in Glimmer templates",
+  "license": "MIT",
+  "author": "Dan Freeman",
+  "homepage": "https://github.com/salsify/ember-css-modules/tree/master/packages/glimmer-local-class-transform",
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com/salsify/ember-css-modules.git",
+    "directory": "packages/glimmer-local-class-transform"
+  },
+  "type": "module",
+  "exports": {
+    ".": "./dist/transform.js",
+    "./-runtime": "./dist/runtime.js"
+  },
+  "scripts": {
+    "prepare": "tsc --project tsconfig.build.json",
+    "test": "vitest run"
+  },
+  "files": [
+    "README.md",
+    "dist/**/!(*.test.*)"
+  ],
+  "devDependencies": {
+    "@glimmer/syntax": "^0.84.3",
+    "babel-plugin-ember-template-compilation": "~2.3.0",
+    "eslint": "^8.22.0",
+    "prettier": "^3.2.5",
+    "typescript": "^5.4.5",
+    "vitest": "^1.6.0"
+  },
+  "volta": {
+    "extends": "../../package.json"
+  }
+}

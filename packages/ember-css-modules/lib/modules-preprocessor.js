@@ -75,10 +75,6 @@ module.exports = class ModulesPreprocessor {
         generateScopedName: this.scopedNameGenerator(),
         resolvePath: this.resolveAndRecordPath.bind(this),
         getJSFilePath: (cssPath) => this.getJSFilePath(cssPath, modulesSources),
-        onBuildStart: () => this.owner.notifyPlugins('buildStart'),
-        onBuildEnd: () => this.owner.notifyPlugins('buildEnd'),
-        onBuildSuccess: () => this.owner.notifyPlugins('buildSuccess'),
-        onBuildError: () => this.owner.notifyPlugins('buildError'),
         onProcessFile: this.resetFileDependencies.bind(this),
         onModuleResolutionFailure: this.onModuleResolutionFailure.bind(this),
         onImportResolutionFailure: this.onImportResolutionFailure.bind(this),
@@ -115,7 +111,11 @@ module.exports = class ModulesPreprocessor {
       ''
     );
 
-    if (modulesSource.has(`${cssPathWithoutExtension}.hbs`)) {
+    if (
+      ['hbs', 'gjs', 'gts'].some((ext) =>
+        modulesSource.has(`${cssPathWithoutExtension}.${ext}`)
+      )
+    ) {
       return `${cssPathWithExtension}.js`;
     } else {
       return `${cssPathWithoutExtension}.js`;

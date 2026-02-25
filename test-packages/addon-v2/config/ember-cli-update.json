@@ -1,0 +1,19 @@
+{
+  "schemaVersion": "1.0.0",
+  "projectName": "addon-v2",
+  "packages": [
+    {
+      "name": "@ember/addon-blueprint",
+      "version": "0.5.1",
+      "blueprints": [
+        {
+          "name": "@ember/addon-blueprint",
+          "isBaseBlueprint": true,
+          "options": [
+            "--ci-provider=github"
+          ]
+        }
+      ]
+    }
+  ]
+}

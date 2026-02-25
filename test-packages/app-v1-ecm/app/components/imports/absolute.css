@@ -1,0 +1,6 @@
+@value superbold from 'app-v1-ecm/components/imports/constants';
+
+.component-class {
+  composes: important-message from "app-v1-ecm/components/imports/constants";
+  font-weight: superbold;
+}

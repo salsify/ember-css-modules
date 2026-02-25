@@ -1,0 +1,3 @@
+<template>
+  <div local-class="test-component">{{yield}}</div>
+</template>
