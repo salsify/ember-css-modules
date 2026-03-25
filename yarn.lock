@@ -8393,7 +8393,7 @@ ember-compatibility-helpers@^1.1.2, ember-compatibility-helpers@^1.2.1:
     semver "^5.4.1"
 
 "ember-css-modules@link:packages/ember-css-modules":
-  version "3.0.0-alpha.1"
+  version "3.0.0"
   dependencies:
     broccoli-bridge "^1.0.0"
     broccoli-concat "^4.2.5"
@@ -8457,7 +8457,7 @@ ember-load-initializers@^3.0.1:
   integrity sha512-qV3vxJKw5+7TVDdtdLPy8PhVsh58MlK8jwzqh5xeOwJPNP7o0+BlhvwoIlLYTPzGaHdfjEIFCgVSyMRGd74E1g==
 
 "ember-local-class@link:packages/ember-local-class":
-  version "1.0.0-alpha.0"
+  version "1.0.0"
   dependencies:
     ember-auto-import "^2.10.0"
     ember-cli-babel "^8.2.0"
@@ -10855,7 +10855,7 @@ git-write-pkt-line@0.1.0:
     through "~2.2.7"
 
 "glimmer-local-class-transform@link:packages/glimmer-local-class-transform":
-  version "1.0.0-alpha.0"
+  version "1.0.0"
 
 glob-parent@^3.1.0:
   version "3.1.0"
@@ -14539,14 +14539,14 @@ picocolors@^1.0.0, picocolors@^1.1.1:
   integrity sha512-xceH2snhtb5M9liqDsmEw56le376mTZkEX/jEb/RxNFyegNul7eNslCXP9FDj/Lcu0X8KEyMceP2ntpaHrDEVA==
 
 picomatch@^2.0.4, picomatch@^2.2.1, picomatch@^2.3.1:
-  version "2.3.1"
-  resolved "https://registry.yarnpkg.com/picomatch/-/picomatch-2.3.1.tgz#3ba3833733646d9d3e4995946c1365a67fb07a42"
-  integrity sha512-JU3teHTNjmE2VCGFzuY8EXzCDVwEqB2a8fsIvwaStHhAWJEeVd1o1QD80CU6+ZdEXXSLbSsuLwJjkCBWqRQUVA==
+  version "2.3.2"
+  resolved "https://registry.yarnpkg.com/picomatch/-/picomatch-2.3.2.tgz#5a942915e26b372dc0f0e6753149a16e6b1c5601"
+  integrity sha512-V7+vQEJ06Z+c5tSye8S+nHUfI51xoXIXjHQ99cQtKUkQqqO1kO/KCJUfZXuB47h/YBlDhah2H3hdUGXn8ie0oA==
 
 picomatch@^4.0.2, picomatch@^4.0.3:
-  version "4.0.3"
-  resolved "https://registry.yarnpkg.com/picomatch/-/picomatch-4.0.3.tgz#796c76136d1eead715db1e7bad785dedd695a042"
-  integrity sha512-5gTmgEY/sqK6gFXLIsQNH19lWb4ebPDLA4SdLP7dsWkIXHWlG66oPuVvXSGFPppYZz8ZDZq0dYYrbHfBCVUb1Q==
+  version "4.0.4"
+  resolved "https://registry.yarnpkg.com/picomatch/-/picomatch-4.0.4.tgz#fd6f5e00a143086e074dffe4c924b8fb293b0589"
+  integrity sha512-QP88BAKvMam/3NxH6vj2o21R6MjxZUAd6nlwAS/pnGvN9IVLocLHxGYIzFhg6fUQ+5th6P4dv4eW9jX3DSIj7A==
 
 pidtree@^0.3.0:
   version "0.3.1"
