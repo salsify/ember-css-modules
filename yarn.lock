@@ -8393,7 +8393,7 @@ ember-compatibility-helpers@^1.1.2, ember-compatibility-helpers@^1.2.1:
     semver "^5.4.1"
 
 "ember-css-modules@link:packages/ember-css-modules":
-  version "3.0.0-alpha.1"
+  version "3.0.0"
   dependencies:
     broccoli-bridge "^1.0.0"
     broccoli-concat "^4.2.5"
@@ -8457,7 +8457,7 @@ ember-load-initializers@^3.0.1:
   integrity sha512-qV3vxJKw5+7TVDdtdLPy8PhVsh58MlK8jwzqh5xeOwJPNP7o0+BlhvwoIlLYTPzGaHdfjEIFCgVSyMRGd74E1g==
 
 "ember-local-class@link:packages/ember-local-class":
-  version "1.0.0-alpha.0"
+  version "1.0.0"
   dependencies:
     ember-auto-import "^2.10.0"
     ember-cli-babel "^8.2.0"
@@ -10855,7 +10855,7 @@ git-write-pkt-line@0.1.0:
     through "~2.2.7"
 
 "glimmer-local-class-transform@link:packages/glimmer-local-class-transform":
-  version "1.0.0-alpha.0"
+  version "1.0.0"
 
 glob-parent@^3.1.0:
   version "3.1.0"
@@ -11132,9 +11132,9 @@ growly@^1.3.0:
   integrity sha512-+xGQY0YyAWCnqy7Cd++hc2JqMYzlm0dG30Jd0beaA64sROr8C4nt8Yc9V5Ro3avlSUDTN0ulqP/VBKi1/lLygw==
 
 handlebars@^4.0.4, handlebars@^4.3.1, handlebars@^4.7.3, handlebars@^4.7.7, handlebars@^4.7.8:
-  version "4.7.8"
-  resolved "https://registry.yarnpkg.com/handlebars/-/handlebars-4.7.8.tgz#41c42c18b1be2365439188c77c6afae71c0cd9e9"
-  integrity sha512-vafaFqs8MZkRrSX7sFVUdo3ap/eNiLnb4IakshzvP56X5Nr1iGKAIqdX6tMlm6HcNRIkr6AxO5jFEoJzzpT8aQ==
+  version "4.7.9"
+  resolved "https://registry.yarnpkg.com/handlebars/-/handlebars-4.7.9.tgz#6f139082ab58dc4e5a0e51efe7db5ae890d56a0f"
+  integrity sha512-4E71E0rpOaQuJR2A3xDZ+GM1HyWYv1clR58tC8emQNeQe3RH7MAzSbat+V0wG78LQBo6m6bzSG/L4pBuCsgnUQ==
   dependencies:
     minimist "^1.2.5"
     neo-async "^2.6.2"
