@@ -8393,7 +8393,7 @@ ember-compatibility-helpers@^1.1.2, ember-compatibility-helpers@^1.2.1:
     semver "^5.4.1"
 
 "ember-css-modules@link:packages/ember-css-modules":
-  version "3.0.0-alpha.1"
+  version "3.0.0"
   dependencies:
     broccoli-bridge "^1.0.0"
     broccoli-concat "^4.2.5"
@@ -8457,7 +8457,7 @@ ember-load-initializers@^3.0.1:
   integrity sha512-qV3vxJKw5+7TVDdtdLPy8PhVsh58MlK8jwzqh5xeOwJPNP7o0+BlhvwoIlLYTPzGaHdfjEIFCgVSyMRGd74E1g==
 
 "ember-local-class@link:packages/ember-local-class":
-  version "1.0.0-alpha.0"
+  version "1.0.0"
   dependencies:
     ember-auto-import "^2.10.0"
     ember-cli-babel "^8.2.0"
@@ -10855,7 +10855,7 @@ git-write-pkt-line@0.1.0:
     through "~2.2.7"
 
 "glimmer-local-class-transform@link:packages/glimmer-local-class-transform":
-  version "1.0.0-alpha.0"
+  version "1.0.0"
 
 glob-parent@^3.1.0:
   version "3.1.0"
@@ -12866,9 +12866,9 @@ lodash.uniq@^4.2.0:
   integrity sha512-xfBaXQd9ryd9dlSDvnvI0lvxfLJlYAZzXomUYzLKtUeOQvOP5piqAWuGtrhWeqaXK9hhoM/iyJc5AV+XfsX3HQ==
 
 lodash@^4.17.12, lodash@^4.17.14, lodash@^4.17.15, lodash@^4.17.19, lodash@^4.17.21, lodash@^4.17.4, lodash@^4.3.0, lodash@^4.6.1:
-  version "4.17.21"
-  resolved "https://registry.yarnpkg.com/lodash/-/lodash-4.17.21.tgz#679591c564c3bffaae8454cf0b3df370c3d6911c"
-  integrity sha512-v2kDEe57lecTulaDIuNTPy3Ry4gLGJ6Z1O3vE1krgXZNrsQ+LFTGHVxVjcXPs17LhbZVGedAJv8XZ1tvj5FvSg==
+  version "4.18.1"
+  resolved "https://registry.yarnpkg.com/lodash/-/lodash-4.18.1.tgz#ff2b66c1f6326d59513de2407bf881439812771c"
+  integrity sha512-dMInicTPVE8d1e5otfwmmjlxkZoUpiVLwyeTdUsi/Caj/gfzzblBcCE5sRHV/AsjuCmxWrte2TNGSYuCeCq+0Q==
 
 log-symbols@^2.2.0:
   version "2.2.0"
