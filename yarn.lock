@@ -8393,7 +8393,7 @@ ember-compatibility-helpers@^1.1.2, ember-compatibility-helpers@^1.2.1:
     semver "^5.4.1"
 
 "ember-css-modules@link:packages/ember-css-modules":
-  version "3.0.0-alpha.1"
+  version "3.0.0"
   dependencies:
     broccoli-bridge "^1.0.0"
     broccoli-concat "^4.2.5"
@@ -8457,7 +8457,7 @@ ember-load-initializers@^3.0.1:
   integrity sha512-qV3vxJKw5+7TVDdtdLPy8PhVsh58MlK8jwzqh5xeOwJPNP7o0+BlhvwoIlLYTPzGaHdfjEIFCgVSyMRGd74E1g==
 
 "ember-local-class@link:packages/ember-local-class":
-  version "1.0.0-alpha.0"
+  version "1.0.0"
   dependencies:
     ember-auto-import "^2.10.0"
     ember-cli-babel "^8.2.0"
@@ -10036,9 +10036,9 @@ fast-sourcemap-concat@^2.1.0, fast-sourcemap-concat@^2.1.1:
     source-map-url "^0.3.0"
 
 fast-uri@^3.0.1:
-  version "3.0.6"
-  resolved "https://registry.yarnpkg.com/fast-uri/-/fast-uri-3.0.6.tgz#88f130b77cfaea2378d56bf970dea21257a68748"
-  integrity sha512-Atfo14OibSv5wAp4VWNsFYE1AchQRTv9cBGWET4pZWHzYshFSS9NQI6I57rdKn9croWVMbYFbLhJ+yJvmZIIHw==
+  version "3.1.2"
+  resolved "https://registry.yarnpkg.com/fast-uri/-/fast-uri-3.1.2.tgz#8af3d4fc9d3e71b11572cc2673b514a7d1a8c8ec"
+  integrity sha512-rVjf7ArG3LTk+FS6Yw81V1DLuZl1bRbNrev6Tmd/9RaroeeRRJhAt7jg/6YFxbvAQXUCavSoZhPPj6oOx+5KjQ==
 
 fastest-levenshtein@^1.0.16:
   version "1.0.16"
@@ -10855,7 +10855,7 @@ git-write-pkt-line@0.1.0:
     through "~2.2.7"
 
 "glimmer-local-class-transform@link:packages/glimmer-local-class-transform":
-  version "1.0.0-alpha.0"
+  version "1.0.0"
 
 glob-parent@^3.1.0:
   version "3.1.0"
